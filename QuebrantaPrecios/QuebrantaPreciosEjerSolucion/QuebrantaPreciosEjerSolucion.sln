@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuebrantaPreciosEjer", "Que
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClasesQuebrantaprecios", "ClasesQuebrantaprecios\ClasesQuebrantaprecios.csproj", "{8FD2AE99-E3C7-4713-B163-DAB2C4CF8E0A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "APIQuebrantaPrecios", "APIQuebrantaPrecios\APIQuebrantaPrecios.csproj", "{736D72E1-17FF-45FD-8239-F9C8B932622F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{8FD2AE99-E3C7-4713-B163-DAB2C4CF8E0A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8FD2AE99-E3C7-4713-B163-DAB2C4CF8E0A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8FD2AE99-E3C7-4713-B163-DAB2C4CF8E0A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{736D72E1-17FF-45FD-8239-F9C8B932622F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{736D72E1-17FF-45FD-8239-F9C8B932622F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{736D72E1-17FF-45FD-8239-F9C8B932622F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{736D72E1-17FF-45FD-8239-F9C8B932622F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
