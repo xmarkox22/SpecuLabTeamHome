@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.11.35208.52
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpecuLabConsola", "SpecuLabConsola\SpecuLabConsola.csproj", "{3ADC633C-44EA-454B-885B-9A40AA2355C9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dominio", "Dominio\Dominio.csproj", "{E5D4214F-C35A-4B54-BD55-DAE2DC449D5F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3ADC633C-44EA-454B-885B-9A40AA2355C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3ADC633C-44EA-454B-885B-9A40AA2355C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3ADC633C-44EA-454B-885B-9A40AA2355C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3ADC633C-44EA-454B-885B-9A40AA2355C9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E5D4214F-C35A-4B54-BD55-DAE2DC449D5F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E5D4214F-C35A-4B54-BD55-DAE2DC449D5F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E5D4214F-C35A-4B54-BD55-DAE2DC449D5F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E5D4214F-C35A-4B54-BD55-DAE2DC449D5F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D94943B6-60A9-4F11-8535-3F7C7CA7261E}
+	EndGlobalSection
+EndGlobal
