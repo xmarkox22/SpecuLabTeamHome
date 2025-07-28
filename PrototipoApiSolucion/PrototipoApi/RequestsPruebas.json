@@ -1,0 +1,46 @@
+
+  [
+    {
+      "Id": "a1d3c62e-5b72-4c7f-a2d2-12b4c1d2a8e9",
+      "Tipo": "Compra",
+      "ImporteSolicitado": 2599.99,
+      "Descripcion": "Adquisición de 5 portátiles para el equipo de desarrollo.",
+      "FechaSolicitud": "2025-07-22T08:15:30Z",
+      "Estado": "Received"
+    },
+    {
+      "Id": "f3b7e923-1d3f-4a13-a8d5-3b91767e61c2",
+      "Tipo": "Mantenimiento",
+      "ImporteSolicitado": 750.00,
+      "Descripcion": "Reparación del sistema de climatización en la planta baja.",
+      "FechaSolicitud": "2025-07-20T14:47:00Z",
+      "Estado": "PendingReview"
+    },
+    {
+      "Id": "7e9f3d59-94f6-4531-bcaf-c76e624c8db3",
+      "Tipo": "Alquiler",
+      "ImporteSolicitado": 1800.00,
+      "Descripcion": "Alquiler de espacio para eventos corporativos por un mes.",
+      "FechaSolicitud": "2025-07-18T11:00:00Z",
+      "Estado": "Accepted"
+    },
+    {
+      "Id": "5c4a7f3d-c8fc-431f-a3b0-8ea2d5dce194",
+      "Tipo": "Compra",
+      "ImporteSolicitado": 120.75,
+      "Descripcion": "Compra de material de oficina: papel, bolígrafos, carpetas.",
+      "FechaSolicitud": "2025-07-24T09:30:15Z",
+      "Estado": "Rejected"
+    },
+    {
+      "Id": "ce27a89b-6d1e-4a0f-8511-479b1c9d7c3a",
+      "Tipo": "Mantenimiento",
+      "ImporteSolicitado": 300.00,
+      "Descripcion": "Sustitución de bombillas LED en el área de producción.",
+      "FechaSolicitud": "2025-07-26T16:45:00Z",
+      "Estado": "Received"
+    }
+  ]
+
+
+
