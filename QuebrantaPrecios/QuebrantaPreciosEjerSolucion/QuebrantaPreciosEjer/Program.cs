@@ -56,7 +56,7 @@ foreach (var building in district.Buildings)
 {
     Console.WriteLine(building);
     
-    // Bucle foreach que recorre los apartamentos de cada edificio Ñ_;NLSDK
+    // Bucle foreach que recorre los apartamentos de cada edificio
     foreach (var apartment in building.Apartments)
     {
         Console.WriteLine(apartment);
