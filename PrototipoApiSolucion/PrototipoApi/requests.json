@@ -1,0 +1,82 @@
+[
+  {
+    "Id": "3c27b3d5-bc57-4a7f-922a-70cfb29e2b94",
+    "Tipo": "Compra",
+    "ImporteSolicitado": 320000,
+    "Descripcion": "Compra edificio en el centro",
+    "FechaSolicitud": "2025-07-01T08:45:00Z",
+    "Estado": "PendingReview"
+  },
+  {
+    "Id": "39c1a4f2-d8e5-4f8e-ae8f-3d0c58007c0e",
+    "Tipo": "Mantenimiento",
+    "ImporteSolicitado": 7500,
+    "Descripcion": "Revisión del sistema eléctrico del edificio B",
+    "FechaSolicitud": "2025-07-03T14:20:00Z",
+    "Estado": "Accepted"
+  },
+  {
+    "Id": "bc880301-d3f5-44cf-942f-9d3ad515d4ef",
+    "Tipo": "Alquiler",
+    "ImporteSolicitado": 0,
+    "Descripcion": "Publicar en alquiler 12 viviendas nuevas",
+    "FechaSolicitud": "2025-07-05T10:00:00Z",
+    "Estado": "Received"
+  },
+  {
+    "Id": "7ad6b7c1-409e-4f08-8e3e-64628967e137",
+    "Tipo": "Compra",
+    "ImporteSolicitado": 450000,
+    "Descripcion": "Adquisición de terreno para nueva promoción",
+    "FechaSolicitud": "2025-06-30T09:30:00Z",
+    "Estado": "Rejected"
+  },
+  {
+    "Id": "b4eebd0b-69b2-478e-bd46-902d1733885a",
+    "Tipo": "Mantenimiento",
+    "ImporteSolicitado": 12000,
+    "Descripcion": "Sustitución de calderas antiguas",
+    "FechaSolicitud": "2025-07-06T12:00:00Z",
+    "Estado": "PendingReview"
+  },
+  {
+    "Id": "ce1cf21e-11d2-4044-b3d7-6a2f2b1f5e3b",
+    "Tipo": "Compra",
+    "ImporteSolicitado": 275000,
+    "Descripcion": "Compra de local comercial para oficinas",
+    "FechaSolicitud": "2025-07-04T15:15:00Z",
+    "Estado": "Accepted"
+  },
+  {
+    "Id": "6b9f5394-e355-4a3c-967f-2a842dab118c",
+    "Tipo": "Alquiler",
+    "ImporteSolicitado": 0,
+    "Descripcion": "Renovación del precio de alquiler para el edificio C",
+    "FechaSolicitud": "2025-07-02T11:45:00Z",
+    "Estado": "Received"
+  },
+  {
+    "Id": "9a50f20c-7253-4869-a682-85c3b0862bfa",
+    "Tipo": "Mantenimiento",
+    "ImporteSolicitado": 5600,
+    "Descripcion": "Reparación de fachada y pintura",
+    "FechaSolicitud": "2025-07-07T13:00:00Z",
+    "Estado": "PendingReview"
+  },
+  {
+    "Id": "0f7c6932-2a2a-4ff1-8573-d36c73fd62f1",
+    "Tipo": "Compra",
+    "ImporteSolicitado": 600000,
+    "Descripcion": "Compra de edificio de apartamentos en zona universitaria",
+    "FechaSolicitud": "2025-06-28T17:10:00Z",
+    "Estado": "Accepted"
+  },
+  {
+    "Id": "fd6d5589-15e7-4970-9270-f99e2a4dfae5",
+    "Tipo": "Alquiler",
+    "ImporteSolicitado": 0,
+    "Descripcion": "Alta de viviendas para alquiler temporal",
+    "FechaSolicitud": "2025-07-01T09:00:00Z",
+    "Estado": "Rejected"
+  }
+]
