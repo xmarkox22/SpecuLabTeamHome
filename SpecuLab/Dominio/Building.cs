@@ -6,13 +6,13 @@ namespace Buildings;
 
 public class Building
 {
-    public Building(string name = "", int id = 0, int floors = 0, bool hasLift = true, int price = 0)
+    public Building(string name, int id, int floors, bool hasLift, int apartmentsPerFloor, int price)
     {
         Name = name;
         Id = id;
         Floors = floors;
         HasLift = hasLift;
-        ApartmentsPerFloor = 4;
+        ApartmentsPerFloor = apartmentsPerFloor;
         Price = price;
     }
 

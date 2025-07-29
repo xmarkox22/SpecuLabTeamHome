@@ -8,9 +8,9 @@ Console.WriteLine("Leidos desde lista:");
 // crea una lista de edificios de la clase Building con datos ficticios
 var buildingsFromList = new List<Building>
 {
-    new Building("Edificio Gardens", 1, 5, true, 100000),
-    new Building("Edificio Waterfall", 2, 10, false, 200000),
-    new Building("Edificio Towers", 3, 8, true, 150000)
+    new Building("Edificio A", 1, 5, true, 4, 150000),
+    new Building("Edificio B", 2, 10, false, 6, 250000),
+    new Building("Edificio C", 3, 8, true, 3, 200000),
 };
 
 // recorre la lista de edificios e imprime sus datos   
