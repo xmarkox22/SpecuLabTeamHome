@@ -1,4 +1,4 @@
-﻿namespace PrototipoApi.Models
+﻿namespace PrototipoApi.Entities
 {
     public enum RequestStatus
     {

@@ -15,25 +15,25 @@ namespace PrototipoApi.Controllers
         public IActionResult Get()
         {
             // Listar objetos request. Crear una lista de ejemplo para la demostración.
-            var requests = new List<Models.Request>
+            var requests = new List<Entities.Request>
             {
-                new Models.Request
+                new Entities.Request
                 {
                     Id = Guid.NewGuid(),
-                    Tipo = Models.TipoSolicitud.Compra,
+                    Tipo = Entities.TipoSolicitud.Compra,
                     ImporteSolicitado = 1000.00,
                     Descripcion = "Compra de material de oficina",
                     FechaSolicitud = DateTime.UtcNow,
-                    Estado = Models.RequestStatus.Received
+                    Estado = Entities.RequestStatus.Received
                 },
-                new Models.Request
+                new Entities.Request
                 {
                     Id = Guid.NewGuid(),
-                    Tipo = Models.TipoSolicitud.Mantenimiento,
+                    Tipo = Entities.TipoSolicitud.Mantenimiento,
                     ImporteSolicitado = 500.00,
                     Descripcion = "Mantenimiento de equipos informáticos",
                     FechaSolicitud = DateTime.UtcNow,
-                    Estado = Models.RequestStatus.PendingReview
+                    Estado = Entities.RequestStatus.PendingReview
                 }
             };
             return Ok(requests);
@@ -44,14 +44,14 @@ namespace PrototipoApi.Controllers
         public IActionResult GetById(Guid id)
         {
             // Obtener un objeto request por ID. Crear un objeto de ejemplo para la demostración.
-            var request = new Models.Request
+            var request = new Entities.Request
             {
                 Id = id,
-                Tipo = Models.TipoSolicitud.Alquiler,
+                Tipo = Entities.TipoSolicitud.Alquiler,
                 ImporteSolicitado = 2000.00,
                 Descripcion = "Alquiler de maquinaria pesada",
                 FechaSolicitud = DateTime.UtcNow,
-                Estado = Models.RequestStatus.Accepted
+                Estado = Entities.RequestStatus.Accepted
             };
             return Ok(request);
         }

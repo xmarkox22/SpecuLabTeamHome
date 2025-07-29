@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PrototipoApi.Models
+namespace PrototipoApi.Entities
 {
     public class Request
     {

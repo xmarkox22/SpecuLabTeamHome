@@ -1,4 +1,4 @@
-﻿using PrototipoApi.Models;
+﻿using PrototipoApi.Entities;
 
 namespace PrototipoApi.ModelsDto
 {

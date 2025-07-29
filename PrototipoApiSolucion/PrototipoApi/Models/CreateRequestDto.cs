@@ -1,4 +1,4 @@
-﻿namespace PrototipoApi.ModelsDto
+﻿namespace PrototipoApi.Entities
 {
     public class CreateRequestDto
     {

@@ -1,0 +1,76 @@
+
+
+   													CRITERIOS DE ACEPTACIÓN
+Product Owner: Tomás Orejas
+
+		CONSOLA:
+
+1. Crear JSON con datos de compras
+	- El JSON debe simular al menos 5 transacciones de compra.
+
+	- Cada entrada debe tener: IdTransaccion, IdEdificio, FechaCompra, ImporteTotal, MetodoPago.
+
+	- El archivo debe guardarse como compras.json.
+
+2. Clase Edificio
+	- Contendrá identificadores necesarios para enlazar con transacciones: Guid Id, string Nombre, string Dirección.
+
+	- No incluye gestión física del edificio, solo referencias necesarias para identificarlo en una transacción.
+
+3. Programa de visualización por consola
+	- Debe mostrar una lista de transacciones monetarias
+
+	- Formato legible: “Edificio Calle Mayor 15 fue comprado el 21/05/2022 por 1.200.000€”
+
+	- Debe ejecutarse desde consola sin errores.
+
+	- Debe permitir filtrar por año, importe mínimo o método de pago.
+
+4. Deserializar el JSON en objetos
+	- El programa debe deserializar correctamente compras.json a una lista de objetos CompraTransaccion.
+
+	- Manejar errores de formato o datos incompletos.
+
+	- La deserialización debe validar que hay al menos 1 objeto cargado correctamente.
+
+5. Lista de estos objetos
+	- Las transacciones se almacenan en un List<CompraTransaccion>.
+
+	- Permite realizar sumas totales, medias por año y ordenar por fecha o importe.
+
+
+		API:
+1. Definición de los endpoints
+	- GET /api/requests → 
+
+	- GET /api/requests/{id} → 
+
+	- GET /api/request/status/{Estados} → 
+
+2. Definición de los APIs
+	- Las API deben centrarse en datos financieros.
+
+	- Los modelos incluyen, entre otras: CompraDto, TransaccionRequest, TransaccionResponse.
+
+	- Las validaciones deben garantizar: importe > 0, fechas válidas.
+
+3. Controllers
+	- ComprasController debe agrupar todos los endpoints relacionados.
+
+	- Dividir lógicamente entre métodos de lectura (GET) y escritura (POST/PUT).
+	
+	- Usar inyección de dependencias para acceder al servicio de gestión de transacciones.
+
+		DIAGRAMAS:
+1. Proceso de compra por edificios
+	- Etapas: Recibido → PendinReview → Rejected→ registro contable.
+
+	- Enfocado en el flujo de dinero.
+
+2. Proceso de alquileres
+	- Etapas: Sin definir
+
+3. Proceso mantenimiento
+	- Etapas: Solicitud → 
+
+
