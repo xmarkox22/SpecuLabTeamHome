@@ -1,4 +1,5 @@
-var builder = WebApplication.CreateBuilder(args);
+/*
+ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
@@ -23,9 +24,11 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+*/
 
+using Microsoft.EntityFrameworkCore;
+using PrototipoApi.BaseDatos;
 
-/*
 var builder = WebApplication.CreateBuilder(args);
 
 // A-Agregar servicios a la aplicacion.
@@ -62,4 +65,3 @@ app.MapControllers();
 
 
 app.Run(); 
- */

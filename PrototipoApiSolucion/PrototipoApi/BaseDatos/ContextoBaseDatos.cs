@@ -1,4 +1,7 @@
-﻿namespace PrototipoApi.BaseDatos
+﻿using Microsoft.EntityFrameworkCore;
+using PrototipoApi.Entities;
+
+namespace PrototipoApi.BaseDatos
 {
     public class ContextoBaseDatos : DbContext
     {
@@ -6,7 +9,7 @@
         {
 
         }
-        public DbSet<> MyProperty {  get; set; } //Dentro del Db set ponemos la clase. En MYProperty ponemos el nombre que queremos para la base de datos
+        public DbSet<Request> Requests {  get; set; } 
 
 
     }

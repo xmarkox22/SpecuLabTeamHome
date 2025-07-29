@@ -1,4 +1,4 @@
-﻿using PrototipoApi.Models;
+﻿using PrototipoApi.Entities;
 using System.Text.Json;
 
 public static class RequestStore
