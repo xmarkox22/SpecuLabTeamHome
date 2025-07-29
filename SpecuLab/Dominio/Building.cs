@@ -1,6 +1,7 @@
-﻿
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Net.Http;
 using System.Text.Json;
+using System.Threading.Tasks;
 
 namespace Buildings;
 
@@ -39,5 +40,20 @@ public class Building
         var json = File.ReadAllText(v, System.Text.Encoding.UTF8);
         List<Building> list = JsonSerializer.Deserialize<List<Building>>(json);
         return list;
+    }
+
+    public static async Task<List<Building>> FromJsonUrlAsync(string url)
+    {
+        using var client = new HttpClient();
+        var json = await client.GetStringAsync(url);
+        // Si el JSON remoto tiene un wrapper, ajusta aquí el deserializado
+        // Por ejemplo, si el JSON está en data: { ... }
+        using var doc = JsonDocument.Parse(json);
+        var root = doc.RootElement;
+        if (root.TryGetProperty("record", out var record))
+        {
+            return JsonSerializer.Deserialize<List<Building>>(record.GetRawText());
+        }
+        return JsonSerializer.Deserialize<List<Building>>(json);
     }
 }
