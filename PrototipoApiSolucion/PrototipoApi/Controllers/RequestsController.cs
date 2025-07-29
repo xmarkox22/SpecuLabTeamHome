@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using PrototipoApi.Models;
+using PrototipoApi.Entities;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -37,26 +37,7 @@ namespace PrototipoApi.Controllers
             {
                 return StatusCode(500, $"Error al leer los datos: {ex.Message}");
             }
-                new Entities.Request
-                {
-                    Id = Guid.NewGuid(),
-                    Tipo = Entities.TipoSolicitud.Compra,
-                    ImporteSolicitado = 1000.00,
-                    Descripcion = "Compra de material de oficina",
-                    FechaSolicitud = DateTime.UtcNow,
-                    Estado = Entities.RequestStatus.Received
-                },
-                new Entities.Request
-                {
-                    Id = Guid.NewGuid(),
-                    Tipo = Entities.TipoSolicitud.Mantenimiento,
-                    ImporteSolicitado = 500.00,
-                    Descripcion = "Mantenimiento de equipos informáticos",
-                    FechaSolicitud = DateTime.UtcNow,
-                    Estado = Entities.RequestStatus.PendingReview
-                }
-            };
-            return Ok(requests);
+               
         }
 
         [HttpGet("{id}")]
