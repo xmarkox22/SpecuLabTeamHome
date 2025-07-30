@@ -8,19 +8,21 @@ namespace PrototipoApi.Entities
 {
     public class Request
     {
-        public Guid Id { get; set; }
-        public TipoSolicitud Tipo { get; set; }
-        public double ImporteSolicitado { get; set; }
-        public string Descripcion { get; set; } = string.Empty;
-        public DateTime FechaSolicitud { get; set; } = DateTime.UtcNow;
-        public RequestStatus Estado { get; set; } = RequestStatus.Received;
-    }
+        public int RequestId { get; set; }
 
-    public enum TipoSolicitud
-    {
-        Compra,
-        Mantenimiento,
-        Alquiler
+        /// <summary>
+        /// Tipo de petición.
+        /// Valores posibles: "COMPRA", "MANTENIMIENTO", "ALQUILER".
+        /// </summary>
+        public string RequestType { get; set; } = string.Empty;
+
+        public double RequestAmount { get; set; }
+        public string Description { get; set; } = string.Empty;
+        public DateTime RequestDate { get; set; }
+
+        // Relaciones
+        //public int StatusId { get; set; }
+        public string Status { get; set; } = null!;
     }
 
 

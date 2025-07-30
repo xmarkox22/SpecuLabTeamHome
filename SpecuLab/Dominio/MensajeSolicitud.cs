@@ -13,7 +13,7 @@ namespace Dominio
         public double ImporteSolicitado { get; set; }
         public string Descripcion { get; set; } = string.Empty;
         public DateTime FechaSolicitud { get; set; } = DateTime.UtcNow;
-        public RequestStatus Estado { get; set; } = RequestStatus.Received;
+        public RequestStatus Status { get; set; } 
     }
 
     public enum TipoSolicitud
@@ -22,8 +22,5 @@ namespace Dominio
         Mantenimiento,
         Alquiler
     }
-
-
-
 
 }

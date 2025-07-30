@@ -10,6 +10,7 @@ namespace PrototipoApi.BaseDatos
 
         }
         public DbSet<Request> Requests {  get; set; } 
+        //public DbSet<Status> Statuses { get; set; }
 
 
     }

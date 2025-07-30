@@ -24,27 +24,31 @@ namespace PrototipoApi.Migrations
 
             modelBuilder.Entity("PrototipoApi.Entities.Request", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("RequestId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("int");
 
-                    b.Property<string>("Descripcion")
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RequestId"));
+
+                    b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Estado")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("FechaSolicitud")
-                        .HasColumnType("datetime2");
-
-                    b.Property<double>("ImporteSolicitado")
+                    b.Property<double>("RequestAmount")
                         .HasColumnType("float");
 
-                    b.Property<int>("Tipo")
-                        .HasColumnType("int");
+                    b.Property<DateTime>("RequestDate")
+                        .HasColumnType("datetime2");
 
-                    b.HasKey("Id");
+                    b.Property<string>("RequestType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("RequestId");
 
                     b.ToTable("Requests");
                 });

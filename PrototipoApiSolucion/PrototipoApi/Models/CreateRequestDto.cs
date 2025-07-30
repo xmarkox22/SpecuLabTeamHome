@@ -1,11 +1,20 @@
-﻿namespace PrototipoApi.Entities
+﻿using PrototipoApi.Entities;
+
+namespace PrototipoApi.Models
 {
     public class CreateRequestDto
     {
-        public int Id { get; set; }
-        public required string Name { get; set; }
-        public required string Description { get; set; }
-        public string? Type { get; set; }
+        public int RequestId { get; set; }
+
+        /// <summary>
+        /// Tipo de petición.
+        /// Valores posibles: "COMPRA", "MANTENIMIENTO", "ALQUILER".
+        /// </summary>
+        public string RequestType { get; set; } = string.Empty;
+
+        public double RequestAmount { get; set; }
+        public string Description { get; set; } = string.Empty;
+        public DateTime RequestDate { get; set; }
 
     }
 }

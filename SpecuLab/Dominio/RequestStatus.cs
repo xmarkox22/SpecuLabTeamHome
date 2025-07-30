@@ -1,10 +1,16 @@
 ﻿namespace Dominio
 {
-    public enum RequestStatus
+
+    /// <summary>
+    /// Estados de petición:
+    /// Received: Recibida
+    /// Accepted: Aceptada
+    /// Rected: Rechazada
+    /// PendingReview: Pendiente de revisión
+    /// </summary>
+    public class RequestStatus
     {
-        Received,
-        Accepted,
-        Rejected,
-        PendingReview,
+        public int Id { get; set; }
+        public string Status { get; set; }
     }
 }

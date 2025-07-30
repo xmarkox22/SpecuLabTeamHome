@@ -1,10 +1,10 @@
 ﻿using PrototipoApi.Entities;
 
-namespace PrototipoApi.ModelsDto
+namespace PrototipoApi.Models
 {
     public class UptdateStatusDto
     {
-        public required RequestStatus Estado { get; set; }
+        public required Status Estado { get; set; }
 
 
     }
