@@ -8,9 +8,9 @@ Console.WriteLine("Leidos desde lista:");
 // crea una lista de edificios de la clase Building con datos ficticios
 var buildingsFromList = new List<Building>
 {
-    new Building("Edificio Gardens", 1, 5, true, 100000),
-    new Building("Edificio Waterfall", 2, 10, false, 200000),
-    new Building("Edificio Towers", 3, 8, true, 150000)
+    new Building("Edificio A", 1, 5, true, 4, 150000),
+    new Building("Edificio B", 2, 10, false, 6, 250000),
+    new Building("Edificio C", 3, 8, true, 3, 200000),
 };
 
 // recorre la lista de edificios e imprime sus datos   
@@ -28,4 +28,23 @@ foreach (var building in (List<Building>)buildingsFromJson)
 {
     Console.WriteLine(building);
 }
+
+
+// recorre la lista de edificios e imprime sus datos desde el JSON remoto
+Console.WriteLine("================================");
+Console.WriteLine("Leidos desde JSON remoto:");
+
+// Cambia el método Main a async para poder usar await
+await MostrarEdificiosRemotosAsync();
+
+static async Task MostrarEdificiosRemotosAsync()
+{
+    var buildingsFromRemoteJson = await Building.FromJsonUrlAsync("https://api.jsonbin.io/v3/b/68876421ae596e708fbcfb79");
+    foreach (var building in buildingsFromRemoteJson)
+    {
+        Console.WriteLine(building);
+    }
+}
+
+
 
