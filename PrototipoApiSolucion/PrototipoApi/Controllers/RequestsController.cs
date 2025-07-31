@@ -24,6 +24,19 @@ public class RequestsController : ControllerBase
             .ToListAsync();
     }
 
+    // GET: api/requests/{id} = Obtener una solicitud por ID
+    [HttpGet("{id}")]
+    public async Task<ActionResult<Request>> GetRequest(int id)
+    {
+        var request = await _context.Requests.FindAsync(id);
+        if (request == null)
+        {
+            return NotFound();
+        }
+        return request;
+    }
+
+
     // POST: api/requests = Crear una nueva solicitud
     [HttpPost]
     public async Task<ActionResult<Request>> CreateRequest(CreateRequestDto dto)
