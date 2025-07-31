@@ -53,6 +53,7 @@ public class RequestsController : ControllerBase
         _context.Requests.Add(request);
         await _context.SaveChangesAsync();
 
-        return CreatedAtAction(nameof(GetRequests), new { id = request.RequestId }, request);
+        return Created("", $"La solicitud de compra se ha creado correctamente con id {request.RequestId} Puede consultar su estado enviando una peticion GET con ese ID");
+
     }
 }
