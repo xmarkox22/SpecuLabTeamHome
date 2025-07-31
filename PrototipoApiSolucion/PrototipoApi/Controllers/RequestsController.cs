@@ -16,7 +16,7 @@ public class RequestsController : ControllerBase
         _context = context;
     }
 
-    // GET: api/requests
+    // GET: api/requests = Listar todas las solicitudes
     [HttpGet]
     public async Task<ActionResult<IEnumerable<Request>>> GetRequests()
     {
@@ -24,7 +24,7 @@ public class RequestsController : ControllerBase
             .ToListAsync();
     }
 
-    // POST: api/requests
+    // POST: api/requests = Crear una nueva solicitud
     [HttpPost]
     public async Task<ActionResult<Request>> CreateRequest(CreateRequestDto dto)
     {

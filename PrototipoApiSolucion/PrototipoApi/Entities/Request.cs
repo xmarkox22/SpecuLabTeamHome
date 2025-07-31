@@ -22,6 +22,7 @@ namespace PrototipoApi.Entities
 
         // Relaciones
         //public int StatusId { get; set; }
+        //public Status Status { get; set; } = null!;
         public string Status { get; set; } = null!;
     }
 
