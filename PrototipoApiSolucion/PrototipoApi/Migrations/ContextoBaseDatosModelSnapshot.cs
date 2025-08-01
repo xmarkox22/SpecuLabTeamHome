@@ -24,9 +24,11 @@ namespace PrototipoApi.Migrations
 
             modelBuilder.Entity("PrototipoApi.Entities.Request", b =>
                 {
-                    b.Property<Guid>("RequestId")
+                    b.Property<int>("RequestId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RequestId"));
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -42,8 +44,8 @@ namespace PrototipoApi.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("StatusId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("StatusId")
+                        .HasColumnType("int");
 
                     b.HasKey("RequestId");
 
@@ -54,9 +56,11 @@ namespace PrototipoApi.Migrations
 
             modelBuilder.Entity("PrototipoApi.Entities.Status", b =>
                 {
-                    b.Property<Guid>("StatusId")
+                    b.Property<int>("StatusId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("StatusId"));
 
                     b.Property<string>("Description")
                         .IsRequired()

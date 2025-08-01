@@ -39,21 +39,29 @@ public class RequestsController : ControllerBase
 
     // POST: api/requests = Crear una nueva solicitud
     [HttpPost]
-    public async Task<ActionResult<Request>> CreateRequest( CreateRequestDto dto)
+    public async Task<ActionResult<Request>> CreateRequest(CreateRequestDto dto)
     {
+        // Crear el Status relacionado
+        var status = new Status
+        {
+            StatusType = dto.Status.StatusType,
+            Description = dto.Status.Description
+            // No asignes StatusId
+        };
 
         var request = new Request
         {
-            RequestType = dto.RequestType ,
+            RequestType = dto.RequestType,
             Description = dto.Description,
             RequestDate = DateTime.UtcNow,
-            RequestAmount = dto.RequestAmount, // Puedes ajustarlo desde el dto si es necesario
-            Status = dto.Status // Asignar un estado por defecto, puedes cambiarlo según tu lógica
+            RequestAmount = dto.RequestAmount,
+            Status = status // Relación directa
+            // No asignes RequestId
         };
 
         _context.Requests.Add(request);
         await _context.SaveChangesAsync();
 
-        return Created("", $"La solicitud de compra se ha creado correctamente con id {request.RequestId} Puede consultar su estado enviando una peticion GET con ese ID");
+        return Created("", $"La solicitud de compra se ha creado correctamente con id {request.RequestId} Puede consultar su estado enviando una petición GET con ese ID");
     }
 }
