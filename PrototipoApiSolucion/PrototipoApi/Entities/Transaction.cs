@@ -20,7 +20,7 @@
         public string Description { get; set; } = string.Empty;
 
         public int AssociatedBudgetId { get; set; }
-        public TotalBudget AssociatedBudget { get; set; } = null!;
+        public ManagementBudget AssociatedBudget { get; set; } = null!;
     }
 
 }

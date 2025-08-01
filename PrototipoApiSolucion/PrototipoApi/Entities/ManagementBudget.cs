@@ -1,10 +1,9 @@
 ﻿namespace PrototipoApi.Entities
 {
-    public class TotalBudget
+    public class ManagementBudget
     {
         public int BudgetId { get; set; }
-        public int BudgetYear { get; set; }
-        public double TotalAmount { get; set; }
+        public double InitialAmount { get; set; }
         public double CurrentAmount { get; set; }
         public DateTime LastUpdatedDate { get; set; }
 

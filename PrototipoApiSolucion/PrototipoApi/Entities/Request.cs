@@ -8,7 +8,7 @@ namespace PrototipoApi.Entities
 {
     public class Request
     {
-        public int RequestId { get; set; }
+        public Guid RequestId { get; set; }
 
         /// <summary>
         /// Tipo de petición.
@@ -21,9 +21,8 @@ namespace PrototipoApi.Entities
         public DateTime RequestDate { get; set; }
 
         // Relaciones
-        //public int StatusId { get; set; }
-        //public Status Status { get; set; } = null!;
-        public string Status { get; set; } = null!;
+        public Status Status { get; set; } = null!;
+        public Guid StatusId { get; set; } 
     }
 
 
