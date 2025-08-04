@@ -12,6 +12,20 @@ namespace PrototipoApi.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "Buildings",
+                columns: table => new
+                {
+                    BuildingId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Street = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    District = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Buildings", x => x.BuildingId);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Statuses",
                 columns: table => new
                 {
@@ -31,15 +45,22 @@ namespace PrototipoApi.Migrations
                 {
                     RequestId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    RequestType = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    RequestAmount = table.Column<double>(type: "float", nullable: false),
+                    BuilidingAmount = table.Column<double>(type: "float", nullable: false),
+                    MaintenanceAmount = table.Column<double>(type: "float", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     RequestDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    StatusId = table.Column<int>(type: "int", nullable: false)
+                    StatusId = table.Column<int>(type: "int", nullable: false),
+                    BuildingId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Requests", x => x.RequestId);
+                    table.ForeignKey(
+                        name: "FK_Requests_Buildings_BuildingId",
+                        column: x => x.BuildingId,
+                        principalTable: "Buildings",
+                        principalColumn: "BuildingId",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Requests_Statuses_StatusId",
                         column: x => x.StatusId,
@@ -47,6 +68,11 @@ namespace PrototipoApi.Migrations
                         principalColumn: "StatusId",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Requests_BuildingId",
+                table: "Requests",
+                column: "BuildingId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Requests_StatusId",
@@ -59,6 +85,9 @@ namespace PrototipoApi.Migrations
         {
             migrationBuilder.DropTable(
                 name: "Requests");
+
+            migrationBuilder.DropTable(
+                name: "Buildings");
 
             migrationBuilder.DropTable(
                 name: "Statuses");

@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PrototipoApi.Entities;
+using PrototipoApi.Models;
 
 namespace PrototipoApi.BaseDatos
 {
@@ -11,6 +12,7 @@ namespace PrototipoApi.BaseDatos
         }
         public DbSet<Request> Requests {  get; set; } 
         public DbSet<Status> Statuses { get; set; }
+        public DbSet<Building> Buildings { get; set; }
 
 
     }

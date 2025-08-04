@@ -9,20 +9,15 @@ namespace PrototipoApi.Entities
     public class Request
     {
         public int RequestId { get; set; }
-
-        /// <summary>
-        /// Tipo de petición.
-        /// Valores posibles: "COMPRA", "MANTENIMIENTO", "ALQUILER".
-        /// </summary>
-        public string RequestType { get; set; } = string.Empty;
-
-        public double RequestAmount { get; set; }
+        public double BuilidingAmount { get; set; }
+        public double MaintenanceAmount { get; set; }
         public string Description { get; set; } = string.Empty;
         public DateTime RequestDate { get; set; }
 
         // Relaciones
         public Status Status { get; set; } = null!;
-        public int StatusId { get; set; } 
+        public Building Building { get; set; } = null!;
+
     }
 
 

@@ -12,7 +12,7 @@ using PrototipoApi.BaseDatos;
 namespace PrototipoApi.Migrations
 {
     [DbContext(typeof(ContextoBaseDatos))]
-    [Migration("20250801120442_Inicial")]
+    [Migration("20250804111546_Inicial")]
     partial class Inicial
     {
         /// <inheritdoc />
@@ -25,6 +25,27 @@ namespace PrototipoApi.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("PrototipoApi.Entities.Building", b =>
+                {
+                    b.Property<int>("BuildingId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("BuildingId"));
+
+                    b.Property<string>("District")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Street")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("BuildingId");
+
+                    b.ToTable("Buildings");
+                });
+
             modelBuilder.Entity("PrototipoApi.Entities.Request", b =>
                 {
                     b.Property<int>("RequestId")
@@ -33,24 +54,28 @@ namespace PrototipoApi.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RequestId"));
 
+                    b.Property<int>("BuildingId")
+                        .HasColumnType("int");
+
+                    b.Property<double>("BuilidingAmount")
+                        .HasColumnType("float");
+
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<double>("RequestAmount")
+                    b.Property<double>("MaintenanceAmount")
                         .HasColumnType("float");
 
                     b.Property<DateTime>("RequestDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("RequestType")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("StatusId")
                         .HasColumnType("int");
 
                     b.HasKey("RequestId");
+
+                    b.HasIndex("BuildingId");
 
                     b.HasIndex("StatusId");
 
@@ -80,11 +105,19 @@ namespace PrototipoApi.Migrations
 
             modelBuilder.Entity("PrototipoApi.Entities.Request", b =>
                 {
+                    b.HasOne("PrototipoApi.Entities.Building", "Building")
+                        .WithMany()
+                        .HasForeignKey("BuildingId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("PrototipoApi.Entities.Status", "Status")
                         .WithMany()
                         .HasForeignKey("StatusId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Building");
 
                     b.Navigation("Status");
                 });

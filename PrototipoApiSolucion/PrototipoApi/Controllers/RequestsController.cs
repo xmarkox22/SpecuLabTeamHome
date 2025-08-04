@@ -16,12 +16,31 @@ public class RequestsController : ControllerBase
         _context = context;
     }
 
+
     // GET: api/requests = Listar todas las solicitudes
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<Request>>> GetRequests()
+    public async Task<ActionResult<IEnumerable<Request>>> GetRequests() // Devolver dtos y no entidades directamente
     {
-        return await _context.Requests
+        // Obtener con DTOs todas las requests
+
+        var requests = await _context.Requests
+            .Include(r => r.Status)
+            .Include(r => r.Building)
             .ToListAsync();
+
+        // Mapear las entidades a DTOs
+        var requestDtos = requests.Select(r => new RequestDto
+        {
+            RequestDtoId = r.RequestId,
+            BuilidingAmount = r.BuilidingAmount,
+            MaintenanceAmount = r.MaintenanceAmount,
+            Description = r.Description,
+            Status = r.Status,
+            Building = r.Building
+        }).ToList();
+
+        return requests;
+
     }
 
     // GET: api/requests/{id} = Obtener una solicitud por ID
@@ -39,24 +58,16 @@ public class RequestsController : ControllerBase
 
     // POST: api/requests = Crear una nueva solicitud
     [HttpPost]
-    public async Task<ActionResult<Request>> CreateRequest(CreateRequestDto dto)
+    public async Task<ActionResult<Request>> CreateRequest(RequestDto dto)
     {
-        // Crear el Status relacionado
-        var status = new Status
-        {
-            StatusType = dto.Status.StatusType,
-            Description = dto.Status.Description
-            // No asignes StatusId
-        };
-
         var request = new Request
         {
-            RequestType = dto.RequestType,
             Description = dto.Description,
             RequestDate = DateTime.UtcNow,
-            RequestAmount = dto.RequestAmount,
-            Status = status // Relación directa
-            // No asignes RequestId
+            BuilidingAmount = dto.BuilidingAmount,
+            MaintenanceAmount = dto.MaintenanceAmount,
+            Status = dto.Status,
+            Building = dto.Building
         };
 
         _context.Requests.Add(request);
