@@ -13,6 +13,7 @@ namespace PrototipoApi.BaseDatos
         public DbSet<Request> Requests {  get; set; } 
         public DbSet<Status> Statuses { get; set; }
         public DbSet<Building> Buildings { get; set; }
+        public DbSet<PrototipoApi.Entities.ManagementBudget> ManagementBudget { get; set; } = default!;
 
 
     }
