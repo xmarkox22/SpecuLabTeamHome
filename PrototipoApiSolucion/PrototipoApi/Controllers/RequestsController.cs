@@ -31,7 +31,9 @@ public class RequestsController : ControllerBase
             BuildingAmount = r.BuildingAmount,
             MaintenanceAmount = r.MaintenanceAmount,
             Description = r.Description,
+            StatusId = r.StatusId,
             StatusType = r.Status.StatusType,
+            BuildingId = r.BuildingId,
             BuildingStreet = r.Building.Street
         }).ToList();
 
