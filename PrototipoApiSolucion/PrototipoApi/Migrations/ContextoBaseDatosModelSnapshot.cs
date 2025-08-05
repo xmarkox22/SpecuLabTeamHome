@@ -43,6 +43,28 @@ namespace PrototipoApi.Migrations
                     b.ToTable("Buildings");
                 });
 
+            modelBuilder.Entity("PrototipoApi.Entities.ManagementBudget", b =>
+                {
+                    b.Property<int>("ManagementBudgetId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ManagementBudgetId"));
+
+                    b.Property<double>("CurrentAmount")
+                        .HasColumnType("float");
+
+                    b.Property<double>("InitialAmount")
+                        .HasColumnType("float");
+
+                    b.Property<DateTime>("LastUpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("ManagementBudgetId");
+
+                    b.ToTable("ManagementBudget");
+                });
+
             modelBuilder.Entity("PrototipoApi.Entities.Request", b =>
                 {
                     b.Property<int>("RequestId")
@@ -100,6 +122,43 @@ namespace PrototipoApi.Migrations
                     b.ToTable("Statuses");
                 });
 
+            modelBuilder.Entity("PrototipoApi.Entities.Transaction", b =>
+                {
+                    b.Property<int>("TransactionId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TransactionId"));
+
+                    b.Property<double>("Amount")
+                        .HasColumnType("float");
+
+                    b.Property<int>("AssociatedBudgetId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("RequestId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("TransactionDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("TransactionType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("TransactionId");
+
+                    b.HasIndex("AssociatedBudgetId");
+
+                    b.HasIndex("RequestId");
+
+                    b.ToTable("Transaction");
+                });
+
             modelBuilder.Entity("PrototipoApi.Entities.Request", b =>
                 {
                     b.HasOne("PrototipoApi.Entities.Building", "Building")
@@ -117,6 +176,30 @@ namespace PrototipoApi.Migrations
                     b.Navigation("Building");
 
                     b.Navigation("Status");
+                });
+
+            modelBuilder.Entity("PrototipoApi.Entities.Transaction", b =>
+                {
+                    b.HasOne("PrototipoApi.Entities.ManagementBudget", "AssociatedBudget")
+                        .WithMany("Transactions")
+                        .HasForeignKey("AssociatedBudgetId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("PrototipoApi.Entities.Request", "Request")
+                        .WithMany()
+                        .HasForeignKey("RequestId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AssociatedBudget");
+
+                    b.Navigation("Request");
+                });
+
+            modelBuilder.Entity("PrototipoApi.Entities.ManagementBudget", b =>
+                {
+                    b.Navigation("Transactions");
                 });
 #pragma warning restore 612, 618
         }
