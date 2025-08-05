@@ -62,6 +62,4 @@ app.MapControllers();
 //app.MapGet("/", () => "¡Hola, mundo! Esta es una API de ejemplo para países y apartamentos.");
 //app.UseWelcomePage();
 
-
-
 app.Run(); 
