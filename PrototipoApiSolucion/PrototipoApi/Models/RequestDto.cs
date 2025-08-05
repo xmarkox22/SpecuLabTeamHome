@@ -9,8 +9,8 @@ namespace PrototipoApi.Models
         public double BuildingAmount { get; set; }
         public double MaintenanceAmount { get; set; }
         public string Description { get; set; } = string.Empty;
-        public string? StatusType { get; set; } = null!; // Relación con Status
-        public string? BuildingStreet { get; set; } = null!; // Relación con Building
+        public string StatusType { get; set; } = null!; // Relación con Status
+        public string BuildingStreet { get; set; } = null!; // Relación con Building
         public int StatusId { get; set; } // Relación con Status
         public int BuildingId { get; set; } // Relación con Building
     }

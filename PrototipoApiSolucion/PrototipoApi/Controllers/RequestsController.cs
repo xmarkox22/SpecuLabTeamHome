@@ -52,15 +52,15 @@ public class RequestsController : ControllerBase
                 BuildingAmount = r.BuildingAmount,
                 MaintenanceAmount = r.MaintenanceAmount,
                 Description = r.Description,
+                StatusId = r.StatusId,
                 StatusType = r.Status.StatusType,
+                BuildingId = r.BuildingId,
                 BuildingStreet = r.Building.Street
             })
             .FirstOrDefaultAsync();
 
         if (requestDto == null)
-        {
             return NotFound();
-        }
 
         return Ok(requestDto);
     }
@@ -82,17 +82,18 @@ public class RequestsController : ControllerBase
         _context.Requests.Add(request);
         await _context.SaveChangesAsync();
 
-        // Mapear a DTO de salida
-        var resultDto = new RequestDto
+        var createdDto = new RequestDto
         {
             RequestId = request.RequestId,
             BuildingAmount = request.BuildingAmount,
             MaintenanceAmount = request.MaintenanceAmount,
             Description = request.Description,
-            StatusType = (await _context.Statuses.FindAsync(request.StatusId))?.StatusType ?? "Desconocido",
-            BuildingStreet = (await _context.Buildings.FindAsync(request.BuildingId))?.Street ?? "Desconocido"
+            StatusId = request.StatusId,
+            StatusType = (await _context.Statuses.FindAsync(request.StatusId))?.StatusType ?? "",
+            BuildingId = request.BuildingId,
+            BuildingStreet = (await _context.Buildings.FindAsync(request.BuildingId))?.Street ?? ""
         };
 
-        return CreatedAtAction(nameof(GetRequest), new { id = request.RequestId }, resultDto);
+        return CreatedAtAction(nameof(GetRequest), new { id = request.RequestId }, createdDto);
     }
 }
