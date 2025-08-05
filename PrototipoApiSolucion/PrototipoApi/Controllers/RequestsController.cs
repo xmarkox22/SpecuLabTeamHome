@@ -16,63 +16,83 @@ public class RequestsController : ControllerBase
         _context = context;
     }
 
-
-    // GET: api/requests = Listar todas las solicitudes
+    // GET: api/requests
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<Request>>> GetRequests() // Devolver dtos y no entidades directamente
+    public async Task<ActionResult<IEnumerable<RequestDto>>> GetRequests()
     {
-        // Obtener con DTOs todas las requests
-
         var requests = await _context.Requests
             .Include(r => r.Status)
             .Include(r => r.Building)
             .ToListAsync();
 
-        // Mapear las entidades a DTOs
         var requestDtos = requests.Select(r => new RequestDto
         {
-            RequestDtoId = r.RequestId,
-            BuilidingAmount = r.BuilidingAmount,
+            RequestId = r.RequestId,
+            BuildingAmount = r.BuildingAmount,
             MaintenanceAmount = r.MaintenanceAmount,
             Description = r.Description,
-            Status = r.Status,
-            Building = r.Building
+            StatusType = r.Status.StatusType,
+            BuildingStreet = r.Building.Street
         }).ToList();
 
-        return requests;
-
+        return Ok(requestDtos);
     }
 
-    // GET: api/requests/{id} = Obtener una solicitud por ID
+    // GET: api/requests/{id}
     [HttpGet("{id}")]
-    public async Task<ActionResult<Request>> GetRequest(int id)
+    public async Task<ActionResult<RequestDto>> GetRequest(int id)
     {
-        var request = await _context.Requests.FindAsync(id);
-        if (request == null)
+        var requestDto = await _context.Requests
+            .Include(r => r.Status)
+            .Include(r => r.Building)
+            .Where(r => r.RequestId == id)
+            .Select(r => new RequestDto
+            {
+                RequestId = r.RequestId,
+                BuildingAmount = r.BuildingAmount,
+                MaintenanceAmount = r.MaintenanceAmount,
+                Description = r.Description,
+                StatusType = r.Status.StatusType,
+                BuildingStreet = r.Building.Street
+            })
+            .FirstOrDefaultAsync();
+
+        if (requestDto == null)
         {
             return NotFound();
         }
-        return request;
+
+        return Ok(requestDto);
     }
 
-
-    // POST: api/requests = Crear una nueva solicitud
+    // POST: api/requests
     [HttpPost]
-    public async Task<ActionResult<Request>> CreateRequest(RequestDto dto)
+    public async Task<ActionResult<RequestDto>> CreateRequest(CreateRequestDto dto)
     {
         var request = new Request
         {
             Description = dto.Description,
             RequestDate = DateTime.UtcNow,
-            BuilidingAmount = dto.BuilidingAmount,
+            BuildingAmount = dto.BuildingAmount,
             MaintenanceAmount = dto.MaintenanceAmount,
-            Status = dto.Status,
-            Building = dto.Building
+            StatusId = dto.StatusId,
+            BuildingId = dto.BuildingId
         };
 
         _context.Requests.Add(request);
         await _context.SaveChangesAsync();
 
-        return Created("", $"La solicitud de compra se ha creado correctamente con id {request.RequestId} Puede consultar su estado enviando una petición GET con ese ID");
+        // Mapear a DTO de salida
+        var resultDto = new RequestDto
+        {
+            RequestId = request.RequestId,
+            BuildingAmount = request.BuildingAmount,
+            MaintenanceAmount = request.MaintenanceAmount,
+            Description = request.Description,
+            StatusType = (await _context.Statuses.FindAsync(request.StatusId))?.StatusType ?? "Desconocido",
+            BuildingStreet = (await _context.Buildings.FindAsync(request.BuildingId))?.Street ?? "Desconocido"
+        };
+
+        return CreatedAtAction(nameof(GetRequest), new { id = request.RequestId }, resultDto);
     }
 }
