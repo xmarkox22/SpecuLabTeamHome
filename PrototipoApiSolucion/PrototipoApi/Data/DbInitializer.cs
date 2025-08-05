@@ -1,12 +1,12 @@
-<<<<<<< HEAD
+
 ﻿using PrototipoApi.BaseDatos;
 using Microsoft.EntityFrameworkCore;
 using PrototipoApi.Entities;
-=======
+
 ﻿using Microsoft.EntityFrameworkCore;
 using PrototipoApi.BaseDatos;
 using PrototipoApi.Data;
->>>>>>> e65b8408e9293b585302f238bf37b679e6005300
+
 
 public static class DbInitializer
 {
@@ -25,8 +25,6 @@ public static class DbInitializer
             var requests = Seeder.GenerateRequests(20, buildings);
             context.Requests.AddRange(requests);
             await context.SaveChangesAsync();
-<<<<<<< HEAD
-
             if (!context.Requests.Any())
             {
                 var statuses = await context.Statuses.ToListAsync();
@@ -47,8 +45,6 @@ public static class DbInitializer
                 });
                 await context.SaveChangesAsync();
             }
-=======
->>>>>>> e65b8408e9293b585302f238bf37b679e6005300
         }
     }
 }
