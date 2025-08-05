@@ -6,11 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace PrototipoApi.Migrations
 {
     /// <inheritdoc />
-<<<<<<<< HEAD:PrototipoApiSolucion/PrototipoApi/Migrations/20250805115738_initial3.cs
-    public partial class initial3 : Migration
-========
-    public partial class Inicial2 : Migration
->>>>>>>> e65b8408e9293b585302f238bf37b679e6005300:PrototipoApiSolucion/PrototipoApi/Migrations/20250805121339_Inicial2.cs
+    public partial class inicial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
