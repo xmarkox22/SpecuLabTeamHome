@@ -12,8 +12,8 @@ using PrototipoApi.BaseDatos;
 namespace PrototipoApi.Migrations
 {
     [DbContext(typeof(ContextoBaseDatos))]
-    [Migration("20250805073026_Inicial2")]
-    partial class Inicial2
+    [Migration("20250805071531_inicial")]
+    partial class inicial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -54,11 +54,11 @@ namespace PrototipoApi.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RequestId"));
 
-                    b.Property<double>("BuildingAmount")
-                        .HasColumnType("float");
-
                     b.Property<int>("BuildingId")
                         .HasColumnType("int");
+
+                    b.Property<double>("BuilidingAmount")
+                        .HasColumnType("float");
 
                     b.Property<string>("Description")
                         .IsRequired()

@@ -112,4 +112,29 @@ public class RequestsController : ControllerBase
 
         return CreatedAtAction(nameof(GetRequest), new { id = request.RequestId }, createdDto);
     }
+
+    // Get by status 
+    [HttpGet("status/{statusId}")]
+    public async Task<ActionResult<IEnumerable<RequestDto>>> GetRequestsByStatus(int statusId)
+    {
+        var requests = await _context.Requests
+            .Include(r => r.Status)
+            .Include(r => r.Building)
+            .Where(r => r.StatusId == statusId)
+            .ToListAsync();
+        if (!requests.Any())
+            return NotFound();
+        var requestDtos = requests.Select(r => new RequestDto
+        {
+            RequestId = r.RequestId,
+            BuildingAmount = r.BuildingAmount,
+            MaintenanceAmount = r.MaintenanceAmount,
+            Description = r.Description,
+            StatusId = r.StatusId,
+            StatusType = r.Status.StatusType,
+            BuildingId = r.BuildingId,
+            BuildingStreet = r.Building.Street
+        }).ToList();
+        return Ok(requestDtos);
+    }
 }
