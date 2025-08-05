@@ -1,26 +1,31 @@
+<<<<<<< HEAD
 ﻿using PrototipoApi.BaseDatos;
 using Microsoft.EntityFrameworkCore;
 using PrototipoApi.Entities;
+=======
+﻿using Microsoft.EntityFrameworkCore;
+using PrototipoApi.BaseDatos;
+using PrototipoApi.Data;
+>>>>>>> e65b8408e9293b585302f238bf37b679e6005300
 
-namespace PrototipoApi.Data
+public static class DbInitializer
 {
-    public static class DbInitializer
+    public static async Task SeedAsync(ContextoBaseDatos context)
     {
-        public static async Task SeedAsync(ContextoBaseDatos context)
+        if (!context.Buildings.Any())
         {
-            if (!context.Statuses.Any())
-            {
-                var statuses = Seeder.GenerateStatuses();
-                context.Statuses.AddRange(statuses);
-            }
+            var buildings = Seeder.GenerateBuildings(10);
+            context.Buildings.AddRange(buildings);
+            await context.SaveChangesAsync(); // Para que tengan IDs
+        }
 
-            if (!context.Buildings.Any())
-            {
-                var buildings = Seeder.GenerateBuildings(10);
-                context.Buildings.AddRange(buildings);
-            }
-
+        if (!context.Requests.Any())
+        {
+            var buildings = await context.Buildings.ToListAsync();
+            var requests = Seeder.GenerateRequests(20, buildings);
+            context.Requests.AddRange(requests);
             await context.SaveChangesAsync();
+<<<<<<< HEAD
 
             if (!context.Requests.Any())
             {
@@ -42,7 +47,8 @@ namespace PrototipoApi.Data
                 });
                 await context.SaveChangesAsync();
             }
+=======
+>>>>>>> e65b8408e9293b585302f238bf37b679e6005300
         }
     }
 }
-
