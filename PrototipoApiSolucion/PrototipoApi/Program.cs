@@ -28,6 +28,7 @@ app.Run();
 
 using Microsoft.EntityFrameworkCore;
 using PrototipoApi.BaseDatos;
+using PrototipoApi.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -45,6 +46,17 @@ builder.Services.AddDbContext<ContextoBaseDatos>(options =>
 
 
 var app = builder.Build();
+
+
+
+
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    var context = services.GetRequiredService<ContextoBaseDatos>();
+    await DbInitializer.SeedAsync(context);
+}
+
 
 // B-Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

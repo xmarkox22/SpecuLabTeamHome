@@ -71,6 +71,16 @@ public class RequestsController : ControllerBase
     [HttpPost]
     public async Task<ActionResult<RequestDto>> CreateRequest(CreateRequestDto dto)
     {
+        // Validación opcional para asegurar que los IDs existen
+        var buildingExists = await _context.Buildings.AnyAsync(b => b.BuildingId == dto.BuildingId);
+        if (!buildingExists)
+            return BadRequest("El edificio especificado no existe.");
+
+        var statusExists = await _context.Statuses.AnyAsync(s => s.StatusId == dto.StatusId);
+        if (!statusExists)
+            return BadRequest("El estado especificado no existe.");
+
+        // Crear la request relacionando los IDs
         var request = new Request
         {
             Description = dto.Description,
@@ -84,6 +94,10 @@ public class RequestsController : ControllerBase
         _context.Requests.Add(request);
         await _context.SaveChangesAsync();
 
+        // Obtener los datos relacionados (para el DTO de salida)
+        var status = await _context.Statuses.FindAsync(request.StatusId);
+        var building = await _context.Buildings.FindAsync(request.BuildingId);
+
         var createdDto = new RequestDto
         {
             RequestId = request.RequestId,
@@ -91,9 +105,9 @@ public class RequestsController : ControllerBase
             MaintenanceAmount = request.MaintenanceAmount,
             Description = request.Description,
             StatusId = request.StatusId,
-            StatusType = (await _context.Statuses.FindAsync(request.StatusId))?.StatusType ?? "",
+            StatusType = status?.StatusType ?? "",
             BuildingId = request.BuildingId,
-            BuildingStreet = (await _context.Buildings.FindAsync(request.BuildingId))?.Street ?? ""
+            BuildingStreet = building?.Street ?? ""
         };
 
         return CreatedAtAction(nameof(GetRequest), new { id = request.RequestId }, createdDto);
