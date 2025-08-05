@@ -18,7 +18,7 @@ public static class DbInitializer
             var buildings = await context.Buildings.ToListAsync();
             var requests = Seeder.GenerateRequests(20, buildings);
             context.Requests.AddRange(requests);
-            await context.SaveChangesAsync();
+            await context.SaveChangesAsync(); 
         }
     }
 }
