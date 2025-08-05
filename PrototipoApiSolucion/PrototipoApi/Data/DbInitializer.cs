@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using PrototipoApi.BaseDatos;
 using PrototipoApi.Data;
 
