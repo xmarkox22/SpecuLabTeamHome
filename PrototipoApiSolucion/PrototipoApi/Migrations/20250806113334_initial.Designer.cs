@@ -12,13 +12,8 @@ using PrototipoApi.BaseDatos;
 namespace PrototipoApi.Migrations
 {
     [DbContext(typeof(ContextoBaseDatos))]
-<<<<<<<< HEAD:PrototipoApiSolucion/PrototipoApi/Migrations/20250805115738_initial3.Designer.cs
-    [Migration("20250805115738_initial3")]
-    partial class initial3
-========
-    [Migration("20250805121339_Inicial2")]
-    partial class Inicial2
->>>>>>>> e65b8408e9293b585302f238bf37b679e6005300:PrototipoApiSolucion/PrototipoApi/Migrations/20250805121339_Inicial2.Designer.cs
+    [Migration("20250806113334_initial")]
+    partial class initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -70,7 +65,7 @@ namespace PrototipoApi.Migrations
 
                     b.HasKey("ManagementBudgetId");
 
-                    b.ToTable("ManagementBudget");
+                    b.ToTable("ManagementBudgets");
                 });
 
             modelBuilder.Entity("PrototipoApi.Entities.Request", b =>
@@ -121,6 +116,10 @@ namespace PrototipoApi.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("StatusName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("StatusType")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -164,7 +163,7 @@ namespace PrototipoApi.Migrations
 
                     b.HasIndex("RequestId");
 
-                    b.ToTable("Transaction");
+                    b.ToTable("Transactions");
                 });
 
             modelBuilder.Entity("PrototipoApi.Entities.Request", b =>

@@ -62,7 +62,7 @@ namespace PrototipoApi.Migrations
 
                     b.HasKey("ManagementBudgetId");
 
-                    b.ToTable("ManagementBudget");
+                    b.ToTable("ManagementBudgets");
                 });
 
             modelBuilder.Entity("PrototipoApi.Entities.Request", b =>
@@ -160,7 +160,7 @@ namespace PrototipoApi.Migrations
 
                     b.HasIndex("RequestId");
 
-                    b.ToTable("Transaction");
+                    b.ToTable("Transactions");
                 });
 
             modelBuilder.Entity("PrototipoApi.Entities.Request", b =>

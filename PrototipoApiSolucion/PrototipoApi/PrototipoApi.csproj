@@ -18,6 +18,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Application\Requests\Commands\" />
+    <Folder Include="Application\Requests\Queries\" />
     <Folder Include="Migrations\" />
     <Folder Include="Services\" />
   </ItemGroup>
