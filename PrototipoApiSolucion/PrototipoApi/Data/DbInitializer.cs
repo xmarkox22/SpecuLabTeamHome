@@ -26,6 +26,19 @@ public static class DbInitializer
             await context.SaveChangesAsync();
         }
 
+        // 3. Transactions
+
+        if (!context.Transactions.Any())
+        {
+            var requests = await context.Requests.ToListAsync();
+            var budgets = await context.ManagementBudgets.ToListAsync();
+            var transactions = Seeder.GenerateTransactions(100, requests, budgets);
+            context.Transactions.AddRange(transactions);
+            await context.SaveChangesAsync();
+        }
+
+        // 4. ManagementBudgets
+
         // Borra todos los registros antiguos de ManagementBudget
         if (context.ManagementBudgets.Any())
         {
@@ -39,15 +52,6 @@ public static class DbInitializer
         await context.SaveChangesAsync();
 
 
-        // 3. Transactions
 
-        if (!context.Transactions.Any())
-        {
-            var requests = await context.Requests.ToListAsync();
-            var budgets = await context.ManagementBudgets.ToListAsync();
-            var transactions = Seeder.GenerateTransactions(100, requests, budgets);
-            context.Transactions.AddRange(transactions);
-            await context.SaveChangesAsync();
-        }
     }
 }
