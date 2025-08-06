@@ -26,19 +26,17 @@ public static class DbInitializer
             await context.SaveChangesAsync();
         }
 
-<<<<<<< HEAD
         // Borra todos los registros antiguos de ManagementBudget
-        if (context.ManagementBudget.Any())
+        if (context.ManagementBudgets.Any())
         {
-            context.ManagementBudget.RemoveRange(context.ManagementBudget);
+            context.ManagementBudgets.RemoveRange(context.ManagementBudgets);
             await context.SaveChangesAsync();
         }
 
         // Inserta los nuevos registros con el InitialAmount fijo
         var managementBudgets = Seeder.GenerateManagementBudgets(5);
-        context.ManagementBudget.AddRange(managementBudgets);
+        context.ManagementBudgets.AddRange(managementBudgets);
         await context.SaveChangesAsync();
-=======
         // 3. Transactions
 
         if (!context.Transactions.Any())
@@ -49,6 +47,5 @@ public static class DbInitializer
             context.Transactions.AddRange(transactions);
             await context.SaveChangesAsync();
         }
->>>>>>> 42a4ff5e3e1ce724f52cf39a708697a180c02ae5
     }
 }

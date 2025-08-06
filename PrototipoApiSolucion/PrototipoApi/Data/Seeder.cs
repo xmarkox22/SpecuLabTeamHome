@@ -38,7 +38,6 @@ namespace PrototipoApi.Data
             return requestFaker.Generate(count);
         }
 
-<<<<<<< HEAD
         public static List<ManagementBudget> GenerateManagementBudgets(int count)
         {
             const double initialAmount = 50000; // Valor fijo para todos los registros
@@ -48,7 +47,6 @@ namespace PrototipoApi.Data
                 .RuleFor(mb => mb.LastUpdatedDate, f => f.Date.Recent(30));
             return faker.Generate(count);
         }
-=======
         // 3. Transactions
         public static List<Transaction> GenerateTransactions(
             int count,
@@ -68,6 +66,6 @@ namespace PrototipoApi.Data
             return transactionFaker.Generate(count);
         }
 
->>>>>>> 42a4ff5e3e1ce724f52cf39a708697a180c02ae5
     }
 }
+// This code defines a static class `Seeder` that provides methods to generate fake data for the application.
