@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PrototipoApi.BaseDatos;
 
@@ -11,9 +12,15 @@ using PrototipoApi.BaseDatos;
 namespace PrototipoApi.Migrations
 {
     [DbContext(typeof(ContextoBaseDatos))]
-    partial class ContextoBaseDatosModelSnapshot : ModelSnapshot
+<<<<<<<< HEAD:PrototipoApiSolucion/PrototipoApi/Migrations/20250806092323_inicial.Designer.cs
+    [Migration("20250806092323_inicial")]
+========
+    [Migration("20250805144435_inicial")]
+>>>>>>>> 7416bb4d9a83dcc8471435124c2e211593051e86:PrototipoApiSolucion/PrototipoApi/Migrations/20250805144435_inicial.Designer.cs
+    partial class inicial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

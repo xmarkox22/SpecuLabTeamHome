@@ -59,7 +59,7 @@ namespace PrototipoApi.Controllers
         }
 
         //GET by type: api/transactions/type/{type}
-        [HttpGet("type/{type}")]
+        [HttpGet("{type}")]
         public async Task<ActionResult<IEnumerable<TransactionDto>>> GetTransactionsByType(string type)
         {
             var transactions = await _context.Transaction
@@ -95,7 +95,7 @@ namespace PrototipoApi.Controllers
             _context.Transaction.Add(transaction);
             await _context.SaveChangesAsync();
             transactionDto.TransactionId = transaction.TransactionId;
-            return CreatedAtAction(nameof(GetTransaction), new { id = transaction.TransactionId }, transactionDto);
+            return CreatedAtAction(nameof(GetTransaction), new { id = transaction.TransactionId });
 
         }
     }
