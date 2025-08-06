@@ -114,13 +114,13 @@ public class RequestsController : ControllerBase
     }
 
     // Get by status 
-    [HttpGet("status/{statusId}")]
-    public async Task<ActionResult<IEnumerable<RequestDto>>> GetRequestsByStatus(int statusId)
+    [HttpGet("status/{status}")]
+    public async Task<ActionResult<IEnumerable<RequestDto>>> GetRequestsByStatus(string status)
     {
         var requests = await _context.Requests
             .Include(r => r.Status)
             .Include(r => r.Building)
-            .Where(r => r.StatusId == statusId)
+            .Where(r => r.Status.StatusType == status)
             .ToListAsync();
         if (!requests.Any())
             return NotFound();
