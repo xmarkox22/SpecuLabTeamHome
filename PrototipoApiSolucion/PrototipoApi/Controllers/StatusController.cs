@@ -24,14 +24,15 @@ namespace PrototipoApi.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<StatusDto>>> GetStatuses()
         {
-            var dtos = await _context.Statuses
-                .Select(s => new StatusDto
-                {
-                    StatusId = s.StatusId,
-                    StatusType = s.StatusType,
-                    Description = s.Description
-                })
-                .ToListAsync();
+            // Cargamos la lista de estados y proyectamos a DTO
+            var statuses = await _context.Statuses.ToListAsync();
+
+            var dtos = statuses.Select(s => new StatusDto
+            {
+                StatusId = s.StatusId,
+                StatusType = s.StatusType,
+                Description = s.Description
+            }).ToList();
 
             return Ok(dtos);
         }
@@ -41,7 +42,6 @@ namespace PrototipoApi.Controllers
         public async Task<ActionResult<StatusDto>> GetStatus(int id)
         {
             var status = await _context.Statuses.FindAsync(id);
-
             if (status == null)
                 return NotFound();
 
@@ -59,6 +59,10 @@ namespace PrototipoApi.Controllers
         //[HttpPost]
         //public async Task<ActionResult<StatusDto>> PostStatus(StatusDto dto)
         //{
+        //    // Validación (por si quieres agregarla, aunque no tengas relaciones)
+        //    if (string.IsNullOrWhiteSpace(dto.StatusType))
+        //        return BadRequest("StatusType no puede estar vacío.");
+
         //    var entity = new Status
         //    {
         //        StatusType = dto.StatusType,
@@ -78,10 +82,9 @@ namespace PrototipoApi.Controllers
         //public async Task<IActionResult> PutStatus(int id, StatusDto dto)
         //{
         //    if (id != dto.StatusId)
-        //        return BadRequest();
+        //        return BadRequest("El ID de la ruta y el del cuerpo no coinciden.");
 
         //    var entity = await _context.Statuses.FindAsync(id);
-
         //    if (entity == null)
         //        return NotFound();
 
@@ -94,7 +97,7 @@ namespace PrototipoApi.Controllers
         //    }
         //    catch (DbUpdateConcurrencyException)
         //    {
-        //        if (!_context.Statuses.Any(e => e.StatusId == id))
+        //        if (!StatusExists(id))
         //            return NotFound();
         //        else
         //            throw;
