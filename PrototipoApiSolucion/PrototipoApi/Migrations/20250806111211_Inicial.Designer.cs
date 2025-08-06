@@ -12,12 +12,8 @@ using PrototipoApi.BaseDatos;
 namespace PrototipoApi.Migrations
 {
     [DbContext(typeof(ContextoBaseDatos))]
-<<<<<<<< HEAD:PrototipoApiSolucion/PrototipoApi/Migrations/20250806092323_inicial.Designer.cs
-    [Migration("20250806092323_inicial")]
-========
-    [Migration("20250805144435_inicial")]
->>>>>>>> 7416bb4d9a83dcc8471435124c2e211593051e86:PrototipoApiSolucion/PrototipoApi/Migrations/20250805144435_inicial.Designer.cs
-    partial class inicial
+    [Migration("20250806111211_Inicial")]
+    partial class Inicial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -69,7 +65,7 @@ namespace PrototipoApi.Migrations
 
                     b.HasKey("ManagementBudgetId");
 
-                    b.ToTable("ManagementBudget");
+                    b.ToTable("ManagementBudgets");
                 });
 
             modelBuilder.Entity("PrototipoApi.Entities.Request", b =>
@@ -167,7 +163,7 @@ namespace PrototipoApi.Migrations
 
                     b.HasIndex("RequestId");
 
-                    b.ToTable("Transaction");
+                    b.ToTable("Transactions");
                 });
 
             modelBuilder.Entity("PrototipoApi.Entities.Request", b =>

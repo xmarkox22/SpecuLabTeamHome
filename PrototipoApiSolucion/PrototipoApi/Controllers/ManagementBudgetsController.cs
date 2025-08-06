@@ -25,7 +25,7 @@ namespace PrototipoApi.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ManagementBudgetDto>>> GetManagementBudget()
         {
-            var budgets = await _context.ManagementBudget.ToListAsync();
+            var budgets = await _context.ManagementBudgets.ToListAsync();
             var dtos = budgets.Select(b => new ManagementBudgetDto
             {
                 ManagementBudgetId = b.ManagementBudgetId,
@@ -59,7 +59,7 @@ namespace PrototipoApi.Controllers
         {
             if (id != dto.ManagementBudgetId)
                 return BadRequest();
-            var entity = await _context.ManagementBudget.FindAsync(id);
+            var entity = await _context.ManagementBudgets.FindAsync(id);
             if (entity == null)
                 return NotFound();
             entity.InitialAmount = dto.InitialAmount;
@@ -110,7 +110,7 @@ namespace PrototipoApi.Controllers
 
         private bool ManagementBudgetExists(int id)
         {
-            return _context.ManagementBudget.Any(e => e.ManagementBudgetId == id);
+            return _context.ManagementBudgets.Any(e => e.ManagementBudgetId == id);
         }
     }
 }

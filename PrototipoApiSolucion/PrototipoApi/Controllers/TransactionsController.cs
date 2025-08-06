@@ -21,7 +21,7 @@ namespace PrototipoApi.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<TransactionDto>>> GetTransactions()
         {
-            var transactions = await _context.Transaction
+            var transactions = await _context.Transactions
                 .Include(t => t.Request)
                 .ToListAsync();
             var transactionDtos = transactions.Select(t => new TransactionDto
@@ -40,7 +40,7 @@ namespace PrototipoApi.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<TransactionDto>> GetTransaction(int id)
         {
-            var transaction = await _context.Transaction
+            var transaction = await _context.Transactions
                 .Include(t => t.Request)
                 .FirstOrDefaultAsync(t => t.TransactionId == id);
             if (transaction == null)
@@ -62,7 +62,7 @@ namespace PrototipoApi.Controllers
         [HttpGet("{type}")]
         public async Task<ActionResult<IEnumerable<TransactionDto>>> GetTransactionsByType(string type)
         {
-            var transactions = await _context.Transaction
+            var transactions = await _context.Transactions
                 .Where(t => t.TransactionType == type)
                 .Include(t => t.Request)
                 .ToListAsync();
@@ -92,7 +92,7 @@ namespace PrototipoApi.Controllers
                 RequestId = transactionDto.RequestId,
                 AssociatedBudgetId = int.Parse(transactionDto.AssociatedBudgetId)
             };
-            _context.Transaction.Add(transaction);
+            _context.Transactions.Add(transaction);
             await _context.SaveChangesAsync();
             transactionDto.TransactionId = transaction.TransactionId;
             return CreatedAtAction(nameof(GetTransaction), new { id = transaction.TransactionId });

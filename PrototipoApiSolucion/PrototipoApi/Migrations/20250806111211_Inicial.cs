@@ -6,11 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace PrototipoApi.Migrations
 {
     /// <inheritdoc />
-<<<<<<<< HEAD:PrototipoApiSolucion/PrototipoApi/Migrations/20250805115738_initial3.cs
-    public partial class initial3 : Migration
-========
-    public partial class Inicial2 : Migration
->>>>>>>> e65b8408e9293b585302f238bf37b679e6005300:PrototipoApiSolucion/PrototipoApi/Migrations/20250805121339_Inicial2.cs
+    public partial class Inicial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -30,7 +26,7 @@ namespace PrototipoApi.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ManagementBudget",
+                name: "ManagementBudgets",
                 columns: table => new
                 {
                     ManagementBudgetId = table.Column<int>(type: "int", nullable: false)
@@ -41,7 +37,7 @@ namespace PrototipoApi.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ManagementBudget", x => x.ManagementBudgetId);
+                    table.PrimaryKey("PK_ManagementBudgets", x => x.ManagementBudgetId);
                 });
 
             migrationBuilder.CreateTable(
@@ -50,6 +46,7 @@ namespace PrototipoApi.Migrations
                 {
                     StatusId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    StatusName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     StatusType = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
@@ -89,7 +86,7 @@ namespace PrototipoApi.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Transaction",
+                name: "Transactions",
                 columns: table => new
                 {
                     TransactionId = table.Column<int>(type: "int", nullable: false)
@@ -103,15 +100,15 @@ namespace PrototipoApi.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Transaction", x => x.TransactionId);
+                    table.PrimaryKey("PK_Transactions", x => x.TransactionId);
                     table.ForeignKey(
-                        name: "FK_Transaction_ManagementBudget_AssociatedBudgetId",
+                        name: "FK_Transactions_ManagementBudgets_AssociatedBudgetId",
                         column: x => x.AssociatedBudgetId,
-                        principalTable: "ManagementBudget",
+                        principalTable: "ManagementBudgets",
                         principalColumn: "ManagementBudgetId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Transaction_Requests_RequestId",
+                        name: "FK_Transactions_Requests_RequestId",
                         column: x => x.RequestId,
                         principalTable: "Requests",
                         principalColumn: "RequestId",
@@ -129,13 +126,13 @@ namespace PrototipoApi.Migrations
                 column: "StatusId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Transaction_AssociatedBudgetId",
-                table: "Transaction",
+                name: "IX_Transactions_AssociatedBudgetId",
+                table: "Transactions",
                 column: "AssociatedBudgetId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Transaction_RequestId",
-                table: "Transaction",
+                name: "IX_Transactions_RequestId",
+                table: "Transactions",
                 column: "RequestId");
         }
 
@@ -143,10 +140,10 @@ namespace PrototipoApi.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Transaction");
+                name: "Transactions");
 
             migrationBuilder.DropTable(
-                name: "ManagementBudget");
+                name: "ManagementBudgets");
 
             migrationBuilder.DropTable(
                 name: "Requests");
