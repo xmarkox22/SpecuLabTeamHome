@@ -78,4 +78,3 @@ namespace PrototipoApi.Data
 
     }
 }
-// This code defines a static class `Seeder` that provides methods to generate fake data for the application.
