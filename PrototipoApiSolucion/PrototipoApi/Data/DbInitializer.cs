@@ -37,6 +37,8 @@ public static class DbInitializer
             await context.SaveChangesAsync();
         }
 
+        // 4. ManagementBudgets
+
         // Borra todos los registros antiguos de ManagementBudget
         if (context.ManagementBudgets.Any())
         {

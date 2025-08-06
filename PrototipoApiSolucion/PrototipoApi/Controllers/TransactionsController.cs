@@ -28,7 +28,8 @@ namespace PrototipoApi.Controllers
             {
                 TransactionId = t.TransactionId,
                 TransactionDate = t.TransactionDate,
-                TransactionType = t.TransactionType,
+                TransactionType = t.TransactionType.TransactionType,
+                TransactionTypeId = t.TransactionTypeId,
                 RequestId = t.RequestId,
                 AssociatedBudgetId = t.AssociatedBudgetId.ToString()
             }).ToList();
@@ -51,7 +52,7 @@ namespace PrototipoApi.Controllers
             {
                 TransactionId = transaction.TransactionId,
                 TransactionDate = transaction.TransactionDate,
-                TransactionType = transaction.TransactionType,
+                TransactionType = transaction.TransactionType.TransactionType,
                 RequestId = transaction.RequestId,
                 AssociatedBudgetId = transaction.AssociatedBudgetId.ToString()
             };
@@ -63,7 +64,7 @@ namespace PrototipoApi.Controllers
         public async Task<ActionResult<IEnumerable<TransactionDto>>> GetTransactionsByType(string type)
         {
             var transactions = await _context.Transactions
-                .Where(t => t.TransactionType == type)
+                .Where(t => t.TransactionType.TransactionType == type)
                 .Include(t => t.Request)
                 .ToListAsync();
             if (transactions.Count == 0)
@@ -74,12 +75,16 @@ namespace PrototipoApi.Controllers
             {
                 TransactionId = t.TransactionId,
                 TransactionDate = t.TransactionDate,
-                TransactionType = t.TransactionType,
+                TransactionType = t.TransactionType.TransactionType,
                 RequestId = t.RequestId,
                 AssociatedBudgetId = t.AssociatedBudgetId.ToString()
             }).ToList();
             return Ok(transactionDtos);
         }
+
+        // PUT: api/transactions/{id}
+        [HttpPut("{id}")]
+
 
         // POST: api/transactions
         [HttpPost]
@@ -88,7 +93,8 @@ namespace PrototipoApi.Controllers
             var transaction = new Transaction
             {
                 TransactionDate = transactionDto.TransactionDate,
-                TransactionType = transactionDto.TransactionType,
+                //TransactionType = transactionDto.TransactionType,
+                TransactionTypeId = transactionDto.TransactionTypeId,
                 RequestId = transactionDto.RequestId,
                 AssociatedBudgetId = int.Parse(transactionDto.AssociatedBudgetId)
             };
