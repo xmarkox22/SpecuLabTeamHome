@@ -12,13 +12,8 @@ using PrototipoApi.BaseDatos;
 namespace PrototipoApi.Migrations
 {
     [DbContext(typeof(ContextoBaseDatos))]
-<<<<<<<< HEAD:PrototipoApiSolucion/PrototipoApi/Migrations/20250805115738_initial3.Designer.cs
-    [Migration("20250805115738_initial3")]
-    partial class initial3
-========
-    [Migration("20250805121339_Inicial2")]
-    partial class Inicial2
->>>>>>>> e65b8408e9293b585302f238bf37b679e6005300:PrototipoApiSolucion/PrototipoApi/Migrations/20250805121339_Inicial2.Designer.cs
+    [Migration("20250806105152_initial")]
+    partial class initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -118,6 +113,10 @@ namespace PrototipoApi.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("StatusId"));
 
                     b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("StatusName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 

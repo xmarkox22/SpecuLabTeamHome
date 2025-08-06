@@ -20,5 +20,17 @@ public static class DbInitializer
             context.Requests.AddRange(requests);
             await context.SaveChangesAsync();
         }
+
+        // Borra todos los registros antiguos de ManagementBudget
+        if (context.ManagementBudget.Any())
+        {
+            context.ManagementBudget.RemoveRange(context.ManagementBudget);
+            await context.SaveChangesAsync();
+        }
+
+        // Inserta los nuevos registros con el InitialAmount fijo
+        var managementBudgets = Seeder.GenerateManagementBudgets(5);
+        context.ManagementBudget.AddRange(managementBudgets);
+        await context.SaveChangesAsync();
     }
 }
