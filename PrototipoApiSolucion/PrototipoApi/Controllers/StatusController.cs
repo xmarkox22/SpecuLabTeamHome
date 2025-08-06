@@ -55,71 +55,71 @@ namespace PrototipoApi.Controllers
             return Ok(dto);
         }
 
-        // POST: api/status
-        [HttpPost]
-        public async Task<ActionResult<StatusDto>> PostStatus(StatusDto dto)
-        {
-            var entity = new Status
-            {
-                StatusType = dto.StatusType,
-                Description = dto.Description
-            };
+        //// POST: api/status
+        //[HttpPost]
+        //public async Task<ActionResult<StatusDto>> PostStatus(StatusDto dto)
+        //{
+        //    var entity = new Status
+        //    {
+        //        StatusType = dto.StatusType,
+        //        Description = dto.Description
+        //    };
 
-            _context.Statuses.Add(entity);
-            await _context.SaveChangesAsync();
+        //    _context.Statuses.Add(entity);
+        //    await _context.SaveChangesAsync();
 
-            dto.StatusId = entity.StatusId;
+        //    dto.StatusId = entity.StatusId;
 
-            return CreatedAtAction(nameof(GetStatus), new { id = dto.StatusId }, dto);
-        }
+        //    return CreatedAtAction(nameof(GetStatus), new { id = dto.StatusId }, dto);
+        //}
 
-        // PUT: api/status/5
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutStatus(int id, StatusDto dto)
-        {
-            if (id != dto.StatusId)
-                return BadRequest();
+        //// PUT: api/status/5
+        //[HttpPut("{id}")]
+        //public async Task<IActionResult> PutStatus(int id, StatusDto dto)
+        //{
+        //    if (id != dto.StatusId)
+        //        return BadRequest();
 
-            var entity = await _context.Statuses.FindAsync(id);
+        //    var entity = await _context.Statuses.FindAsync(id);
 
-            if (entity == null)
-                return NotFound();
+        //    if (entity == null)
+        //        return NotFound();
 
-            entity.StatusType = dto.StatusType;
-            entity.Description = dto.Description;
+        //    entity.StatusType = dto.StatusType;
+        //    entity.Description = dto.Description;
 
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!_context.Statuses.Any(e => e.StatusId == id))
-                    return NotFound();
-                else
-                    throw;
-            }
+        //    try
+        //    {
+        //        await _context.SaveChangesAsync();
+        //    }
+        //    catch (DbUpdateConcurrencyException)
+        //    {
+        //        if (!_context.Statuses.Any(e => e.StatusId == id))
+        //            return NotFound();
+        //        else
+        //            throw;
+        //    }
 
-            return NoContent();
-        }
+        //    return NoContent();
+        //}
 
-        // DELETE: api/status/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteStatus(int id)
-        {
-            var entity = await _context.Statuses.FindAsync(id);
-            if (entity == null)
-                return NotFound();
+        //// DELETE: api/status/5
+        //[HttpDelete("{id}")]
+        //public async Task<IActionResult> DeleteStatus(int id)
+        //{
+        //    var entity = await _context.Statuses.FindAsync(id);
+        //    if (entity == null)
+        //        return NotFound();
 
-            _context.Statuses.Remove(entity);
-            await _context.SaveChangesAsync();
+        //    _context.Statuses.Remove(entity);
+        //    await _context.SaveChangesAsync();
 
-            return NoContent();
-        }
+        //    return NoContent();
+        //}
 
-        private bool StatusExists(int id)
-        {
-            return _context.Statuses.Any(e => e.StatusId == id);
-        }
+        //private bool StatusExists(int id)
+        //{
+        //    return _context.Statuses.Any(e => e.StatusId == id);
+        //}
     }
 }
