@@ -113,6 +113,10 @@ namespace PrototipoApi.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("StatusName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("StatusType")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");

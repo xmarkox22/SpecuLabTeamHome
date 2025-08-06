@@ -8,7 +8,6 @@
         public string Description { get; set; } = string.Empty;
         // Relaciones
         public int RequestId { get; set; } // Relación con Request
-        public RequestDto Request { get; set; } = null!;
         public string AssociatedBudgetId { get; set; } = string.Empty;
     }
 }
