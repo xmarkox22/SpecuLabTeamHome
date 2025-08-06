@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PrototipoApi.BaseDatos;
 
@@ -11,9 +12,16 @@ using PrototipoApi.BaseDatos;
 namespace PrototipoApi.Migrations
 {
     [DbContext(typeof(ContextoBaseDatos))]
-    partial class ContextoBaseDatosModelSnapshot : ModelSnapshot
+<<<<<<<< HEAD:PrototipoApiSolucion/PrototipoApi/Migrations/20250805115738_initial3.Designer.cs
+    [Migration("20250805115738_initial3")]
+    partial class initial3
+========
+    [Migration("20250805121339_Inicial2")]
+    partial class Inicial2
+>>>>>>>> e65b8408e9293b585302f238bf37b679e6005300:PrototipoApiSolucion/PrototipoApi/Migrations/20250805121339_Inicial2.Designer.cs
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -110,10 +118,6 @@ namespace PrototipoApi.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("StatusId"));
 
                     b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("StatusName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
