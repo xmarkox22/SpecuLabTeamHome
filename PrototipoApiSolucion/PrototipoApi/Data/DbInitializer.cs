@@ -6,6 +6,9 @@ public static class DbInitializer
 {
     public static async Task SeedAsync(ContextoBaseDatos context)
     {
+
+        // 1. Buildings
+
         if (!context.Buildings.Any())
         {
             var buildings = Seeder.GenerateBuildings(10);
@@ -13,11 +16,24 @@ public static class DbInitializer
             await context.SaveChangesAsync(); // Para que tengan IDs
         }
 
+        // 2. Requests
+
         if (!context.Requests.Any())
         {
             var buildings = await context.Buildings.ToListAsync();
             var requests = Seeder.GenerateRequests(20, buildings);
             context.Requests.AddRange(requests);
+            await context.SaveChangesAsync();
+        }
+
+        // 3. Transactions
+
+        if (!context.Transactions.Any())
+        {
+            var requests = await context.Requests.ToListAsync();
+            var budgets = await context.ManagementBudgets.ToListAsync();
+            var transactions = Seeder.GenerateTransactions(100, requests, budgets);
+            context.Transactions.AddRange(transactions);
             await context.SaveChangesAsync();
         }
     }
