@@ -137,4 +137,21 @@ public class RequestsController : ControllerBase
         }).ToList();
         return Ok(requestDtos);
     }
+
+    // PUT: api/requests/{id}
+    [HttpPut("{id}/amounts")]
+    public async Task<IActionResult> UpdateRequestAmounts(int id, [FromBody] UpdateRequestDto dto)
+    {
+        var request = await _context.Requests.FindAsync(id);
+
+        if (request == null)
+            return NotFound($"No se encontró la solicitud con ID {id}");
+
+        request.BuildingAmount = dto.BuildingAmount;
+        request.MaintenanceAmount = dto.MaintenanceAmount;
+
+        await _context.SaveChangesAsync();
+
+        return NoContent(); // o return Ok(request); si quieres devolver la solicitud actualizada
+    }
 }

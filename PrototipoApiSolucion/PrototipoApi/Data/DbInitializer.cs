@@ -6,12 +6,17 @@ public static class DbInitializer
 {
     public static async Task SeedAsync(ContextoBaseDatos context)
     {
+
+        // 1. Buildings
+
         if (!context.Buildings.Any())
         {
             var buildings = Seeder.GenerateBuildings(10);
             context.Buildings.AddRange(buildings);
             await context.SaveChangesAsync(); // Para que tengan IDs
         }
+
+        // 2. Requests
 
         if (!context.Requests.Any())
         {
@@ -21,6 +26,7 @@ public static class DbInitializer
             await context.SaveChangesAsync();
         }
 
+<<<<<<< HEAD
         // Borra todos los registros antiguos de ManagementBudget
         if (context.ManagementBudget.Any())
         {
@@ -32,5 +38,17 @@ public static class DbInitializer
         var managementBudgets = Seeder.GenerateManagementBudgets(5);
         context.ManagementBudget.AddRange(managementBudgets);
         await context.SaveChangesAsync();
+=======
+        // 3. Transactions
+
+        if (!context.Transactions.Any())
+        {
+            var requests = await context.Requests.ToListAsync();
+            var budgets = await context.ManagementBudgets.ToListAsync();
+            var transactions = Seeder.GenerateTransactions(100, requests, budgets);
+            context.Transactions.AddRange(transactions);
+            await context.SaveChangesAsync();
+        }
+>>>>>>> 42a4ff5e3e1ce724f52cf39a708697a180c02ae5
     }
 }
