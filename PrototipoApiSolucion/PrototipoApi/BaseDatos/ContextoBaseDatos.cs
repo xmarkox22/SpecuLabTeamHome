@@ -15,7 +15,7 @@ namespace PrototipoApi.BaseDatos
         public DbSet<Building> Buildings { get; set; }
         public DbSet<PrototipoApi.Entities.ManagementBudget> ManagementBudget { get; set; } = default!;
         public DbSet<PrototipoApi.Entities.Transaction> Transaction { get; set; } = default!;
-
-
+        public object Transactions { get; internal set; }
+        public object ManagementBudgets { get; internal set; }
     }
 }
