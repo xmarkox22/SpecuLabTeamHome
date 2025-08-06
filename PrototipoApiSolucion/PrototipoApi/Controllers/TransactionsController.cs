@@ -59,7 +59,7 @@ namespace PrototipoApi.Controllers
         }
 
         //GET by type: api/transactions/type/{type}
-        [HttpGet("{type}")]
+        [HttpGet("type/{type}")]
         public async Task<ActionResult<IEnumerable<TransactionDto>>> GetTransactionsByType(string type)
         {
             var transactions = await _context.Transactions

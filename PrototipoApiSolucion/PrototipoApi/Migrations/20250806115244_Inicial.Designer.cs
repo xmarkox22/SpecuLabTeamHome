@@ -12,8 +12,8 @@ using PrototipoApi.BaseDatos;
 namespace PrototipoApi.Migrations
 {
     [DbContext(typeof(ContextoBaseDatos))]
-    [Migration("20250806113334_initial")]
-    partial class initial
+    [Migration("20250806115244_Inicial")]
+    partial class Inicial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
