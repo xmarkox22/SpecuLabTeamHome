@@ -10,6 +10,12 @@ namespace PrototipoApi.Data
             "Pendiente", "En revisión", "Aprobado", "Rechazado"
         };
 
+        private static readonly string[] TransactionTypes = new[]
+        {
+            "INGRESO", "GASTO"
+        };
+
+        
         // 1. Buildings
         public static List<Building> GenerateBuildings(int count)
         {
@@ -19,6 +25,7 @@ namespace PrototipoApi.Data
             return faker.Generate(count);
         }
 
+        
         // 2. Requests
         public static List<Request> GenerateRequests(int count, List<Building> buildings)
         {
@@ -38,6 +45,8 @@ namespace PrototipoApi.Data
             return requestFaker.Generate(count);
         }
 
+        
+        // 3. ManagementBudgets
         public static List<ManagementBudget> GenerateManagementBudgets(int count)
         {
             const double initialAmount = 50000; // Valor fijo para todos los registros
@@ -47,21 +56,22 @@ namespace PrototipoApi.Data
                 .RuleFor(mb => mb.LastUpdatedDate, f => f.Date.Recent(30));
             return faker.Generate(count);
         }
-        // 3. Transactions
+
+        // 4. Transactions
         public static List<Transaction> GenerateTransactions(
             int count,
             List<Request> requests,
             List<ManagementBudget> budgets)
         {
-            var transactionTypes = new[] { "INGRESO", "GASTO" };
-
             var transactionFaker = new Faker<Transaction>()
                 .RuleFor(t => t.TransactionDate, f => f.Date.Recent(365))
-                .RuleFor(t => t.Amount, f => Math.Round(f.Random.Double(100, 50000), 2))
-                .RuleFor(t => t.TransactionType, f => f.PickRandom(transactionTypes))
+                .RuleFor(t => t.Amount, f => (double)Math.Round(f.Random.Decimal(100, 50000), 2))
+                .RuleFor(t => t.TransactionType, f => f.PickRandom(TransactionTypes))
                 .RuleFor(t => t.Description, f => f.Lorem.Sentence(5))
                 .RuleFor(t => t.Request, f => f.PickRandom(requests))
-                .RuleFor(t => t.AssociatedBudget, f => f.PickRandom(budgets));
+                .RuleFor(t => t.RequestId, (f, t) => t.Request.RequestId)
+                .RuleFor(t => t.AssociatedBudget, f => f.PickRandom(budgets))
+                .RuleFor(t => t.AssociatedBudgetId, (f, t) => t.AssociatedBudget.ManagementBudgetId);
 
             return transactionFaker.Generate(count);
         }

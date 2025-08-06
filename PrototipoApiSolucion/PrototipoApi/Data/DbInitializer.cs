@@ -37,6 +37,8 @@ public static class DbInitializer
         var managementBudgets = Seeder.GenerateManagementBudgets(5);
         context.ManagementBudgets.AddRange(managementBudgets);
         await context.SaveChangesAsync();
+
+
         // 3. Transactions
 
         if (!context.Transactions.Any())
