@@ -55,17 +55,16 @@ namespace PrototipoApi.Controllers
 
         // PUT: api/ManagementBudgets/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutManagementBudget(int id, ManagementBudgetDto dto)
+        public async Task<IActionResult> PutManagementBudget(int id, UpdateManagementBudgetDto dto)
         {
-            if (id != dto.ManagementBudgetId)
-                return BadRequest();
             var entity = await _context.ManagementBudgets.FindAsync(id);
             if (entity == null)
                 return NotFound();
-            entity.InitialAmount = dto.InitialAmount;
+
             entity.CurrentAmount = dto.CurrentAmount;
             entity.LastUpdatedDate = dto.LastUpdatedDate;
             _context.Entry(entity).State = EntityState.Modified;
+
             try
             {
                 await _context.SaveChangesAsync();
@@ -79,6 +78,7 @@ namespace PrototipoApi.Controllers
             }
             return NoContent();
         }
+
 
         //// POST: api/ManagementBudgets
         //[HttpPost]
