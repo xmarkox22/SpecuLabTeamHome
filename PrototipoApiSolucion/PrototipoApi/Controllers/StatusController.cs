@@ -120,9 +120,9 @@ namespace PrototipoApi.Controllers
         //    return NoContent();
         //}
 
-        //private bool StatusExists(int id)
-        //{
-        //    return _context.Statuses.Any(e => e.StatusId == id);
-        //}
+        private bool StatusExists(int id)
+        {
+            return _context.Statuses.Any(e => e.StatusId == id);
+        }
     }
 }

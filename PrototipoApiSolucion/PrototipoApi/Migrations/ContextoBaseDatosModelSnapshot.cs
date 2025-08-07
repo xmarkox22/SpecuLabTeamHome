@@ -137,9 +137,6 @@ namespace PrototipoApi.Migrations
                     b.Property<double>("Amount")
                         .HasColumnType("float");
 
-                    b.Property<int>("AssociatedBudgetId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -150,17 +147,36 @@ namespace PrototipoApi.Migrations
                     b.Property<DateTime>("TransactionDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("TransactionType")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("TransactionTypeId")
+                        .HasColumnType("int");
 
                     b.HasKey("TransactionId");
 
-                    b.HasIndex("AssociatedBudgetId");
-
                     b.HasIndex("RequestId");
 
+                    b.HasIndex("TransactionTypeId");
+
                     b.ToTable("Transactions");
+                });
+
+            modelBuilder.Entity("PrototipoApi.Entities.TransactionType", b =>
+                {
+                    b.Property<int>("TransactionTypeId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TransactionTypeId"));
+
+                    b.Property<DateTime>("LogDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("TransactionName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("TransactionTypeId");
+
+                    b.ToTable("TransactionsTypes");
                 });
 
             modelBuilder.Entity("PrototipoApi.Entities.Request", b =>
@@ -184,26 +200,21 @@ namespace PrototipoApi.Migrations
 
             modelBuilder.Entity("PrototipoApi.Entities.Transaction", b =>
                 {
-                    b.HasOne("PrototipoApi.Entities.ManagementBudget", "AssociatedBudget")
-                        .WithMany("Transactions")
-                        .HasForeignKey("AssociatedBudgetId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("PrototipoApi.Entities.Request", "Request")
                         .WithMany()
                         .HasForeignKey("RequestId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("AssociatedBudget");
+                    b.HasOne("PrototipoApi.Entities.TransactionType", "TransactionsType")
+                        .WithMany()
+                        .HasForeignKey("TransactionTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Request");
-                });
 
-            modelBuilder.Entity("PrototipoApi.Entities.ManagementBudget", b =>
-                {
-                    b.Navigation("Transactions");
+                    b.Navigation("TransactionsType");
                 });
 #pragma warning restore 612, 618
         }

@@ -12,13 +12,8 @@ using PrototipoApi.BaseDatos;
 namespace PrototipoApi.Migrations
 {
     [DbContext(typeof(ContextoBaseDatos))]
-<<<<<<<< HEAD:PrototipoApiSolucion/PrototipoApi/Migrations/20250806121038_initial.Designer.cs
-    [Migration("20250806121038_initial")]
-    partial class initial
-========
-    [Migration("20250807082017_Ini2")]
-    partial class Ini2
->>>>>>>> d7c67bb8d8779b04f65277c340bd46199d04b7a5:PrototipoApiSolucion/PrototipoApi/Migrations/20250807082017_Ini2.Designer.cs
+    [Migration("20250807080436_Ini")]
+    partial class Ini
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -149,6 +144,9 @@ namespace PrototipoApi.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("ManagementBudgetId")
+                        .HasColumnType("int");
+
                     b.Property<int>("RequestId")
                         .HasColumnType("int");
 
@@ -159,6 +157,8 @@ namespace PrototipoApi.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("TransactionId");
+
+                    b.HasIndex("ManagementBudgetId");
 
                     b.HasIndex("RequestId");
 
@@ -208,6 +208,12 @@ namespace PrototipoApi.Migrations
 
             modelBuilder.Entity("PrototipoApi.Entities.Transaction", b =>
                 {
+                    b.HasOne("PrototipoApi.Entities.ManagementBudget", "ManagementBudget")
+                        .WithMany("Transactions")
+                        .HasForeignKey("ManagementBudgetId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("PrototipoApi.Entities.Request", "Request")
                         .WithMany()
                         .HasForeignKey("RequestId")
@@ -220,9 +226,16 @@ namespace PrototipoApi.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.Navigation("ManagementBudget");
+
                     b.Navigation("Request");
 
                     b.Navigation("TransactionsType");
+                });
+
+            modelBuilder.Entity("PrototipoApi.Entities.ManagementBudget", b =>
+                {
+                    b.Navigation("Transactions");
                 });
 #pragma warning restore 612, 618
         }

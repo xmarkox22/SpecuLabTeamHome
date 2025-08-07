@@ -10,7 +10,7 @@ namespace PrototipoApi.Data
             "Pendiente", "En revisión", "Aprobado", "Rechazado"
         };
 
-        private static readonly string[] TransactionTypes = new[]
+        private static readonly string[] TransactionsTypes = new[]
         {
             "INGRESO", "GASTO"
         };
@@ -66,12 +66,15 @@ namespace PrototipoApi.Data
             var transactionFaker = new Faker<Transaction>()
                 .RuleFor(t => t.TransactionDate, f => f.Date.Recent(365))
                 .RuleFor(t => t.Amount, f => (double)Math.Round(f.Random.Decimal(100, 50000), 2))
-                .RuleFor(t => t.TransactionType, f => f.PickRandom(TransactionTypes))
                 .RuleFor(t => t.Description, f => f.Lorem.Sentence(5))
                 .RuleFor(t => t.Request, f => f.PickRandom(requests))
                 .RuleFor(t => t.RequestId, (f, t) => t.Request.RequestId)
-                .RuleFor(t => t.AssociatedBudget, f => f.PickRandom(budgets))
-                .RuleFor(t => t.AssociatedBudgetId, (f, t) => t.AssociatedBudget.ManagementBudgetId);
+                //.RuleFor(t => t.ManagementBudget, f => f.PickRandom(budgets))
+                //.RuleFor(t => t.ManagementBudgetId, (f, t) => t.ManagementBudget.ManagementBudgetId)
+                .RuleFor(t => t.TransactionsType, f => new TransactionType
+                {
+                    TransactionName = f.PickRandom(TransactionsTypes)
+                });
 
             return transactionFaker.Generate(count);
         }

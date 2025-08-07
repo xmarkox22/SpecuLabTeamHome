@@ -23,14 +23,16 @@ namespace PrototipoApi.Controllers
         {
             var transactions = await _context.Transactions
                 .Include(t => t.Request)
+                .Include(t => t.TransactionsType)
                 .ToListAsync();
             var transactionDtos = transactions.Select(t => new TransactionDto
             {
                 TransactionId = t.TransactionId,
                 TransactionDate = t.TransactionDate,
-                TransactionType = t.TransactionType,
+                TransactionType = t.TransactionsType.TransactionName,
+                TransactionTypeId = t.TransactionTypeId,
                 RequestId = t.RequestId,
-                AssociatedBudgetId = t.AssociatedBudgetId.ToString()
+                //ManagementBudgetId = t.ManagementBudgetId,
             }).ToList();
             return Ok(transactionDtos);
         }
@@ -42,6 +44,7 @@ namespace PrototipoApi.Controllers
         {
             var transaction = await _context.Transactions
                 .Include(t => t.Request)
+                .Include(t => t.TransactionsType)
                 .FirstOrDefaultAsync(t => t.TransactionId == id);
             if (transaction == null)
             {
@@ -51,19 +54,19 @@ namespace PrototipoApi.Controllers
             {
                 TransactionId = transaction.TransactionId,
                 TransactionDate = transaction.TransactionDate,
-                TransactionType = transaction.TransactionType,
+                TransactionType = transaction.TransactionsType.TransactionName,
                 RequestId = transaction.RequestId,
-                AssociatedBudgetId = transaction.AssociatedBudgetId.ToString()
+                //ManagementBudgetId = transaction.ManagementBudgetId
             };
             return Ok(transactionDto);
         }
 
         //GET by type: api/transactions/type/{type}
-        [HttpGet("{type}")]
+        [HttpGet("type/{type}")]
         public async Task<ActionResult<IEnumerable<TransactionDto>>> GetTransactionsByType(string type)
         {
             var transactions = await _context.Transactions
-                .Where(t => t.TransactionType == type)
+                .Where(t => t.TransactionsType.TransactionName == type)
                 .Include(t => t.Request)
                 .ToListAsync();
             if (transactions.Count == 0)
@@ -74,28 +77,33 @@ namespace PrototipoApi.Controllers
             {
                 TransactionId = t.TransactionId,
                 TransactionDate = t.TransactionDate,
-                TransactionType = t.TransactionType,
+                TransactionType = t.TransactionsType.TransactionName,
                 RequestId = t.RequestId,
-                AssociatedBudgetId = t.AssociatedBudgetId.ToString()
+                //ManagementBudgetId = t.ManagementBudgetId
             }).ToList();
             return Ok(transactionDtos);
         }
 
+        // PUT: api/transactions/{id}
+        [HttpPut("{id}")]
+
+
         // POST: api/transactions
         [HttpPost]
-        public async Task<ActionResult<TransactionDto>> CreateTransaction(TransactionDto transactionDto)
+        public async Task<ActionResult<TransactionDto>> CreateTransaction(TransactionDto dto)
         {
-            var transaction = new Transaction
+            var t = new Transaction
             {
-                TransactionDate = transactionDto.TransactionDate,
-                TransactionType = transactionDto.TransactionType,
-                RequestId = transactionDto.RequestId,
-                AssociatedBudgetId = int.Parse(transactionDto.AssociatedBudgetId)
+                TransactionDate = dto.TransactionDate,
+                //TransactionType = transactionDto.TransactionType,
+                TransactionTypeId = dto.TransactionTypeId,
+                RequestId = dto.RequestId,
+                //AssociatedBudgetId = dto.AssociatedBudgetId
             };
-            _context.Transactions.Add(transaction);
+            _context.Transactions.Add(t);
             await _context.SaveChangesAsync();
-            transactionDto.TransactionId = transaction.TransactionId;
-            return CreatedAtAction(nameof(GetTransaction), new { id = transaction.TransactionId });
+            dto.TransactionId = t.TransactionId;
+            return CreatedAtAction(nameof(GetTransaction), new { id = t.TransactionId });
 
         }
     }
