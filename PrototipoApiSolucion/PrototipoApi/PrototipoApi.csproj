@@ -8,6 +8,8 @@
 
   <ItemGroup>
     <PackageReference Include="Bogus" Version="35.6.3" />
+    <PackageReference Include="MediatR" Version="13.0.0" />
+    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="11.1.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.17" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.17">
       <PrivateAssets>all</PrivateAssets>
@@ -19,7 +21,7 @@
 
   <ItemGroup>
     <Folder Include="Application\Requests\Commands\" />
-    <Folder Include="Application\Requests\Queries\" />
+    <Folder Include="Application\Requests\Queries\GetRequestById\" />
     <Folder Include="Migrations\" />
     <Folder Include="Services\" />
   </ItemGroup>
