@@ -20,7 +20,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Application\Requests\Commands\" />
     <Folder Include="Application\Requests\Queries\GetRequestById\" />
     <Folder Include="Migrations\" />
     <Folder Include="Services\" />
