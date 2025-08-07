@@ -43,20 +43,6 @@ public class RequestsController : ControllerBase
         return Ok(result);
     }
 
-<<<<<<< HEAD
-    [HttpPut("{id}/amounts")]
-    public async Task<IActionResult> UpdateAmounts(int id, [FromBody] UpdateRequestDto dto)
-    {
-        var success = await _mediator.Send(new UpdateRequestCommand(id, dto));
-
-        if (!success)
-            return NotFound($"No se encontró la solicitud con ID {id}");
-
-        return NoContent(); // o return Ok() si prefieres confirmar
-    }
-
-
-=======
 
     [HttpPost]
     public async Task<ActionResult<RequestDto>> CreateRequest([FromBody] CreateRequestDto dto)
@@ -66,7 +52,6 @@ public class RequestsController : ControllerBase
         return CreatedAtAction(nameof(GetById), new { id = result.RequestId }, result);
     }
 
->>>>>>> 343ec176217b3173d0f457b5c40a0c126a8e6c85
     //private readonly ContextoBaseDatos _context;
 
     //public RequestsController(ContextoBaseDatos context)
