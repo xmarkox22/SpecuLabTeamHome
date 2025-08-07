@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using PrototipoApi.Application.Requests.Commands.UpdateRequest.PrototipoApi.Application.Requests.Commands.UpdateRequest;
+using PrototipoApi.Application.Requests.Commands.UpdateRequest;
 using PrototipoApi.Application.Requests.Queries.GetRequestById;
 using PrototipoApi.BaseDatos;
 using PrototipoApi.Entities;

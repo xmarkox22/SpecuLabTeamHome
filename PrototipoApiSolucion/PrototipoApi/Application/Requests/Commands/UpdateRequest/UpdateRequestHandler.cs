@@ -1,5 +1,4 @@
 ﻿using MediatR;
-using PrototipoApi.Application.Requests.Commands.UpdateRequest.PrototipoApi.Application.Requests.Commands.UpdateRequest;
 using PrototipoApi.BaseDatos;
 
 namespace PrototipoApi.Application.Requests.Commands.UpdateRequest
