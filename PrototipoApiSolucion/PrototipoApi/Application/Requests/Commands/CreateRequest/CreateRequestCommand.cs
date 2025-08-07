@@ -1,6 +1,13 @@
-﻿namespace PrototipoApi.Application.Requests.Commands.CreateRequest
+﻿using MediatR;
+using PrototipoApi.Models;
+
+public class CreateRequestCommand : IRequest<RequestDto>
 {
-    public class CreateRequestCommand
+    public CreateRequestDto Dto { get; set; }
+    public CreateRequestCommand(CreateRequestDto dto)
     {
+        Dto = dto;
     }
 }
+
+

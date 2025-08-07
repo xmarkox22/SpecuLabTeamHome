@@ -42,6 +42,15 @@ public class RequestsController : ControllerBase
         return Ok(result);
     }
 
+
+    [HttpPost]
+    public async Task<ActionResult<RequestDto>> CreateRequest([FromBody] CreateRequestDto dto)
+    {
+        var result = await _mediator.Send(new CreateRequestCommand(dto));
+        // Devuelve 201 Created (puedes ajustar la URL según tu método GET)
+        return CreatedAtAction(nameof(GetById), new { id = result.RequestId }, result);
+    }
+
     //private readonly ContextoBaseDatos _context;
 
     //public RequestsController(ContextoBaseDatos context)
