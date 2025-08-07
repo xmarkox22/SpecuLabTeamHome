@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace PrototipoApi.Migrations
 {
     /// <inheritdoc />
-    public partial class Ini : Migration
+    public partial class initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -109,18 +109,11 @@ namespace PrototipoApi.Migrations
                     TransactionDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Amount = table.Column<double>(type: "float", nullable: false),
                     TransactionTypeId = table.Column<int>(type: "int", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ManagementBudgetId = table.Column<int>(type: "int", nullable: false)
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Transactions", x => x.TransactionId);
-                    table.ForeignKey(
-                        name: "FK_Transactions_ManagementBudgets_ManagementBudgetId",
-                        column: x => x.ManagementBudgetId,
-                        principalTable: "ManagementBudgets",
-                        principalColumn: "ManagementBudgetId",
-                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Transactions_Requests_RequestId",
                         column: x => x.RequestId,
@@ -146,11 +139,6 @@ namespace PrototipoApi.Migrations
                 column: "StatusId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Transactions_ManagementBudgetId",
-                table: "Transactions",
-                column: "ManagementBudgetId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Transactions_RequestId",
                 table: "Transactions",
                 column: "RequestId");
@@ -165,10 +153,10 @@ namespace PrototipoApi.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Transactions");
+                name: "ManagementBudgets");
 
             migrationBuilder.DropTable(
-                name: "ManagementBudgets");
+                name: "Transactions");
 
             migrationBuilder.DropTable(
                 name: "Requests");

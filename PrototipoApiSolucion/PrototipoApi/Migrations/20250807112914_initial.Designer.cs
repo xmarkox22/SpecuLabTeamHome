@@ -12,13 +12,8 @@ using PrototipoApi.BaseDatos;
 namespace PrototipoApi.Migrations
 {
     [DbContext(typeof(ContextoBaseDatos))]
-<<<<<<<< HEAD:PrototipoApiSolucion/PrototipoApi/Migrations/20250806121038_initial.Designer.cs
-    [Migration("20250806121038_initial")]
+    [Migration("20250807112914_initial")]
     partial class initial
-========
-    [Migration("20250807082017_Ini2")]
-    partial class Ini2
->>>>>>>> d7c67bb8d8779b04f65277c340bd46199d04b7a5:PrototipoApiSolucion/PrototipoApi/Migrations/20250807082017_Ini2.Designer.cs
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
