@@ -13,7 +13,7 @@
         // Tipo de transacción.
         // Valores posibles: "INGRESO", "GASTO".
         public string TransactionTypeId { get; set; } = string.Empty;
-        public TransactionsType TransactionType { get; set; } = null!;
+        public TransactionType TransactionsType { get; set; } = null!;
         public string Description { get; set; } = string.Empty;
         public int AssociatedBudgetId { get; set; }
         public ManagementBudget AssociatedBudget { get; set; } = null!;

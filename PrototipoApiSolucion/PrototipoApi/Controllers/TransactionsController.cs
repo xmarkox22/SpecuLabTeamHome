@@ -23,15 +23,16 @@ namespace PrototipoApi.Controllers
         {
             var transactions = await _context.Transactions
                 .Include(t => t.Request)
+                .Include(t => t.TransactionsType)
                 .ToListAsync();
             var transactionDtos = transactions.Select(t => new TransactionDto
             {
                 TransactionId = t.TransactionId,
                 TransactionDate = t.TransactionDate,
-                TransactionType = t.TransactionType.TransactionType,
+                TransactionType = t.TransactionsType.TransactionName,
                 TransactionTypeId = t.TransactionTypeId,
                 RequestId = t.RequestId,
-                AssociatedBudgetId = t.AssociatedBudgetId.ToString()
+                AssociatedBudgetId = t.AssociatedBudgetId,
             }).ToList();
             return Ok(transactionDtos);
         }
@@ -52,9 +53,9 @@ namespace PrototipoApi.Controllers
             {
                 TransactionId = transaction.TransactionId,
                 TransactionDate = transaction.TransactionDate,
-                TransactionType = transaction.TransactionType.TransactionType,
+                TransactionType = transaction.TransactionsType.TransactionName,
                 RequestId = transaction.RequestId,
-                AssociatedBudgetId = transaction.AssociatedBudgetId.ToString()
+                AssociatedBudgetId = transaction.AssociatedBudgetId
             };
             return Ok(transactionDto);
         }
@@ -64,7 +65,7 @@ namespace PrototipoApi.Controllers
         public async Task<ActionResult<IEnumerable<TransactionDto>>> GetTransactionsByType(string type)
         {
             var transactions = await _context.Transactions
-                .Where(t => t.TransactionType.TransactionType == type)
+                .Where(t => t.TransactionsType.TransactionName == type)
                 .Include(t => t.Request)
                 .ToListAsync();
             if (transactions.Count == 0)
@@ -75,9 +76,9 @@ namespace PrototipoApi.Controllers
             {
                 TransactionId = t.TransactionId,
                 TransactionDate = t.TransactionDate,
-                TransactionType = t.TransactionType.TransactionType,
+                TransactionType = t.TransactionsType.TransactionName,
                 RequestId = t.RequestId,
-                AssociatedBudgetId = t.AssociatedBudgetId.ToString()
+                AssociatedBudgetId = t.AssociatedBudgetId
             }).ToList();
             return Ok(transactionDtos);
         }
@@ -96,7 +97,7 @@ namespace PrototipoApi.Controllers
                 //TransactionType = transactionDto.TransactionType,
                 TransactionTypeId = transactionDto.TransactionTypeId,
                 RequestId = transactionDto.RequestId,
-                AssociatedBudgetId = int.Parse(transactionDto.AssociatedBudgetId)
+                AssociatedBudgetId = transactionDto.AssociatedBudgetId
             };
             _context.Transactions.Add(transaction);
             await _context.SaveChangesAsync();

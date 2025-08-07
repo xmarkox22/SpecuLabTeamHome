@@ -71,9 +71,9 @@ namespace PrototipoApi.Data
                 .RuleFor(t => t.RequestId, (f, t) => t.Request.RequestId)
                 .RuleFor(t => t.AssociatedBudget, f => f.PickRandom(budgets))
                 .RuleFor(t => t.AssociatedBudgetId, (f, t) => t.AssociatedBudget.ManagementBudgetId)
-                .RuleFor(t => t.TransactionType, f => new TransactionsType
+                .RuleFor(t => t.TransactionsType, f => new TransactionType
                 {
-                    TransactionType = f.PickRandom(TransactionsTypes)
+                    TransactionName = f.PickRandom(TransactionsTypes)
                 });
 
             return transactionFaker.Generate(count);

@@ -1,6 +1,6 @@
 ﻿namespace PrototipoApi.Entities
 {
-    public class TransactionsType
+    public class TransactionType
     {
         public int TransactionTypeId { get; set; }
 
@@ -9,7 +9,7 @@
         public Transaction Transaction { get; set; } = null!;
 
         public DateTime LogDate { get; set; }
-        public string TransactionType { get; set; } = string.Empty;
+        public string TransactionName { get; set; } = string.Empty;
     }
 
 }
