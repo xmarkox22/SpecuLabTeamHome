@@ -98,7 +98,7 @@ namespace PrototipoApi.Controllers
                 //TransactionType = transactionDto.TransactionType,
                 TransactionTypeId = dto.TransactionTypeId,
                 RequestId = dto.RequestId,
-                AssociatedBudgetId = dto.AssociatedBudgetId
+                //AssociatedBudgetId = dto.AssociatedBudgetId
             };
             _context.Transactions.Add(t);
             await _context.SaveChangesAsync();

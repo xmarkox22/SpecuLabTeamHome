@@ -26,9 +26,10 @@ app.MapControllers();
 app.Run();
 */
 
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using PrototipoApi.BaseDatos;
-using PrototipoApi.Data;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -45,7 +46,13 @@ builder.Services.AddDbContext<ContextoBaseDatos>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 
+builder.Services.AddMediatR(cfg =>
+{
+    cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
+});
+
 var app = builder.Build();
+
 
 
 
