@@ -1,8 +1,10 @@
 ﻿using MediatR;
+using Microsoft.EntityFrameworkCore;
+using PrototipoApi.Application.Requests.Commands.UpdateRequest;
+using PrototipoApi.Application.Requests.Commands.CreateRequest;
 using PrototipoApi.BaseDatos;
 using PrototipoApi.Entities;
 using PrototipoApi.Models;
-using Microsoft.EntityFrameworkCore;
 using System.Threading;
 using System.Threading.Tasks;
 
