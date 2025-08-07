@@ -43,6 +43,7 @@ public class RequestsController : ControllerBase
         return Ok(result);
     }
 
+<<<<<<< HEAD
     [HttpPut("{id}/amounts")]
     public async Task<IActionResult> UpdateAmounts(int id, [FromBody] UpdateRequestDto dto)
     {
@@ -55,6 +56,17 @@ public class RequestsController : ControllerBase
     }
 
 
+=======
+
+    [HttpPost]
+    public async Task<ActionResult<RequestDto>> CreateRequest([FromBody] CreateRequestDto dto)
+    {
+        var result = await _mediator.Send(new CreateRequestCommand(dto));
+        // Devuelve 201 Created (puedes ajustar la URL según tu método GET)
+        return CreatedAtAction(nameof(GetById), new { id = result.RequestId }, result);
+    }
+
+>>>>>>> 343ec176217b3173d0f457b5c40a0c126a8e6c85
     //private readonly ContextoBaseDatos _context;
 
     //public RequestsController(ContextoBaseDatos context)
