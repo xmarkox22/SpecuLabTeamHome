@@ -12,7 +12,7 @@ using PrototipoApi.BaseDatos;
 namespace PrototipoApi.Migrations
 {
     [DbContext(typeof(ContextoBaseDatos))]
-    [Migration("20250806113334_initial")]
+    [Migration("20250806121038_initial")]
     partial class initial
     {
         /// <inheritdoc />

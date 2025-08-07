@@ -55,27 +55,27 @@ namespace PrototipoApi.Controllers
             return Ok(dto);
         }
 
-        //// POST: api/status
-        //[HttpPost]
-        //public async Task<ActionResult<StatusDto>> PostStatus(StatusDto dto)
-        //{
-        //    // Validación (por si quieres agregarla, aunque no tengas relaciones)
-        //    if (string.IsNullOrWhiteSpace(dto.StatusType))
-        //        return BadRequest("StatusType no puede estar vacío.");
+        // POST: api/status
+        [HttpPost]
+        public async Task<ActionResult<StatusDto>> PostStatus(StatusDto dto)
+        {
+            // Validación (por si quieres agregarla, aunque no tengas relaciones)
+            if (string.IsNullOrWhiteSpace(dto.StatusType))
+                return BadRequest("StatusType no puede estar vacío.");
 
-        //    var entity = new Status
-        //    {
-        //        StatusType = dto.StatusType,
-        //        Description = dto.Description
-        //    };
+            var entity = new Status
+            {
+                StatusType = dto.StatusType,
+                Description = dto.Description
+            };
 
-        //    _context.Statuses.Add(entity);
-        //    await _context.SaveChangesAsync();
+            _context.Statuses.Add(entity);
+            await _context.SaveChangesAsync();
 
-        //    dto.StatusId = entity.StatusId;
+            dto.StatusId = entity.StatusId;
 
-        //    return CreatedAtAction(nameof(GetStatus), new { id = dto.StatusId }, dto);
-        //}
+            return CreatedAtAction(nameof(GetStatus), new { id = dto.StatusId }, dto);
+        }
 
         //// PUT: api/status/5
         //[HttpPut("{id}")]
