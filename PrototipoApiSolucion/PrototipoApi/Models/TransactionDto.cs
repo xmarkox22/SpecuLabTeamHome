@@ -4,11 +4,11 @@
     {
         public int TransactionId { get; set; } 
         public DateTime TransactionDate { get; set; }
-        public string TransactionTypeId { get; set; } = string.Empty;
+        public int TransactionTypeId { get; set; } 
         public string TransactionType { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
         // Relaciones
         public int RequestId { get; set; } // Relación con Request
-        public int AssociatedBudgetId { get; set; }
+        //public int ManagementBudgetId { get; set; }
     }
 }

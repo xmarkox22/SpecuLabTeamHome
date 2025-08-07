@@ -32,7 +32,7 @@ namespace PrototipoApi.Controllers
                 TransactionType = t.TransactionsType.TransactionName,
                 TransactionTypeId = t.TransactionTypeId,
                 RequestId = t.RequestId,
-                AssociatedBudgetId = t.AssociatedBudgetId,
+                //ManagementBudgetId = t.ManagementBudgetId,
             }).ToList();
             return Ok(transactionDtos);
         }
@@ -44,6 +44,7 @@ namespace PrototipoApi.Controllers
         {
             var transaction = await _context.Transactions
                 .Include(t => t.Request)
+                .Include(t => t.TransactionsType)
                 .FirstOrDefaultAsync(t => t.TransactionId == id);
             if (transaction == null)
             {
@@ -55,7 +56,7 @@ namespace PrototipoApi.Controllers
                 TransactionDate = transaction.TransactionDate,
                 TransactionType = transaction.TransactionsType.TransactionName,
                 RequestId = transaction.RequestId,
-                AssociatedBudgetId = transaction.AssociatedBudgetId
+                //ManagementBudgetId = transaction.ManagementBudgetId
             };
             return Ok(transactionDto);
         }
@@ -78,7 +79,7 @@ namespace PrototipoApi.Controllers
                 TransactionDate = t.TransactionDate,
                 TransactionType = t.TransactionsType.TransactionName,
                 RequestId = t.RequestId,
-                AssociatedBudgetId = t.AssociatedBudgetId
+                //ManagementBudgetId = t.ManagementBudgetId
             }).ToList();
             return Ok(transactionDtos);
         }
@@ -97,12 +98,14 @@ namespace PrototipoApi.Controllers
                 //TransactionType = transactionDto.TransactionType,
                 TransactionTypeId = transactionDto.TransactionTypeId,
                 RequestId = transactionDto.RequestId,
-                AssociatedBudgetId = transactionDto.AssociatedBudgetId
+                //ManagementBudgetId = transactionDto.ManagementBudgetId
             };
             _context.Transactions.Add(transaction);
             await _context.SaveChangesAsync();
             transactionDto.TransactionId = transaction.TransactionId;
-            return CreatedAtAction(nameof(GetTransaction), new { id = transaction.TransactionId });
+            return CreatedAtAction(nameof(GetTransaction), new { id = transaction.TransactionId }, transactionDto);
+
+
 
         }
     }

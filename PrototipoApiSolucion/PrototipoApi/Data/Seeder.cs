@@ -69,8 +69,8 @@ namespace PrototipoApi.Data
                 .RuleFor(t => t.Description, f => f.Lorem.Sentence(5))
                 .RuleFor(t => t.Request, f => f.PickRandom(requests))
                 .RuleFor(t => t.RequestId, (f, t) => t.Request.RequestId)
-                .RuleFor(t => t.AssociatedBudget, f => f.PickRandom(budgets))
-                .RuleFor(t => t.AssociatedBudgetId, (f, t) => t.AssociatedBudget.ManagementBudgetId)
+                //.RuleFor(t => t.ManagementBudget, f => f.PickRandom(budgets))
+                //.RuleFor(t => t.ManagementBudgetId, (f, t) => t.ManagementBudget.ManagementBudgetId)
                 .RuleFor(t => t.TransactionsType, f => new TransactionType
                 {
                     TransactionName = f.PickRandom(TransactionsTypes)

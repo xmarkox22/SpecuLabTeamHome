@@ -12,7 +12,7 @@ using PrototipoApi.BaseDatos;
 namespace PrototipoApi.Migrations
 {
     [DbContext(typeof(ContextoBaseDatos))]
-    [Migration("20250807071159_Ini")]
+    [Migration("20250807080436_Ini")]
     partial class Ini
     {
         /// <inheritdoc />
@@ -140,12 +140,12 @@ namespace PrototipoApi.Migrations
                     b.Property<double>("Amount")
                         .HasColumnType("float");
 
-                    b.Property<int>("AssociatedBudgetId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ManagementBudgetId")
+                        .HasColumnType("int");
 
                     b.Property<int>("RequestId")
                         .HasColumnType("int");
@@ -153,15 +153,16 @@ namespace PrototipoApi.Migrations
                     b.Property<DateTime>("TransactionDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("TransactionTypeId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("TransactionTypeId")
+                        .HasColumnType("int");
 
                     b.HasKey("TransactionId");
 
-                    b.HasIndex("AssociatedBudgetId");
+                    b.HasIndex("ManagementBudgetId");
 
                     b.HasIndex("RequestId");
+
+                    b.HasIndex("TransactionTypeId");
 
                     b.ToTable("Transactions");
                 });
@@ -177,17 +178,11 @@ namespace PrototipoApi.Migrations
                     b.Property<DateTime>("LogDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("TransactionId")
-                        .HasColumnType("int");
-
                     b.Property<string>("TransactionName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("TransactionTypeId");
-
-                    b.HasIndex("TransactionId")
-                        .IsUnique();
 
                     b.ToTable("TransactionsTypes");
                 });
@@ -213,9 +208,9 @@ namespace PrototipoApi.Migrations
 
             modelBuilder.Entity("PrototipoApi.Entities.Transaction", b =>
                 {
-                    b.HasOne("PrototipoApi.Entities.ManagementBudget", "AssociatedBudget")
+                    b.HasOne("PrototipoApi.Entities.ManagementBudget", "ManagementBudget")
                         .WithMany("Transactions")
-                        .HasForeignKey("AssociatedBudgetId")
+                        .HasForeignKey("ManagementBudgetId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -225,31 +220,22 @@ namespace PrototipoApi.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("AssociatedBudget");
-
-                    b.Navigation("Request");
-                });
-
-            modelBuilder.Entity("PrototipoApi.Entities.TransactionType", b =>
-                {
-                    b.HasOne("PrototipoApi.Entities.Transaction", "Transaction")
-                        .WithOne("TransactionsType")
-                        .HasForeignKey("PrototipoApi.Entities.TransactionType", "TransactionId")
+                    b.HasOne("PrototipoApi.Entities.TransactionType", "TransactionsType")
+                        .WithMany()
+                        .HasForeignKey("TransactionTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Transaction");
+                    b.Navigation("ManagementBudget");
+
+                    b.Navigation("Request");
+
+                    b.Navigation("TransactionsType");
                 });
 
             modelBuilder.Entity("PrototipoApi.Entities.ManagementBudget", b =>
                 {
                     b.Navigation("Transactions");
-                });
-
-            modelBuilder.Entity("PrototipoApi.Entities.Transaction", b =>
-                {
-                    b.Navigation("TransactionsType")
-                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

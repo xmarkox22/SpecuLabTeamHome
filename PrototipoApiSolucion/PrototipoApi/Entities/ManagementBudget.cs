@@ -8,6 +8,6 @@
         public DateTime LastUpdatedDate { get; set; }
 
         // Relaciones
-        public ICollection<Transaction> Transactions { get; set; } = new List<Transaction>();
+        //public ICollection<Transaction> Transactions { get; set; } = new List<Transaction>();
     }
 }

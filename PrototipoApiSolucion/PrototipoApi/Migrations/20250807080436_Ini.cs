@@ -56,6 +56,20 @@ namespace PrototipoApi.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "TransactionsTypes",
+                columns: table => new
+                {
+                    TransactionTypeId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    LogDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    TransactionName = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TransactionsTypes", x => x.TransactionTypeId);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Requests",
                 columns: table => new
                 {
@@ -94,16 +108,16 @@ namespace PrototipoApi.Migrations
                     RequestId = table.Column<int>(type: "int", nullable: false),
                     TransactionDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Amount = table.Column<double>(type: "float", nullable: false),
-                    TransactionTypeId = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    TransactionTypeId = table.Column<int>(type: "int", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    AssociatedBudgetId = table.Column<int>(type: "int", nullable: false)
+                    ManagementBudgetId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Transactions", x => x.TransactionId);
                     table.ForeignKey(
-                        name: "FK_Transactions_ManagementBudgets_AssociatedBudgetId",
-                        column: x => x.AssociatedBudgetId,
+                        name: "FK_Transactions_ManagementBudgets_ManagementBudgetId",
+                        column: x => x.ManagementBudgetId,
                         principalTable: "ManagementBudgets",
                         principalColumn: "ManagementBudgetId",
                         onDelete: ReferentialAction.Cascade);
@@ -113,26 +127,11 @@ namespace PrototipoApi.Migrations
                         principalTable: "Requests",
                         principalColumn: "RequestId",
                         onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "TransactionsTypes",
-                columns: table => new
-                {
-                    TransactionTypeId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    TransactionId = table.Column<int>(type: "int", nullable: false),
-                    LogDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    TransactionName = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_TransactionsTypes", x => x.TransactionTypeId);
                     table.ForeignKey(
-                        name: "FK_TransactionsTypes_Transactions_TransactionId",
-                        column: x => x.TransactionId,
-                        principalTable: "Transactions",
-                        principalColumn: "TransactionId",
+                        name: "FK_Transactions_TransactionsTypes_TransactionTypeId",
+                        column: x => x.TransactionTypeId,
+                        principalTable: "TransactionsTypes",
+                        principalColumn: "TransactionTypeId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -147,9 +146,9 @@ namespace PrototipoApi.Migrations
                 column: "StatusId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Transactions_AssociatedBudgetId",
+                name: "IX_Transactions_ManagementBudgetId",
                 table: "Transactions",
-                column: "AssociatedBudgetId");
+                column: "ManagementBudgetId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Transactions_RequestId",
@@ -157,18 +156,14 @@ namespace PrototipoApi.Migrations
                 column: "RequestId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_TransactionsTypes_TransactionId",
-                table: "TransactionsTypes",
-                column: "TransactionId",
-                unique: true);
+                name: "IX_Transactions_TransactionTypeId",
+                table: "Transactions",
+                column: "TransactionTypeId");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "TransactionsTypes");
-
             migrationBuilder.DropTable(
                 name: "Transactions");
 
@@ -177,6 +172,9 @@ namespace PrototipoApi.Migrations
 
             migrationBuilder.DropTable(
                 name: "Requests");
+
+            migrationBuilder.DropTable(
+                name: "TransactionsTypes");
 
             migrationBuilder.DropTable(
                 name: "Buildings");
