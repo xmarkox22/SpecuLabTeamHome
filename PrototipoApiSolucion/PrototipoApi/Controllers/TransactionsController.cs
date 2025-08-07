@@ -90,22 +90,20 @@ namespace PrototipoApi.Controllers
 
         // POST: api/transactions
         [HttpPost]
-        public async Task<ActionResult<TransactionDto>> CreateTransaction(TransactionDto transactionDto)
+        public async Task<ActionResult<TransactionDto>> CreateTransaction(TransactionDto dto)
         {
-            var transaction = new Transaction
+            var t = new Transaction
             {
-                TransactionDate = transactionDto.TransactionDate,
+                TransactionDate = dto.TransactionDate,
                 //TransactionType = transactionDto.TransactionType,
-                TransactionTypeId = transactionDto.TransactionTypeId,
-                RequestId = transactionDto.RequestId,
-                //ManagementBudgetId = transactionDto.ManagementBudgetId
+                TransactionTypeId = dto.TransactionTypeId,
+                RequestId = dto.RequestId,
+                AssociatedBudgetId = dto.AssociatedBudgetId
             };
-            _context.Transactions.Add(transaction);
+            _context.Transactions.Add(t);
             await _context.SaveChangesAsync();
-            transactionDto.TransactionId = transaction.TransactionId;
-            return CreatedAtAction(nameof(GetTransaction), new { id = transaction.TransactionId }, transactionDto);
-
-
+            dto.TransactionId = t.TransactionId;
+            return CreatedAtAction(nameof(GetTransaction), new { id = t.TransactionId });
 
         }
     }

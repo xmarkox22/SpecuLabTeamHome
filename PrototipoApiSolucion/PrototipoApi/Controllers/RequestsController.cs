@@ -81,7 +81,7 @@ public class RequestsController : ControllerBase
             return BadRequest("El estado especificado no existe.");
 
         // Crear la request relacionando los IDs
-        var request = new Request
+        var r = new Request
         {
             Description = dto.Description,
             RequestDate = DateTime.UtcNow,
@@ -91,26 +91,26 @@ public class RequestsController : ControllerBase
             BuildingId = dto.BuildingId
         };
 
-        _context.Requests.Add(request);
+        _context.Requests.Add(r);
         await _context.SaveChangesAsync();
 
         // Obtener los datos relacionados (para el DTO de salida)
-        var status = await _context.Statuses.FindAsync(request.StatusId);
-        var building = await _context.Buildings.FindAsync(request.BuildingId);
+        var status = await _context.Statuses.FindAsync(r.StatusId);
+        var building = await _context.Buildings.FindAsync(r.BuildingId);
 
         var createdDto = new RequestDto
         {
-            RequestId = request.RequestId,
-            BuildingAmount = request.BuildingAmount,
-            MaintenanceAmount = request.MaintenanceAmount,
-            Description = request.Description,
-            StatusId = request.StatusId,
+            RequestId = r.RequestId,
+            BuildingAmount = r.BuildingAmount,
+            MaintenanceAmount = r.MaintenanceAmount,
+            Description = r.Description,
+            StatusId = r.StatusId,
             StatusType = status?.StatusType ?? "",
-            BuildingId = request.BuildingId,
+            BuildingId = r.BuildingId,
             BuildingStreet = building?.Street ?? ""
         };
 
-        return CreatedAtAction(nameof(GetRequest), new { id = request.RequestId }, createdDto);
+        return CreatedAtAction(nameof(GetRequest), new { id = r.RequestId }, createdDto);
     }
 
     // Get by status 
