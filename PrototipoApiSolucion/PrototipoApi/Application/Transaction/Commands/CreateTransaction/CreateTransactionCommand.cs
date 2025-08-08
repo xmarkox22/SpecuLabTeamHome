@@ -1,6 +1,11 @@
-﻿namespace PrototipoApi.Application.Transaction.Commands.CreateTransaction
-{
-    public class CreateTransactionCommand
-    {
-    }
-}
+﻿using MediatR;
+using PrototipoApi.Models;
+using System;
+
+public record CreateTransactionCommand(
+    DateTime TransactionDate,
+    int TransactionTypeId,
+    int RequestId
+// int? ManagementBudgetId // Descomenta si lo usas
+) : IRequest<TransactionDto>;
+

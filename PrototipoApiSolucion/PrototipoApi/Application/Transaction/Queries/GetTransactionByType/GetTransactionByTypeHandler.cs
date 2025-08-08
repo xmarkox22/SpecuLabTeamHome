@@ -5,21 +5,22 @@ using PrototipoApi.Models;
 using System.Threading;
 using System.Threading.Tasks;
 
-public class GetTransactionByIdHandler : IRequestHandler<GetTransactionByIdQuery, TransactionDto?>
+public class GetTransactionByTypeHandler : IRequestHandler<GetTransactionByTypeQuery, TransactionDto?>
 {
     private readonly ContextoBaseDatos _context;
 
-    public GetTransactionByIdHandler(ContextoBaseDatos context)
+    public GetTransactionByTypeHandler(ContextoBaseDatos context)
     {
         _context = context;
     }
 
-    public async Task<TransactionDto?> Handle(GetTransactionByIdQuery request, CancellationToken cancellationToken)
+    public async Task<TransactionDto?> Handle(GetTransactionByTypeQuery request, CancellationToken cancellationToken)
     {
         var transaction = await _context.Transactions
             .Include(t => t.Request)
             .Include(t => t.TransactionsType)
-            .FirstOrDefaultAsync(t => t.TransactionId == request.Id, cancellationToken);
+            .Where(t => t.TransactionsType.TransactionName == request.Type)
+            .FirstOrDefaultAsync(cancellationToken);
 
         if (transaction == null) return null;
 
@@ -29,8 +30,8 @@ public class GetTransactionByIdHandler : IRequestHandler<GetTransactionByIdQuery
             TransactionDate = transaction.TransactionDate,
             TransactionType = transaction.TransactionsType.TransactionName,
             TransactionTypeId = transaction.TransactionTypeId,
-            RequestId = transaction.RequestId,
-            // ManagementBudgetId = transaction.ManagementBudgetId // si lo usas
+            RequestId = transaction.RequestId
+            // ManagementBudgetId = transaction.ManagementBudgetId
         };
     }
 }
