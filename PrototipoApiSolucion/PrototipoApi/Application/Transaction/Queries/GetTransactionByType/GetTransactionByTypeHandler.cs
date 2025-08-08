@@ -2,10 +2,12 @@
 using Microsoft.EntityFrameworkCore;
 using PrototipoApi.BaseDatos;
 using PrototipoApi.Models;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-public class GetTransactionByTypeHandler : IRequestHandler<GetTransactionByTypeQuery, TransactionDto?>
+public class GetTransactionByTypeHandler : IRequestHandler<GetTransactionByTypeQuery, List<TransactionDto>>
 {
     private readonly ContextoBaseDatos _context;
 
@@ -14,25 +16,24 @@ public class GetTransactionByTypeHandler : IRequestHandler<GetTransactionByTypeQ
         _context = context;
     }
 
-    public async Task<TransactionDto?> Handle(GetTransactionByTypeQuery request, CancellationToken cancellationToken)
+    public async Task<List<TransactionDto>> Handle(GetTransactionByTypeQuery request, CancellationToken cancellationToken)
     {
-        var transaction = await _context.Transactions
+        var transactions = await _context.Transactions
             .Include(t => t.Request)
             .Include(t => t.TransactionsType)
             .Where(t => t.TransactionsType.TransactionName == request.Type)
-            .FirstOrDefaultAsync(cancellationToken);
+            .ToListAsync(cancellationToken);
 
-        if (transaction == null) return null;
-
-        return new TransactionDto
+        return transactions.Select(t => new TransactionDto
         {
-            TransactionId = transaction.TransactionId,
-            TransactionDate = transaction.TransactionDate,
-            TransactionType = transaction.TransactionsType.TransactionName,
-            TransactionTypeId = transaction.TransactionTypeId,
-            RequestId = transaction.RequestId
-            // ManagementBudgetId = transaction.ManagementBudgetId
-        };
+            TransactionId = t.TransactionId,
+            TransactionDate = t.TransactionDate,
+            TransactionType = t.TransactionsType.TransactionName,
+            TransactionTypeId = t.TransactionTypeId,
+            RequestId = t.RequestId
+            // ManagementBudgetId = t.ManagementBudgetId
+        }).ToList();
     }
 }
+
 
