@@ -20,7 +20,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Application\ManagementBudget\Commands\" />
+    <Folder Include="Application\ManagementBudget\Queries\" />
+    <Folder Include="Application\Status\Commands\" />
+    <Folder Include="Application\Status\Queries\" />
     <Folder Include="Application\Requests\Queries\GetRequestById\" />
+    <Folder Include="Application\Transaction\Commands\" />
+    <Folder Include="Application\Transaction\Queries\" />
     <Folder Include="Migrations\" />
     <Folder Include="Services\" />
   </ItemGroup>
