@@ -1,36 +1,37 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using PrototipoApi.BaseDatos;
-using PrototipoApi.Models;
 using PrototipoApi.Application.Requests.Queries.GetRequestById;
+using PrototipoApi.BaseDatos;
+using PrototipoApi.Entities;
+using PrototipoApi.Models;
+using PrototipoApi.Repositories.Interfaces;
 
 public class GetRequestsByIdHandler : IRequestHandler<GetRequestByIdQuery, RequestDto>
 {
-    private readonly ContextoBaseDatos _context;
+    private readonly IRepository<Request> _repository;
 
-    public GetRequestsByIdHandler(ContextoBaseDatos context)
+    public GetRequestsByIdHandler(IRepository<Request> repository)
     {
-        _context = context;
+        _repository = repository;
     }
 
     public async Task<RequestDto> Handle(GetRequestByIdQuery request, CancellationToken cancellationToken)
     {
-        var requestDto = await _context.Requests
-            .Include(r => r.Status)
-            .Include(r => r.Building)
-            .Where(r => r.RequestId == request.id)
-            .Select(r => new RequestDto
+        var requestDto = await _repository.SelectOneAsync(
+            filter: r => r.RequestId == request.id,
+            selector: r => new RequestDto
             {
                 RequestId = r.RequestId,
-               BuildingAmount = r.BuildingAmount,
-               MaintenanceAmount = r.MaintenanceAmount,
+                BuildingAmount = r.BuildingAmount,
+                MaintenanceAmount = r.MaintenanceAmount,
                 Description = r.Description,
                 StatusId = r.StatusId,
                 StatusType = r.Status.StatusType,
                 BuildingId = r.BuildingId,
                 BuildingStreet = r.Building.Street
-            })
-            .FirstOrDefaultAsync(cancellationToken);
+            },
+            ct: cancellationToken
+        );
 
 
         return requestDto;
