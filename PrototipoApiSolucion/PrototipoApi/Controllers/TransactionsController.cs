@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using MediatR;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PrototipoApi.BaseDatos;
 using PrototipoApi.Entities;
@@ -10,31 +11,19 @@ namespace PrototipoApi.Controllers
     [ApiController]
     public class TransactionsController : ControllerBase
     {
-        private readonly ContextoBaseDatos _context;
+        private readonly IMediator _mediator;
 
-        public TransactionsController(ContextoBaseDatos context)
+        public TransactionsController(IMediator mediator)
         {
-            _context = context;
+            _mediator = mediator;
         }
 
         // GET: api/transactions
         [HttpGet]
         public async Task<ActionResult<IEnumerable<TransactionDto>>> GetTransactions()
         {
-            var transactions = await _context.Transactions
-                .Include(t => t.Request)
-                .Include(t => t.TransactionsType)
-                .ToListAsync();
-            var transactionDtos = transactions.Select(t => new TransactionDto
-            {
-                TransactionId = t.TransactionId,
-                TransactionDate = t.TransactionDate,
-                TransactionType = t.TransactionsType.TransactionName,
-                TransactionTypeId = t.TransactionTypeId,
-                RequestId = t.RequestId,
-                //ManagementBudgetId = t.ManagementBudgetId,
-            }).ToList();
-            return Ok(transactionDtos);
+            var transactions = await _mediator.Send(new GetAllTransactionsQuery());
+            return Ok(transactions);
         }
 
 
@@ -42,46 +31,20 @@ namespace PrototipoApi.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<TransactionDto>> GetTransaction(int id)
         {
-            var transaction = await _context.Transactions
-                .Include(t => t.Request)
-                .Include(t => t.TransactionsType)
-                .FirstOrDefaultAsync(t => t.TransactionId == id);
+            var transaction = await _mediator.Send(new GetTransactionByIdQuery(id));
             if (transaction == null)
-            {
                 return NotFound();
-            }
-            var transactionDto = new TransactionDto
-            {
-                TransactionId = transaction.TransactionId,
-                TransactionDate = transaction.TransactionDate,
-                TransactionType = transaction.TransactionsType.TransactionName,
-                RequestId = transaction.RequestId,
-                //ManagementBudgetId = transaction.ManagementBudgetId
-            };
-            return Ok(transactionDto);
+
+            return Ok(transaction);
         }
 
-        //GET by type: api/transactions/type/{type}
+        // GET: api/transactions/type/{type}
         [HttpGet("type/{type}")]
-        public async Task<ActionResult<IEnumerable<TransactionDto>>> GetTransactionsByType(string type)
+        public async Task<ActionResult<IEnumerable<TransactionDto>>> GetTransactionByType(string type)
         {
-            var transactions = await _context.Transactions
-                .Where(t => t.TransactionsType.TransactionName == type)
-                .Include(t => t.Request)
-                .ToListAsync();
-            if (transactions.Count == 0)
-            {
-                return NotFound();
-            }
-            var transactionDtos = transactions.Select(t => new TransactionDto
-            {
-                TransactionId = t.TransactionId,
-                TransactionDate = t.TransactionDate,
-                TransactionType = t.TransactionsType.TransactionName,
-                RequestId = t.RequestId,
-                //ManagementBudgetId = t.ManagementBudgetId
-            }).ToList();
-            return Ok(transactionDtos);
+            var transactions = await _mediator.Send(new GetTransactionByTypeQuery(type));
+
+            return Ok(transactions);
         }
 
         // PUT: api/transactions/{id}
@@ -92,20 +55,13 @@ namespace PrototipoApi.Controllers
         [HttpPost]
         public async Task<ActionResult<TransactionDto>> CreateTransaction(TransactionDto dto)
         {
-            var t = new Transaction
-            {
-                TransactionDate = dto.TransactionDate,
-                //TransactionType = transactionDto.TransactionType,
-                TransactionTypeId = dto.TransactionTypeId,
-                RequestId = dto.RequestId,
-                //AssociatedBudgetId = dto.AssociatedBudgetId
-            };
-            _context.Transactions.Add(t);
-            await _context.SaveChangesAsync();
-            dto.TransactionId = t.TransactionId;
-            return CreatedAtAction(nameof(GetTransaction), new { id = t.TransactionId });
+            var createdTransaction = await _mediator.Send(
+                new CreateTransactionCommand(dto.TransactionDate, dto.TransactionTypeId, dto.RequestId)
+            );
 
+            return CreatedAtAction(nameof(GetTransaction), new { id = createdTransaction.TransactionId }, createdTransaction);
         }
+
     }
 
 }

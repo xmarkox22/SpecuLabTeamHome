@@ -21,7 +21,6 @@ namespace PrototipoApi.Application.Requests.Commands.UpdateRequest
             if (entity == null)
                 return false;
 
-            entity.BuildingAmount = request.Dto.BuildingAmount;
             entity.MaintenanceAmount = request.Dto.MaintenanceAmount;
 
             await _repository.SaveChangesAsync();
