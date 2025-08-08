@@ -1,20 +1,22 @@
 ﻿using MediatR;
 using PrototipoApi.BaseDatos;
+using PrototipoApi.Entities;
+using PrototipoApi.Repositories.Interfaces;
 
 namespace PrototipoApi.Application.Requests.Commands.UpdateRequest
 {
     public class UpdateRequestHandler : IRequestHandler<UpdateRequestCommand, bool>
     {
-        private readonly ContextoBaseDatos _context;
+        private readonly IRepository<Request> _repository;
 
-        public UpdateRequestHandler(ContextoBaseDatos context)
+        public UpdateRequestHandler(IRepository<Request> repository)
         {
-            _context = context;
+            _repository = repository;
         }
 
         public async Task<bool> Handle(UpdateRequestCommand request, CancellationToken cancellationToken)
         {
-            var entity = await _context.Requests.FindAsync( request.Id , cancellationToken);
+            var entity = await _repository.GetByIdAsync(request.Id);
 
             if (entity == null)
                 return false;
@@ -22,7 +24,7 @@ namespace PrototipoApi.Application.Requests.Commands.UpdateRequest
             entity.BuildingAmount = request.Dto.BuildingAmount;
             entity.MaintenanceAmount = request.Dto.MaintenanceAmount;
 
-            await _context.SaveChangesAsync(cancellationToken);
+            await _repository.SaveChangesAsync();
             return true;
         }
     }

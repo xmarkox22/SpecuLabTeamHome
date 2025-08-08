@@ -1,23 +1,32 @@
 ﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
 using PrototipoApi.BaseDatos;
+using PrototipoApi.Entities;
 using PrototipoApi.Models;
+using PrototipoApi.Repositories.Interfaces;
 
 public class GetAllRequestsHandler : IRequestHandler<GetAllRequestsQuery, List<RequestDto>>
 {
-    private readonly ContextoBaseDatos _context;
+    private readonly IRepository<Request> _repository;
 
-    public GetAllRequestsHandler(ContextoBaseDatos context)
+    public GetAllRequestsHandler(IRepository<Request> repository)
     {
-        _context = context;
+        _repository = repository;
     }
 
     public async Task<List<RequestDto>> Handle(GetAllRequestsQuery request, CancellationToken cancellationToken)
     {
-        var requests = await _context.Requests
-        .Include(r => r.Status)
-        .Include(r => r.Building)
-        .ToListAsync();
+        var requests = await _repository.GetAllAsync(
+            orderBy: q => q.OrderBy(r => r.RequestId),
+            r => r.Status,
+            r => r.Building
+        );
+
+
+        //    Requests
+        //.Include(r => r.Status)
+        //.Include(r => r.Building)
+        //.ToListAsync();
 
         var requestDtos = requests.Select(r => new RequestDto
         {
