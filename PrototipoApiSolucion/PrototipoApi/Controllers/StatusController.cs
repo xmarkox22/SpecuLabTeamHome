@@ -43,23 +43,10 @@ namespace PrototipoApi.Controllers
 
         // POST: api/status
         [HttpPost]
-        public async Task<ActionResult<CreateStatusDto>> PostStatus(CreateStatusDto dto)
+        public async Task<ActionResult<StatusDto>> PostStatus(CreateStatusDto dto)
         {
-            // Validación (por si quieres agregarla, aunque no tengas relaciones)
-            if (string.IsNullOrWhiteSpace(dto.StatusType))
-                return BadRequest("StatusType no puede estar vacío.");
-
-            var entity = new Status
-            {
-                StatusType = dto.StatusType,
-                Description = dto.Description
-            };
-
-            _context.Statuses.Add(entity);
-            await _context.SaveChangesAsync();
-
-
-            return CreatedAtAction(nameof(GetStatus), new { id = entity.StatusId }, dto);
+            var createdStatus = await _mediator.Send(new CreateStatusCommand(dto.StatusType, dto.Description));
+            return CreatedAtAction(nameof(GetStatus), new { id = createdStatus.StatusId }, createdStatus);
         }
 
         //// PUT: api/status/5
@@ -105,9 +92,9 @@ namespace PrototipoApi.Controllers
         //    return NoContent();
         //}
 
-        private bool StatusExists(int id)
-        {
-            return _context.Statuses.Any(e => e.StatusId == id);
-        }
+        //private bool StatusExists(int id)
+        //{
+        //    return _context.Statuses.Any(e => e.StatusId == id);
+        //}
     }
 }
