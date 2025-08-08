@@ -57,7 +57,7 @@ namespace PrototipoApi.Controllers
 
         // POST: api/status
         [HttpPost]
-        public async Task<ActionResult<StatusDto>> PostStatus(StatusDto dto)
+        public async Task<ActionResult<CreateStatusDto>> PostStatus(CreateStatusDto dto)
         {
             // Validación (por si quieres agregarla, aunque no tengas relaciones)
             if (string.IsNullOrWhiteSpace(dto.StatusType))
@@ -72,9 +72,8 @@ namespace PrototipoApi.Controllers
             _context.Statuses.Add(entity);
             await _context.SaveChangesAsync();
 
-            dto.StatusId = entity.StatusId;
 
-            return CreatedAtAction(nameof(GetStatus), new { id = dto.StatusId }, dto);
+            return CreatedAtAction(nameof(GetStatus), new { id = entity.StatusId }, dto);
         }
 
         //// PUT: api/status/5
