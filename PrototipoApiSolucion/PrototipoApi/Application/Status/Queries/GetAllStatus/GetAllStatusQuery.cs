@@ -1,6 +1,5 @@
-﻿namespace PrototipoApi.Application.Status.Queries.GetAllStatus
-{
-    public class GetAllStatusQuery
-    {
-    }
-}
+﻿using MediatR;
+using PrototipoApi.Models;
+using System.Collections.Generic;
+
+public record GetAllStatusQuery() : IRequest<List<StatusDto>>;

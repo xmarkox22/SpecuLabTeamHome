@@ -1,6 +1,5 @@
-﻿namespace PrototipoApi.Application.Status.Queries.GetStatusById
-{
-    public class GetStatusByIdQuery
-    {
-    }
-}
+﻿using MediatR;
+using PrototipoApi.Models;
+
+public record GetStatusByIdQuery(int Id) : IRequest<StatusDto?>;
+
