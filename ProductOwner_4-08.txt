@@ -1,0 +1,16 @@
+CRITERIOS DE ACEPTACIÓN
+
+Product Owner: Tomás Orejas
+
+Añadir Endpoints y Controladores
+-	Responden correctamente
+-	Se procesan correctamente los datos de entrada y salida
+
+Implementación de Seedings
+-	Los seedings se implementan correctamente
+-	Permiten probar las funcionalidades de las API
+
+Inyección de dependencias (mediatR en Controller Request) 
+-	Division correcta de carpetas
+-	La lógica se delega correctamente
+-	Bien integrado y probado
