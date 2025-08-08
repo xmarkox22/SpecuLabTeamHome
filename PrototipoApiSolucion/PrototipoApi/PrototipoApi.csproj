@@ -23,10 +23,14 @@
     <Folder Include="Application\ManagementBudget\Commands\" />
     <Folder Include="Application\ManagementBudget\Queries\" />
     <Folder Include="Application\Status\Commands\" />
-    <Folder Include="Application\Status\Queries\" />
     <Folder Include="Application\Requests\Queries\GetRequestById\" />
-    <Folder Include="Application\Transaction\Commands\" />
-    <Folder Include="Application\Transaction\Queries\" />
+    <Folder Include="Application\Status\Queries\GetAllStatus\" />
+    <Folder Include="Application\Status\Queries\GetStatusById\" />
+    <Folder Include="Application\Transaction\Commands\CreateTransaction\" />
+    <Folder Include="Application\Transaction\Commands\UpdateTransaction\" />
+    <Folder Include="Application\Transaction\Queries\GetAllTransaction\" />
+    <Folder Include="Application\Transaction\Queries\GetTransactionById\" />
+    <Folder Include="Application\Transaction\Queries\GetTransactionByStatus\" />
     <Folder Include="Migrations\" />
     <Folder Include="Services\" />
   </ItemGroup>
