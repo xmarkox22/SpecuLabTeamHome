@@ -25,15 +25,6 @@
     <Folder Include="Application\ManagementBudget\Queries\GetAllManagementBudget\" />
     <Folder Include="Application\ManagementBudget\Queries\GetManagementBudgetById\" />
     <Folder Include="Application\Requests\Queries\GetRequestById\" />
-    <Folder Include="Application\Status\Commands\CreateStatus\" />
-    <Folder Include="Application\Status\Commands\UpdateStatus\" />
-    <Folder Include="Application\Status\Queries\GetAllStatus\" />
-    <Folder Include="Application\Status\Queries\GetStatusById\" />
-    <Folder Include="Application\Transaction\Commands\CreateTransaction\" />
-    <Folder Include="Application\Transaction\Commands\UpdateTransaction\" />
-    <Folder Include="Application\Transaction\Queries\GetAllTransaction\" />
-    <Folder Include="Application\Transaction\Queries\GetTransactionById\" />
-    <Folder Include="Application\Transaction\Queries\GetTransactionByStatus\" />
     <Folder Include="Migrations\" />
     <Folder Include="Services\" />
   </ItemGroup>
