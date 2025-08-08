@@ -1,6 +1,12 @@
-﻿namespace PrototipoApi.Application.Requests.Commands.UpdateRequest
+﻿using global::PrototipoApi.Models;
+using MediatR;
+
+
+namespace PrototipoApi.Application.Requests.Commands.UpdateRequest
 {
-    public class UpdateRequestCommand
-    {
-    }
+
+
+ public record UpdateRequestCommand(int Id, UpdateRequestDto Dto) : IRequest<bool>;
+    
+
 }
