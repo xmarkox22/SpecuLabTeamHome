@@ -39,14 +39,10 @@ namespace PrototipoApi.Controllers
 
         // PUT: api/ManagementBudgets/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(int id, [FromBody] ManagementBudgetDto dto)
+        public async Task<IActionResult> Update(int id, [FromBody] UpdateManagementBudgetDto dto)
         {
-            if (id != dto.ManagementBudgetId)
-                return BadRequest("El ID del presupuesto no coincide con el de la URL.");
 
             var result = await _mediator.Send(new UpdateManagementBudgetCommand(
-                dto.ManagementBudgetId,
-                dto.InitialAmount,
                 dto.CurrentAmount,
                 dto.LastUpdatedDate
             ));

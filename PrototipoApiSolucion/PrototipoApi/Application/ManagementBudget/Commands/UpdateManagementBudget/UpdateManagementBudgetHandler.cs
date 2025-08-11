@@ -22,18 +22,17 @@ public class UpdateManagementBudgetHandler : IRequestHandler<UpdateManagementBud
         if (budget == null)
             return null;
 
-        budget.InitialAmount = request.InitialAmount;
         budget.CurrentAmount = request.CurrentAmount;
         budget.LastUpdatedDate = request.LastUpdatedDate;
 
         await _context.SaveChangesAsync(cancellationToken);
 
-        return new ManagementBudgetDto
+        return new UpdateManagementBudgetDto
         {
-            ManagementBudgetId = budget.ManagementBudgetId,
-            InitialAmount = budget.InitialAmount,
+            //ManagementBudgetId = budget.ManagementBudgetId,
+            //InitialAmount = budget.InitialAmount,
             CurrentAmount = budget.CurrentAmount,
-            LastUpdatedDate = budget.LastUpdatedDate
+            //LastUpdatedDate = budget.LastUpdatedDate
         };
     }
 }
