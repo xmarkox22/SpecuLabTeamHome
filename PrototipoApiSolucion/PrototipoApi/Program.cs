@@ -5,61 +5,57 @@ using PrototipoApi.Repositories;
 using PrototipoApi.Repositories.Interfaces;
 using System.Reflection;
 
+// Crea el constructor de la aplicación web
 var builder = WebApplication.CreateBuilder(args);
 
-// A-Agregar servicios a la aplicacion.
+// Agrega servicios a la aplicación
 
-builder.Services.AddControllers(); // Modelo-Vista-Controlador (MVC) para APIs
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-// Esto es Swagger/OpenAPI para documentar la API
+builder.Services.AddControllers(); // Habilita el patrón Modelo-Vista-Controlador (MVC) para exponer controladores de API
+
+// Configura Swagger/OpenAPI para documentar y probar la API
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// 3- Configurar la conexión a la base de datos
+// Configura la conexión a la base de datos usando Entity Framework Core y SQL Server
 builder.Services.AddDbContext<ContextoBaseDatos>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-
+// Registra MediatR para la inyección de dependencias y manejo de solicitudes (CQRS, Mediator Pattern)
 builder.Services.AddMediatR(cfg =>
 {
     cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
 });
 
-
+// Registra el repositorio genérico para inyección de dependencias
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 
-
+// Construye la aplicación web
 var app = builder.Build();
 
-
-
-
-
+// Inicializa la base de datos con datos semilla al iniciar la aplicación
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
     var context = services.GetRequiredService<ContextoBaseDatos>();
-    await DbInitializer.SeedAsync(context);
-
+    await DbInitializer.SeedAsync(context); // Método asíncrono para poblar la base de datos si es necesario
 }
 
-
-
-
-// B-Configure the HTTP request pipeline.
+// Configura el pipeline de solicitudes HTTP
 if (app.Environment.IsDevelopment())
 {
+    // Habilita Swagger solo en entorno de desarrollo
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
+// Redirige automáticamente las solicitudes HTTP a HTTPS
 app.UseHttpsRedirection();
 
+// Habilita la autorización (pero no la autenticación)
 app.UseAuthorization();
 
+// Mapea los controladores a las rutas correspondientes
 app.MapControllers();
 
-//app.MapGet("/", () => "¡Hola, mundo! Esta es una API de ejemplo para países y apartamentos.");
-//app.UseWelcomePage();
-
-app.Run(); 
+// Ejecuta la aplicación
+app.Run();
