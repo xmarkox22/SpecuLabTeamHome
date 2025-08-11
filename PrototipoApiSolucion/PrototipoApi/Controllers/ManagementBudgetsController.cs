@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using PrototipoApi.BaseDatos;
-using PrototipoApi.Entities;
+using PrototipoApi.Application.ManagementBudget.Queries;
 using PrototipoApi.Models;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace PrototipoApi.Controllers
 {
@@ -14,71 +11,51 @@ namespace PrototipoApi.Controllers
     [ApiController]
     public class ManagementBudgetsController : ControllerBase
     {
-        private readonly ContextoBaseDatos _context;
+        private readonly IMediator _mediator;
 
-        public ManagementBudgetsController(ContextoBaseDatos context)
+        public ManagementBudgetsController(IMediator mediator)
         {
-            _context = context;
+            _mediator = mediator;
         }
 
-        // GET: api/ManagementBudgets
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ManagementBudgetDto>>> GetManagementBudget()
+        public async Task<ActionResult<IEnumerable<ManagementBudgetDto>>> GetManagementBudgets()
         {
-            var budgets = await _context.ManagementBudgets.ToListAsync();
-            var dtos = budgets.Select(b => new ManagementBudgetDto
-            {
-                ManagementBudgetId = b.ManagementBudgetId,
-                InitialAmount = b.InitialAmount,
-                CurrentAmount = b.CurrentAmount,
-                LastUpdatedDate = b.LastUpdatedDate
-            }).ToList();
-            return Ok(dtos);
+            var result = await _mediator.Send(new GetAllManagementBudgetsQuery());
+            return Ok(result);
         }
 
-        //// GET: api/ManagementBudgets/5
-        //[HttpGet("{id}")]
-        //public async Task<ActionResult<ManagementBudgetDto>> GetManagementBudget(int id)
-        //{
-        //    var b = await _context.ManagementBudget.FindAsync(id);
-        //    if (b == null)
-        //        return NotFound();
-        //    var dto = new ManagementBudgetDto
-        //    {
-        //        ManagementBudgetId = b.ManagementBudgetId,
-        //        InitialAmount = b.InitialAmount,
-        //        CurrentAmount = b.CurrentAmount,
-        //        LastUpdatedDate = b.LastUpdatedDate
-        //    };
-        //    return Ok(dto);
-        //}
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetById(int id)
+        {
+            var result = await _mediator.Send(new GetManagementBudgetByIdQuery(id));
+
+            if (result == null)
+                return NotFound();
+
+            return Ok(result);
+        }
+
 
         // PUT: api/ManagementBudgets/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutManagementBudget(int id, UpdateManagementBudgetDto dto)
+        public async Task<IActionResult> Update(int id, [FromBody] ManagementBudgetDto dto)
         {
-            var entity = await _context.ManagementBudgets.FindAsync(id);
-            if (entity == null)
+            if (id != dto.ManagementBudgetId)
+                return BadRequest("El ID del presupuesto no coincide con el de la URL.");
+
+            var result = await _mediator.Send(new UpdateManagementBudgetCommand(
+                dto.ManagementBudgetId,
+                dto.InitialAmount,
+                dto.CurrentAmount,
+                dto.LastUpdatedDate
+            ));
+
+            if (result == null)
                 return NotFound();
 
-            entity.CurrentAmount = dto.CurrentAmount;
-            entity.LastUpdatedDate = dto.LastUpdatedDate;
-            _context.Entry(entity).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!ManagementBudgetExists(id))
-                    return NotFound();
-                else
-                    throw;
-            }
-            return NoContent();
+            return Ok(result);
         }
-
 
         //// POST: api/ManagementBudgets
         //[HttpPost]
@@ -108,9 +85,9 @@ namespace PrototipoApi.Controllers
         //    return NoContent();
         //}
 
-        private bool ManagementBudgetExists(int id)
-        {
-            return _context.ManagementBudgets.Any(e => e.ManagementBudgetId == id);
-        }
+        //private bool ManagementBudgetExists(int id)
+        //{
+        //    return _context.ManagementBudgets.Any(e => e.ManagementBudgetId == id);
+        //}
     }
 }
