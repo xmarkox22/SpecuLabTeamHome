@@ -1,7 +1,7 @@
 ﻿using MediatR;
-using Microsoft.EntityFrameworkCore;
-using PrototipoApi.BaseDatos;
 using PrototipoApi.Models;
+using PrototipoApi.Entities;    
+using PrototipoApi.Repositories.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -9,16 +9,17 @@ using System.Threading.Tasks;
 
 public class GetAllStatusHandler : IRequestHandler<GetAllStatusQuery, List<StatusDto>>
 {
-    private readonly ContextoBaseDatos _context;
+    private readonly IRepository<Status> _repository;
 
-    public GetAllStatusHandler(ContextoBaseDatos context)
+
+    public GetAllStatusHandler(IRepository<Status> repository)
     {
-        _context = context;
+        _repository = repository;
     }
 
     public async Task<List<StatusDto>> Handle(GetAllStatusQuery request, CancellationToken cancellationToken)
     {
-        var statuses = await _context.Statuses.ToListAsync(cancellationToken);
+        var statuses = await _repository.GetAllAsync();
 
         return statuses.Select(s => new StatusDto
         {

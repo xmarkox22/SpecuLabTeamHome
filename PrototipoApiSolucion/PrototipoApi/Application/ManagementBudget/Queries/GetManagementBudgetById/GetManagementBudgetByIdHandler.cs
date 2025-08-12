@@ -1,23 +1,22 @@
 ﻿using MediatR;
-using Microsoft.EntityFrameworkCore;
-using PrototipoApi.BaseDatos;
 using PrototipoApi.Models;
+using PrototipoApi.Entities;
+using PrototipoApi.Repositories.Interfaces;
 using System.Threading;
 using System.Threading.Tasks;
 
 public class GetManagementBudgetByIdHandler : IRequestHandler<GetManagementBudgetByIdQuery, ManagementBudgetDto>
 {
-    private readonly ContextoBaseDatos _context;
+    private readonly IRepository<ManagementBudget> _repository;
 
-    public GetManagementBudgetByIdHandler(ContextoBaseDatos context)
+    public GetManagementBudgetByIdHandler(IRepository<ManagementBudget> repository)
     {
-        _context = context;
+        _repository = repository;
     }
 
     public async Task<ManagementBudgetDto> Handle(GetManagementBudgetByIdQuery request, CancellationToken cancellationToken)
     {
-        var budget = await _context.ManagementBudgets
-            .FirstOrDefaultAsync(b => b.ManagementBudgetId == request.Id, cancellationToken);
+        var budget = await _repository.GetByIdAsync(request.Id);
 
         if (budget == null)
             return null;
