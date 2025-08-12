@@ -1,17 +1,17 @@
 ﻿using MediatR;
-using PrototipoApi.BaseDatos;
 using PrototipoApi.Entities;
 using PrototipoApi.Models;
+using PrototipoApi.Repositories.Interfaces;
 using System.Threading;
 using System.Threading.Tasks;
 
 public class CreateStatusHandler : IRequestHandler<CreateStatusCommand, StatusDto>
 {
-    private readonly ContextoBaseDatos _context;
+    private readonly IRepository<Status> _repository;
 
-    public CreateStatusHandler(ContextoBaseDatos context)
+    public CreateStatusHandler(IRepository<Status> repository)
     {
-        _context = context;
+        _repository = repository;
     }
 
     public async Task<StatusDto> Handle(CreateStatusCommand request, CancellationToken cancellationToken)
@@ -26,8 +26,8 @@ public class CreateStatusHandler : IRequestHandler<CreateStatusCommand, StatusDt
             Description = request.Description
         };
 
-        _context.Statuses.Add(entity);
-        await _context.SaveChangesAsync(cancellationToken);
+        await _repository.AddAsync(entity);
+        await _repository.SaveChangesAsync();
 
         return new StatusDto
         {

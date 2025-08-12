@@ -1,23 +1,22 @@
 ﻿using MediatR;
-using Microsoft.EntityFrameworkCore;
-using PrototipoApi.BaseDatos;
 using PrototipoApi.Models;
+using PrototipoApi.Entities;
+using PrototipoApi.Repositories.Interfaces;
 using System.Threading;
 using System.Threading.Tasks;
 
 public class UpdateManagementBudgetHandler : IRequestHandler<UpdateManagementBudgetCommand, ManagementBudgetDto?>
 {
-    private readonly ContextoBaseDatos _context;
+    private readonly IRepository<ManagementBudget> _repository;
 
-    public UpdateManagementBudgetHandler(ContextoBaseDatos context)
+    public UpdateManagementBudgetHandler(IRepository<ManagementBudget> repository)
     {
-        _context = context;
+        _repository = repository;
     }
 
     public async Task<ManagementBudgetDto?> Handle(UpdateManagementBudgetCommand request, CancellationToken cancellationToken)
     {
-        var budget = await _context.ManagementBudgets
-            .FirstOrDefaultAsync(mb => mb.ManagementBudgetId == request.ManagementBudgetId, cancellationToken);
+        var budget = await _repository.GetByIdAsync(request.ManagementBudgetId);
 
         if (budget == null)
             return null;
@@ -25,7 +24,8 @@ public class UpdateManagementBudgetHandler : IRequestHandler<UpdateManagementBud
         budget.CurrentAmount = request.CurrentAmount;
         budget.LastUpdatedDate = request.LastUpdatedDate;
 
-        await _context.SaveChangesAsync(cancellationToken);
+        await _repository.UpdateAsync(budget);
+        await _repository.SaveChangesAsync();
 
         return new ManagementBudgetDto
         {

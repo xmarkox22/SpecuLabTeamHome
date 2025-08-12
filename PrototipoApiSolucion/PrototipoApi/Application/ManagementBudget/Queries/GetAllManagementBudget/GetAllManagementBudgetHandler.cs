@@ -1,7 +1,7 @@
 ﻿using MediatR;
-using Microsoft.EntityFrameworkCore;
-using PrototipoApi.BaseDatos;
 using PrototipoApi.Models;
+using PrototipoApi.Entities;
+using PrototipoApi.Repositories.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -11,17 +11,16 @@ namespace PrototipoApi.Application.ManagementBudget.Queries
 {
     public class GetAllManagementBudgetsQueryHandler : IRequestHandler<GetAllManagementBudgetsQuery, IEnumerable<ManagementBudgetDto>>
     {
-        private readonly ContextoBaseDatos _context;
+        private readonly IRepository<ManagementBudgetDto> _repository;
 
-        public GetAllManagementBudgetsQueryHandler(ContextoBaseDatos context)
+        public GetAllManagementBudgetsQueryHandler(IRepository<ManagementBudgetDto> repository)
         {
-            _context = context;
+            _repository = repository;
         }
 
         public async Task<IEnumerable<ManagementBudgetDto>> Handle(GetAllManagementBudgetsQuery request, CancellationToken cancellationToken)
         {
-            var budgets = await _context.ManagementBudgets
-                .ToListAsync(cancellationToken);
+            var budgets = await _repository.GetAllAsync();
 
             return budgets.Select(b => new ManagementBudgetDto
             {
