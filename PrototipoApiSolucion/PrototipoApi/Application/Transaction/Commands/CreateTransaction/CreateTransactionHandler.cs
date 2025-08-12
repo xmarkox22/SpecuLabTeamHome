@@ -1,17 +1,17 @@
 ﻿using MediatR;
-using PrototipoApi.BaseDatos;
 using PrototipoApi.Entities;
 using PrototipoApi.Models;
+using PrototipoApi.Repositories.Interfaces;
 using System.Threading;
 using System.Threading.Tasks;
 
 public class CreateTransactionHandler : IRequestHandler<CreateTransactionCommand, TransactionDto>
 {
-    private readonly ContextoBaseDatos _context;
+    private readonly IRepository<Transaction> _repository;
 
-    public CreateTransactionHandler(ContextoBaseDatos context)
+    public CreateTransactionHandler(IRepository<Transaction> repository)
     {
-        _context = context;
+        _repository = repository;
     }
 
     public async Task<TransactionDto> Handle(CreateTransactionCommand request, CancellationToken cancellationToken)
@@ -24,8 +24,8 @@ public class CreateTransactionHandler : IRequestHandler<CreateTransactionCommand
             // ManagementBudgetId = request.ManagementBudgetId
         };
 
-        _context.Transactions.Add(transaction);
-        await _context.SaveChangesAsync(cancellationToken);
+        await _repository.AddAsync(transaction);
+        await _repository.SaveChangesAsync();
 
         return new TransactionDto
         {
