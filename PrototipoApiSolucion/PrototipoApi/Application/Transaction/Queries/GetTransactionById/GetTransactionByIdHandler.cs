@@ -1,25 +1,26 @@
 ﻿using MediatR;
-using Microsoft.EntityFrameworkCore;
-using PrototipoApi.BaseDatos;
 using PrototipoApi.Models;
+using PrototipoApi.Entities;
+using PrototipoApi.Repositories.Interfaces;
 using System.Threading;
 using System.Threading.Tasks;
 
 public class GetTransactionByIdHandler : IRequestHandler<GetTransactionByIdQuery, TransactionDto?>
 {
-    private readonly ContextoBaseDatos _context;
+    private readonly IRepository<Transaction> _repository;
 
-    public GetTransactionByIdHandler(ContextoBaseDatos context)
+    public GetTransactionByIdHandler(IRepository<Transaction> repository)
     {
-        _context = context;
+        _repository = repository;
     }
 
     public async Task<TransactionDto?> Handle(GetTransactionByIdQuery request, CancellationToken cancellationToken)
     {
-        var transaction = await _context.Transactions
-            .Include(t => t.Request)
-            .Include(t => t.TransactionsType)
-            .FirstOrDefaultAsync(t => t.TransactionId == request.Id, cancellationToken);
+        var transaction = await _repository.GetOneAsync(
+            t => t.TransactionId == request.Id,
+            t => t.Request,
+            t => t.TransactionsType
+        );
 
         if (transaction == null) return null;
 
@@ -30,6 +31,7 @@ public class GetTransactionByIdHandler : IRequestHandler<GetTransactionByIdQuery
             TransactionType = transaction.TransactionsType.TransactionName,
             TransactionTypeId = transaction.TransactionTypeId,
             RequestId = transaction.RequestId,
+            Description = transaction.Description
             // ManagementBudgetId = transaction.ManagementBudgetId // si lo usas
         };
     }
