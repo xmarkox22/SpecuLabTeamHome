@@ -1,20 +1,23 @@
-﻿using MediatR;
+﻿using Azure.Core;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
-using PrototipoApi.Application.Requests.Commands.UpdateRequest;
 using PrototipoApi.Application.Requests.Commands.CreateRequest;
+using PrototipoApi.Application.Requests.Commands.UpdateRequest;
 using PrototipoApi.BaseDatos;
 using PrototipoApi.Entities;
 using PrototipoApi.Models;
+using PrototipoApi.Repositories.Interfaces;
 using System.Threading;
 using System.Threading.Tasks;
+using Request = PrototipoApi.Entities.Request;
 
 public class CreateRequestCommandHandler : IRequestHandler<CreateRequestCommand, RequestDto>
 {
-    private readonly ContextoBaseDatos _context;
+    private readonly IRepository<Request> _requests;
 
-    public CreateRequestCommandHandler(ContextoBaseDatos context)
+    public CreateRequestCommandHandler(IRepository<Request> requests)
     {
-        _context = context;
+        _requests = requests;
     }
 
     public async Task<RequestDto> Handle(CreateRequestCommand request, CancellationToken cancellationToken)
@@ -22,16 +25,15 @@ public class CreateRequestCommandHandler : IRequestHandler<CreateRequestCommand,
         var dto = request.Dto;
 
         // Validaciones
-        var buildingExists = await _context.Buildings.AnyAsync(b => b.BuildingId == dto.BuildingId, cancellationToken);
-        if (!buildingExists)
-            throw new Exception("El edificio especificado no existe.");
+        //var buildingExists = await _context.Buildings.AnyAsync(b => b.BuildingId == dto.BuildingId, cancellationToken);
+        //if (!buildingExists)
+        //    throw new Exception("El edificio especificado no existe.");
 
-        var statusExists = await _context.Statuses.AnyAsync(s => s.StatusId == dto.StatusId, cancellationToken);
-        if (!statusExists)
-            throw new Exception("El estado especificado no existe.");
+        //var statusExists = await _context.Statuses.AnyAsync(s => s.StatusId == dto.StatusId, cancellationToken);
+        //if (!statusExists)
+        //    throw new Exception("El estado especificado no existe.");
 
-        // Crear la entidad
-        var r = new Request
+        var entity = new Request
         {
             Description = dto.Description,
             RequestDate = DateTime.UtcNow,
@@ -41,24 +43,26 @@ public class CreateRequestCommandHandler : IRequestHandler<CreateRequestCommand,
             BuildingId = dto.BuildingId
         };
 
-        _context.Requests.Add(r);
-        await _context.SaveChangesAsync(cancellationToken);
+        await _requests.AddAsync(entity);
+        await _requests.SaveChangesAsync();
 
-        // Obtener datos relacionados
-        var status = await _context.Statuses.FindAsync(new object[] { r.StatusId }, cancellationToken);
-        var building = await _context.Buildings.FindAsync(new object[] { r.BuildingId }, cancellationToken);
+        // 2) Proyección directa a DTO
+        var created = await _requests.SelectOneAsync<RequestDto>(
+            r => r.RequestId == entity.RequestId,
+            r => new RequestDto
+            {
+                RequestId = r.RequestId,
+                BuildingAmount = r.BuildingAmount,
+                MaintenanceAmount = r.MaintenanceAmount,
+                Description = r.Description,
+                StatusId = r.StatusId,
+                StatusType = r.Status.StatusType,
+                BuildingId = r.BuildingId,
+                BuildingStreet = r.Building.Street
+            },
+            cancellationToken
+        );
 
-        // Mapear a DTO de salida
-        return new RequestDto
-        {
-            RequestId = r.RequestId,
-            BuildingAmount = r.BuildingAmount,
-            MaintenanceAmount = r.MaintenanceAmount,
-            Description = r.Description,
-            StatusId = r.StatusId,
-            StatusType = status?.StatusType ?? "",
-            BuildingId = r.BuildingId,
-            BuildingStreet = building?.Street ?? ""
-        };
+        return created!;
     }
 }

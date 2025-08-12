@@ -21,9 +21,6 @@
 
   <ItemGroup>
     <Folder Include="Application\ManagementBudget\Commands\CreateManagementBudget\" />
-    <Folder Include="Application\ManagementBudget\Commands\UpdateManagementBudget\" />
-    <Folder Include="Application\ManagementBudget\Queries\GetAllManagementBudget\" />
-    <Folder Include="Application\ManagementBudget\Queries\GetManagementBudgetById\" />
     <Folder Include="Application\Requests\Queries\GetRequestById\" />
     <Folder Include="Migrations\" />
     <Folder Include="Services\" />
