@@ -20,6 +20,17 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<ContextoBaseDatos>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+// Configura CORS para permitir cualquier origen
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", policy =>
+    {
+        policy.AllowAnyOrigin()
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+    });
+});
+
 // Registra MediatR para la inyección de dependencias y manejo de solicitudes (CQRS, Mediator Pattern)
 builder.Services.AddMediatR(cfg =>
 {
@@ -55,6 +66,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+// Habilita CORS antes de los controladores
+app.UseCors("AllowAll");
 
 // Redirige automáticamente las solicitudes HTTP a HTTPS
 app.UseHttpsRedirection();

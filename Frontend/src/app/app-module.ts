@@ -2,6 +2,7 @@ import { NgModule, provideBrowserGlobalErrorListeners } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing-module';
+import { HttpClientModule } from '@angular/common/http';
 import { App } from './app';
 import { Header } from './components/header/header';
 import { Footer } from './components/footer/footer';
@@ -16,13 +17,13 @@ import { Budget } from './pages/budget/budget';
     Header,
     Footer,
     Home,
-    Requests,
     Transactions,
     Budget
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule
   ],
   providers: [
     provideBrowserGlobalErrorListeners()
