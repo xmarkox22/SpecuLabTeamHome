@@ -1,36 +1,34 @@
 ﻿using MediatR;
-using Microsoft.EntityFrameworkCore;
-using PrototipoApi.BaseDatos;
 using PrototipoApi.Models;
+using PrototipoApi.Entities;
+using PrototipoApi.Repositories.Interfaces;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Linq;
 
 public class GetTransactionByTypeHandler : IRequestHandler<GetTransactionByTypeQuery, List<TransactionDto>>
 {
-    private readonly ContextoBaseDatos _context;
+    private readonly IRepository<Transaction> _repository;
 
-    public GetTransactionByTypeHandler(ContextoBaseDatos context)
+    public GetTransactionByTypeHandler(IRepository<Transaction> repository)
     {
-        _context = context;
+        _repository = repository;
     }
 
     public async Task<List<TransactionDto>> Handle(GetTransactionByTypeQuery request, CancellationToken cancellationToken)
     {
-        var transactions = await _context.Transactions
-            .Include(t => t.Request)
-            .Include(t => t.TransactionsType)
-            .Where(t => t.TransactionsType.TransactionName == request.Type)
-            .ToListAsync(cancellationToken);
+        var transactions = await _repository.GetAllAsync(null, t => t.Request, t => t.TransactionsType);
+        var filtered = transactions.Where(t => t.TransactionsType.TransactionName == request.Type);
 
-        return transactions.Select(t => new TransactionDto
+        return filtered.Select(t => new TransactionDto
         {
             TransactionId = t.TransactionId,
             TransactionDate = t.TransactionDate,
             TransactionType = t.TransactionsType.TransactionName,
             TransactionTypeId = t.TransactionTypeId,
-            RequestId = t.RequestId
+            RequestId = t.RequestId,
+            Description = t.Description
             // ManagementBudgetId = t.ManagementBudgetId
         }).ToList();
     }
