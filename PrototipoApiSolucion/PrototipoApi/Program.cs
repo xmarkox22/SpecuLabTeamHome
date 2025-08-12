@@ -35,9 +35,17 @@ var app = builder.Build();
 // Inicializa la base de datos con datos semilla al iniciar la aplicación
 using (var scope = app.Services.CreateScope())
 {
+    
     var services = scope.ServiceProvider;
     var context = services.GetRequiredService<ContextoBaseDatos>();
+
+    if (app.Environment.IsDevelopment())
+    {
+        context.Database.Migrate();
+    }
+
     await DbInitializer.SeedAsync(context); // Método asíncrono para poblar la base de datos si es necesario
+    
 }
 
 // Configura el pipeline de solicitudes HTTP
