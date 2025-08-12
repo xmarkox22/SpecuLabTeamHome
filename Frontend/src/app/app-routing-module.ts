@@ -1,7 +1,22 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-const routes: Routes = [];
+// Importa los componentes para asociarlos a las rutas
+import { Home } from './pages/home/home';
+import { Requests } from './pages/requests/requests';
+import { Budget } from './pages/budget/budget';
+import { Transactions } from './pages/transactions/transactions';
+
+// Definición de rutas
+const routes: Routes = [
+  { path: '', component: Home },             // Ruta raíz: / 
+  { path: 'requests', component: Requests }, // /requests
+  { path: 'budget', component: Budget},     // /budget
+  { path: 'transactions', component: Transactions }, // /transactions
+
+  // Si quieres manejar rutas no encontradas (404)
+  { path: '**', redirectTo: '', pathMatch: 'full' }    // Redirige a Home
+];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
