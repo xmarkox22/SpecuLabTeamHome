@@ -7,13 +7,14 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
+
 namespace PrototipoApi.Application.ManagementBudget.Queries
 {
     public class GetAllManagementBudgetsQueryHandler : IRequestHandler<GetAllManagementBudgetsQuery, IEnumerable<ManagementBudgetDto>>
     {
-        private readonly IRepository<ManagementBudgetDto> _repository;
+        private readonly IRepository<Entities.ManagementBudget> _repository;
 
-        public GetAllManagementBudgetsQueryHandler(IRepository<ManagementBudgetDto> repository)
+        public GetAllManagementBudgetsQueryHandler(IRepository<Entities.ManagementBudget> repository)
         {
             _repository = repository;
         }
