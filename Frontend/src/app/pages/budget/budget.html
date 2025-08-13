@@ -13,17 +13,17 @@
     <thead class="table-dark">
       <tr>
         <th>ID</th>
-        <th>Monto Actual</th>
-        <th>Descripción</th>
+        <th>Cantidad actual</th>
+        <th>Cantidad inicial</th>
         <th>Fecha</th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let budget of budgets">
-        <td>{{ budget.id }}</td>
+        <td>{{ budget.managementBudgetId }}</td>
         <td>{{ budget.currentAmount | currency:'EUR' }}</td>
-        <td>{{ budget.description }}</td>
-        <td>{{ budget.date | date:'short' }}</td>
+        <td>{{ budget.initialAmount | currency:'EUR' }}</td>
+        <td>{{ budget.lastUpdatedDate | date:'short' }}</td>
       </tr>
     </tbody>
   </table>

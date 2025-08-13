@@ -3,10 +3,10 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 export interface ManagementBudget {
-  id: string;
+  managementBudgetId: string;
   currentAmount: number;
-  description: string;
-  date: string;
+  initialAmount: number;
+  lastUpdatedDate: string;
 }
 
 @Injectable({
