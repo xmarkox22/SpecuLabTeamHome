@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Subscription } from 'rxjs';
+import { RequestsService, IRequest } from './requests.service';
 
 
 @Component({
@@ -10,16 +12,20 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [CommonModule]
 })
-export class Requests implements OnInit {
-  requestsData: any[] = [];
+export class Requests implements OnInit, OnDestroy {
+  requestsData: IRequest[] = [];
+  private subscription?: Subscription;
 
-  constructor(private http: HttpClient) {}
+  constructor(private requestsService: RequestsService) {}
 
   ngOnInit() {
-    this.http.get<any[]>('https://localhost:7092/api/requests')
-      .subscribe({
-        next: data => this.requestsData = data,
-        error: err => console.error('Error al cargar requests:', err)
-      });
+    this.subscription = this.requestsService.getRequests().subscribe({
+      next: data => this.requestsData = data,
+      error: err => console.error('Error al cargar requests:', err)
+    });
+  }
+
+  ngOnDestroy() {
+    this.subscription?.unsubscribe();
   }
 }

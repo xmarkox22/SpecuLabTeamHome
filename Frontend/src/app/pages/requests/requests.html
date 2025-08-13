@@ -1,10 +1,15 @@
 <h2>Requests</h2>
-<ul>
+<ul class="d-flex flex-wrap">
   <li *ngFor="let request of requestsData">
-    <strong>ID:</strong> {{ request.requestId }} |
-    <strong>Descripción:</strong> {{ request.description }} |
-    <strong>Estado:</strong> {{ request.statusType }} |
-    <strong>Dirección:</strong> {{ request.buildingStreet }}
+    <div class="card list-group" style="width: 18rem">
+      <div class="card-body">
+        <strong>ID:</strong> {{ request.requestId }} |
+        <strong>Descripción:</strong> {{ request.description }} |
+        <strong>Estado:</strong> {{ request.statusType }} |
+        <strong>Dirección:</strong> {{ request.buildingStreet }}
+        <a href="#" class="btn btn-primary">Go somewhere</a>
+      </div>
+    </div>
   </li>
 </ul>
 <p *ngIf="requestsData.length === 0">No hay requests disponibles.</p>
