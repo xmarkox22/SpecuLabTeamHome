@@ -1,8 +1,11 @@
 
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { StatusFilterPipe } from './status-filter.pipe';
 import { Subscription } from 'rxjs';
 import { RequestsService, IRequest } from './requests.service';
+import { RequestCard } from '../../components/request-card/request-card';
 
 
 @Component({
@@ -10,10 +13,11 @@ import { RequestsService, IRequest } from './requests.service';
   templateUrl: './requests.html',
   styleUrls: ['./requests.css'],
   standalone: true,
-  imports: [CommonModule]
+  imports: [CommonModule, FormsModule, RequestCard, StatusFilterPipe]
 })
 export class Requests implements OnInit, OnDestroy {
   requestsData: IRequest[] = [];
+  selectedStatus: string = '';
   private subscription?: Subscription;
 
   constructor(private requestsService: RequestsService) {}

@@ -7,6 +7,10 @@ export interface IRequest {
   description: string;
   statusType: string;
   buildingStreet: string;
+  buildingAmount: number;
+  maintenanceAmount: number;
+  statusId: number;
+  buildingId: number;
 }
 
 @Injectable({ providedIn: 'root' })

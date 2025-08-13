@@ -1,0 +1,44 @@
+<div class="card m-2 shadow-sm bg-light border-primary" style="width: auto;">
+  <div class="card-header d-flex justify-content-between align-items-center">
+    <span>Edificio ID: <strong>{{ request.requestId }}</strong></span>
+    <span class="badge"
+      [ngClass]="{
+        'bg-success': request.statusType === 'Aprobado',
+        'bg-warning text-dark': request.statusType === 'Pendiente',
+        'bg-danger': request.statusType === 'Rechazado'
+      }"
+    >
+      {{ request.statusType }}
+    </span>
+  </div>
+
+  <div class="card-body">
+    <h5 class="card-title mb-2">
+      Dirección: <span class="text-primary">{{ request.buildingStreet }}</span>
+    </h5>
+    <p class="card-text mb-1"><strong>Descripción:</strong> {{ request.description }}</p>
+
+    <ul class="list-group list-group-flush mb-2">
+      <li class="list-group-item px-0 py-1">
+        <strong>Building Amount:</strong>
+        {{ request.buildingAmount}}
+      </li>
+      <li class="list-group-item px-0 py-1">
+        <strong>Maintenance Amount:</strong>
+        {{ request.maintenanceAmount}}
+      </li>
+      <li class="list-group-item px-0 py-1"><strong>Status ID:</strong> {{ request.statusId }}</li>
+      <li class="list-group-item px-0 py-1"><strong>Building ID:</strong> {{ request.buildingId }}</li>
+    </ul>
+
+    <div class="d-flex justify-content-end">
+        <div class="d-flex gap-5">
+            <a href="#" class="btn btn-outline-success w-100 mt-2">Aceptar</a>
+            <a href="#" class="btn btn-outline-danger w-100 mt-2">Rechazar</a>
+        </div>
+
+    </div>
+
+  </div>
+</div>
+
