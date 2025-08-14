@@ -37,13 +37,7 @@ public class RequestsController : ControllerBase
         return Ok(result);
     }
 
-    // Get by status 
-    [HttpGet("status/{status}")]
-    public async Task<ActionResult<IEnumerable<RequestDto>>> GetRequestsByStatus(string status)
-    {
-        var result = await _mediator.Send(new GetRequestByStatusQuery(status));
-        return Ok(result);
-    }
+
 
 
     [HttpPost]

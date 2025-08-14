@@ -7,6 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Application\ManagementBudget\Commands\CreateManagementBudget\**" />
+    <Content Remove="Application\ManagementBudget\Commands\CreateManagementBudget\**" />
+    <EmbeddedResource Remove="Application\ManagementBudget\Commands\CreateManagementBudget\**" />
+    <None Remove="Application\ManagementBudget\Commands\CreateManagementBudget\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Bogus" Version="35.6.3" />
     <PackageReference Include="FluentValidation" Version="12.0.0" />
     <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="12.0.0" />
@@ -22,7 +29,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Application\ManagementBudget\Commands\CreateManagementBudget\" />
     <Folder Include="Application\Requests\Queries\GetRequestById\" />
     <Folder Include="Migrations\" />
     <Folder Include="Services\" />

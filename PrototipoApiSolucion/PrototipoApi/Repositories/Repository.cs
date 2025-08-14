@@ -97,8 +97,7 @@
         public async Task<bool> ExistsAsync(int id) =>
             await _dbSet.FindAsync(id) != null;
 
-        public Task<bool> AnyAsync(Expression<Func<T, bool>> filter, CancellationToken ct = default)
-    => _dbSet.AnyAsync(filter, ct);
+        public Task<bool> AnyAsync(Expression<Func<T, bool>> filter, CancellationToken ct = default) => _dbSet.AnyAsync(filter, ct);
 
         public Task<int> CountAsync(Expression<Func<T, bool>>? filter = null, CancellationToken ct = default)
         {

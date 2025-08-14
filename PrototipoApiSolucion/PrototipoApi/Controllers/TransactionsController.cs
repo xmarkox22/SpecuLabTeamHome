@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using PrototipoApi.BaseDatos;
 using PrototipoApi.Entities;
 using PrototipoApi.Models;
+using PrototipoApi.Application.Common;
 
 namespace PrototipoApi.Controllers
 {
@@ -20,12 +21,11 @@ namespace PrototipoApi.Controllers
 
         // GET: api/transactions
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<TransactionDto>>> GetTransactions()
+        public async Task<ActionResult<PageResult<TransactionDto>>> GetTransactions([FromQuery] string? transactionType, [FromQuery] int page = 0, [FromQuery] int size = 10)
         {
-            var transactions = await _mediator.Send(new GetAllTransactionsQuery());
+            var transactions = await _mediator.Send(new GetAllTransactionsQuery(transactionType, page, size));
             return Ok(transactions);
         }
-
 
         // GET: api/transactions/{id}
         [HttpGet("{id}")]
@@ -38,15 +38,7 @@ namespace PrototipoApi.Controllers
             return Ok(transaction);
         }
 
-        // GET: api/transactions/type/{type}
-        [HttpGet("type/{type}")]
-        public async Task<ActionResult<IEnumerable<TransactionDto>>> GetTransactionByType(string type)
-        {
-            var transactions = await _mediator.Send(new GetTransactionByTypeQuery(type));
-
-            return Ok(transactions);
-        }
-
+       
         // PUT: api/transactions/{id}
         [HttpPut("{id}")]
 
