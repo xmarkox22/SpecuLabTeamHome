@@ -4,9 +4,6 @@
       <h2 class="fw-bold mb-1">Gestión de Patrimonio</h2>
       <p class="text-muted mb-0">Dashboard de validación y control de adquisiciones inmobiliarias</p>
     </div>
-    <span class="badge rounded-pill bg-primary-subtle text-primary fw-semibold px-3 py-2">
-      Sistema Activo
-    </span>
   </div>
 
   <!-- Loading / Error -->
@@ -28,7 +25,7 @@
     <div class="col-12 col-md-3">
       <div class="card metric-card shadow-sm">
         <div class="card-body">
-          <div class="text-muted small">Presupuestos en Cartera</div>
+          <div class="text-muted small">Edificios en Cartera</div>
           <h3 class="fw-bold mb-1">{{ countBudgets }}</h3>
           <span class="badge bg-success-subtle text-success fw-semibold">+{{ countBudgets ? 1 : 0 }}</span>
         </div>
@@ -74,24 +71,30 @@
           </div>
 
           <div class="status-row">
-            <span>Presupuestos Recibidos Hoy</span>
-            <span class="text-primary fw-bold">{{ receivedToday }} nuevos</span>
+            <span>Edificios Recibidos Este Mes</span>
+            <span class="text-primary fw-bold">{{ receivedThisMonth }} nuevos</span>
+          </div>
+          <div class="status-row">
+            <span>Alquileres Recibidos Este Mes</span>
+            <span class="text-primary fw-bold">{{ receivedThisMonth }} nuevos</span>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Resumen de Validaciones 
+    <!-- Resumen de Validaciones -->
     <div class="col-12 col-lg-6">
       <div class="card shadow-sm h-100">
         <div class="card-header bg-white fw-bold">Resumen de Validaciones</div>
         <div class="card-body">
           <div class="d-flex justify-content-between py-1" *ngIf="approvedCount !== null">
-            <span>Aprobadas este mes</span>
+            <span>Aprobadas</span>
             <span class="text-success fw-bold">{{ approvedCount }}</span>
           </div>
           <div class="d-flex justify-content-between py-1" *ngIf="rejectedCount !== null">
-            <span>Rechazadas este mes</span>
+            <span>Rechazadas 
+
+            </span>
             <span class="text-danger fw-bold">{{ rejectedCount }}</span>
           </div>
           <div class="d-flex justify-content-between py-1" *ngIf="pendingCount !== null">
@@ -115,6 +118,6 @@
           </div>
         </div>
       </div>
-    </div> -->
+    </div> 
   </div>
 </div>
