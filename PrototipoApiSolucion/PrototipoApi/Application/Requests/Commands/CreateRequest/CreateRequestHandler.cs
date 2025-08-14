@@ -39,8 +39,8 @@ public class CreateRequestCommandHandler : IRequestHandler<CreateRequestCommand,
             RequestDate = DateTime.UtcNow,
             BuildingAmount = dto.BuildingAmount,
             MaintenanceAmount = dto.MaintenanceAmount,
-            StatusId = dto.StatusId,
-            BuildingId = dto.BuildingId
+            StatusId = dto.StatusId!.Value,
+            BuildingId = dto.BuildingId!.Value
         };
 
         await _requests.AddAsync(entity);

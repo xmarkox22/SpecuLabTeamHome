@@ -17,7 +17,7 @@ import { RequestCard } from '../../components/request-card/request-card';
 })
 export class Requests implements OnInit, OnDestroy {
   requestsData: IRequest[] = [];
-  selectedStatus: string = '';
+  selectedStatus: string = 'Pendiente';
   private subscription?: Subscription;
 
   constructor(private requestsService: RequestsService) {}
