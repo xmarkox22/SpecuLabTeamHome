@@ -10,8 +10,27 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [CommonModule]
 })
+
 export class Budget implements OnInit {
+
+  //Datos crudos
   budgets: ManagementBudget[] = [];
+
+
+  //Métricas calculadas
+  totalBudget = 0;
+  countBudgets = 0;
+  avgProfit: number | null = null;
+  pendingCount: number | null = null;
+
+// Panel de "Comunicación API"
+  lastSync: Date | null = null;
+  receivedToday = 0;
+
+  // resumen validaciones (si existen estados)
+  approvedCount: number | null = null;
+  rejectedCount: number | null = null;
+
   loading = true;
   error = '';
 

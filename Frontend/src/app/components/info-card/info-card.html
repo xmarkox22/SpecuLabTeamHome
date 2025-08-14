@@ -1,0 +1,7 @@
+<div class="card shadow-sm budget-card border-start-primary">
+	<div class="card-body">
+		<p class="text-muted mb-1">{{ label }}</p>
+		<h4 class="fw-bold">{{ prefix }}{{ value | number:format }}</h4>
+		<span *ngIf="badge" class="badge" [ngClass]="badgeClass">{{ badge }}</span>
+	</div>
+</div>

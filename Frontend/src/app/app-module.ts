@@ -12,6 +12,7 @@ import { Home } from './pages/home/home';
 import { Requests } from './pages/requests/requests';
 import { Transactions } from './pages/transactions/transactions';
 import { Budget } from './pages/budget/budget';
+import { InfoCard } from './components/info-card/info-card';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { Budget } from './pages/budget/budget';
     Home,
     Transactions,
     
+    
   ],
   imports: [
     BrowserModule,
@@ -28,6 +30,7 @@ import { Budget } from './pages/budget/budget';
     AppRoutingModule,
     HttpClientModule,
     Budget,
+    InfoCard,
   ],
   providers: [
     provideBrowserGlobalErrorListeners()
