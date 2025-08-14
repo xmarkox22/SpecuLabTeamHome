@@ -7,7 +7,6 @@ public record GetAllRequestsQuery(
     int Size = 20,
     string? Status = null,
     string? SortBy = "requestDate",
-    bool Desc = true,
-    string StatusType = "Aprobado"
+    bool Desc = true
 ) : IRequest<PageResult<RequestDto>>;
 
