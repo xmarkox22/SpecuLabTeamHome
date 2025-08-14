@@ -1,9 +1,11 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using PrototipoApi.Application.Behaviors;
 using PrototipoApi.BaseDatos;
 using PrototipoApi.Repositories;
 using PrototipoApi.Repositories.Interfaces;
 using System.Reflection;
+using FluentValidation;
 
 // Crea el constructor de la aplicación web
 var builder = WebApplication.CreateBuilder(args);
@@ -19,6 +21,12 @@ builder.Services.AddSwaggerGen();
 // Configura la conexión a la base de datos usando Entity Framework Core y SQL Server
 builder.Services.AddDbContext<ContextoBaseDatos>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(Program).Assembly));
+builder.Services.AddValidatorsFromAssembly(typeof(Program).Assembly);
+builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
+
+
 
 // Configura CORS para permitir cualquier origen
 builder.Services.AddCors(options =>
@@ -66,6 +74,20 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+
+app.Use(async (ctx, next) =>
+{
+    try { await next(); }
+    catch (ValidationException ex)
+    {
+        var errors = ex.Errors
+            .GroupBy(e => e.PropertyName)
+            .ToDictionary(g => g.Key, g => g.Select(e => e.ErrorMessage).ToArray());
+
+        await Results.ValidationProblem(errors).ExecuteAsync(ctx); // 400 con ProblemDetails
+    }
+});
 
 // Habilita CORS antes de los controladores
 app.UseCors("AllowAll");

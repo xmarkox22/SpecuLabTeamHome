@@ -1,4 +1,5 @@
-﻿using System.Linq.Expressions;
+﻿using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace PrototipoApi.Repositories.Interfaces
 {
@@ -33,6 +34,11 @@ namespace PrototipoApi.Repositories.Interfaces
         Task UpdateAsync(T entity);
         Task DeleteAsync(T entity);
         Task<bool> ExistsAsync(int id);
+        public Task<bool> AnyAsync(Expression<Func<T, bool>> filter, CancellationToken ct = default);
+
+        Task<int> CountAsync(Expression<Func<T, bool>>? filter = null, CancellationToken ct = default);
+
+
         Task SaveChangesAsync();
     }
 

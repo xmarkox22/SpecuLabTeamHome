@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using PrototipoApi.Application.Common;
 using PrototipoApi.Application.Requests.Commands.CreateRequest;
 using PrototipoApi.Application.Requests.Commands.UpdateRequest;
 using PrototipoApi.Application.Requests.Queries.GetRequestById;
@@ -21,13 +22,13 @@ public class RequestsController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<List<RequestDto>>> Get()
+    public async Task<ActionResult<PageResult<RequestDto>>> Get([FromQuery] GetAllRequestsQuery query)
     {
-        var result = await _mediator.Send(new GetAllRequestsQuery());
+        var result = await _mediator.Send(query);
         return Ok(result);
     }
 
-   [HttpGet("{id}")]
+    [HttpGet("{id}")]
     public async Task<ActionResult<RequestDto>> GetById(int id)
     {
         var result = await _mediator.Send(new GetRequestByIdQuery(id));
