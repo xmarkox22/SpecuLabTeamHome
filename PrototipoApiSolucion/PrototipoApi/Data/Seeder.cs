@@ -7,7 +7,7 @@ namespace PrototipoApi.Data
     {
         private static readonly string[] StatusTypes = new[]
         {
-            "Pendiente", "En revisión", "Aprobado", "Rechazado"
+            "Recibido", "Pendiente", "Aprobado", "Rechazado"
         };
 
         private static readonly string[] TransactionsTypes = new[]
