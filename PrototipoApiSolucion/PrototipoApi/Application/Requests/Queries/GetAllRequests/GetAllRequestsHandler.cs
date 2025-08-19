@@ -1,13 +1,12 @@
 ﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
-using PrototipoApi.Application.Common;
 using PrototipoApi.BaseDatos;
 using PrototipoApi.Entities;
 using PrototipoApi.Models;
 using PrototipoApi.Repositories.Interfaces;
 using System.Linq.Expressions;
 
-public class GetAllRequestsHandler : IRequestHandler<GetAllRequestsQuery, PageResult<RequestDto>>
+public class GetAllRequestsHandler : IRequestHandler<GetAllRequestsQuery, List<RequestDto>>
 {
     private readonly IRepository<Request> _repository;
 
@@ -16,14 +15,14 @@ public class GetAllRequestsHandler : IRequestHandler<GetAllRequestsQuery, PageRe
         _repository = repository;
     }
 
-    public async Task<PageResult<RequestDto>> Handle(GetAllRequestsQuery request, CancellationToken ct)
+    public async Task<List<RequestDto>> Handle(GetAllRequestsQuery request, CancellationToken ct)
     {
-        // sin filtros por ahora; los añadimos luego si quieres
+        var page = request.Page;
+
         Expression<Func<Request, bool>>? filter = null;
         if (!string.IsNullOrWhiteSpace(request.Status))
             filter = r => r.Status.StatusType == request.Status;
 
-        // selector a DTO (sin Include; EF hará los JOIN necesarios)
         Expression<Func<Request, RequestDto>> selector = r => new RequestDto
         {
             RequestId = r.RequestId,
@@ -36,7 +35,6 @@ public class GetAllRequestsHandler : IRequestHandler<GetAllRequestsQuery, PageRe
             BuildingStreet = r.Building.Street
         };
 
-        // orden estable para paginación (primario + secundario)
         Func<IQueryable<Request>, IOrderedQueryable<Request>> orderBy = q =>
             q.OrderByDescending(r => r.RequestDate).ThenBy(r => r.RequestId);
 
@@ -44,13 +42,11 @@ public class GetAllRequestsHandler : IRequestHandler<GetAllRequestsQuery, PageRe
             filter: filter,
             orderBy: orderBy,
             selector: selector,
-            skip: request.Page * request.Size,
+            skip: (page - 1) * request.Size,
             take: request.Size,
             ct: ct
         );
 
-        var total = await _repository.CountAsync(filter, ct);
-
-        return new PageResult<RequestDto>(items, total, request.Page, request.Size);
+        return items;
     }
 }
