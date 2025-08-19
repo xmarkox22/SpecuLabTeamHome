@@ -1,14 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { BudgetService, ManagementBudget } from './budget.service';
 
+
 import { CommonModule } from '@angular/common';
+import { InfoCard } from '../../components/info-card/info-card';
 
 @Component({
   selector: 'sl-budget',
   templateUrl: './budget.html',
   styleUrls: ['./budget.css'],
   standalone: true,
-  imports: [CommonModule]
+  imports: [CommonModule, InfoCard]
 })
 
 export class Budget implements OnInit {
@@ -20,8 +22,8 @@ export class Budget implements OnInit {
   //Métricas calculadas
   totalBudget = 0;
   countBudgets = 0;
-  avgProfit: number = 10 //| null = null;
-  pendingCount: number = 12 //| null = null;
+  avgProfit: number | null = null;
+  pendingCount: number | null = null;
 
 // Panel de "Comunicación API"
   lastSync: Date | null = null;
