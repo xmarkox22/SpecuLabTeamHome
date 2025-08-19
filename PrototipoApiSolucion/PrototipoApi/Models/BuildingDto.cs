@@ -1,6 +1,6 @@
-﻿namespace PrototipoApi.Entities
+﻿namespace PrototipoApi.Models
 {
-    public class Building
+    public class BuildingDto
     {
         public int BuildingId { get; set; }
         public int BuildingCode { get; set; }
@@ -11,10 +11,5 @@
         public DateTime CreatedDate { get; set; } = DateTime.UtcNow;
         public int FloorCount { get; set; }
         public int YearBuilt { get; set; }
-
-
-
-
-
     }
 }

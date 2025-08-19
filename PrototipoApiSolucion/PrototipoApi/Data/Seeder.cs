@@ -20,7 +20,14 @@ namespace PrototipoApi.Data
         public static List<Building> GenerateBuildings(int count)
         {
             var faker = new Faker<Building>()
-                .RuleFor(b => b.Street, f => f.Address.StreetAddress());
+                .RuleFor(b => b.BuildingCode, f => f.Random.Int(1000, 9999))
+                .RuleFor(b => b.BuildingName, f => f.Company.CompanyName())
+                .RuleFor(b => b.Price, f => f.Random.Decimal(100000, 1000000))
+                .RuleFor(b => b.Street, f => f.Address.StreetAddress())
+                .RuleFor(b => b.District, f => f.Address.City())
+                .RuleFor(b => b.CreatedDate, f => f.Date.Past(10))
+                .RuleFor(b => b.FloorCount, f => f.Random.Int(2, 5))
+                .RuleFor(b => b.YearBuilt, f => f.Date.Past(50).Year);
 
             return faker.Generate(count);
         }
