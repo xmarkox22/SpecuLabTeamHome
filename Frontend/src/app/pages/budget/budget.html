@@ -13,43 +13,40 @@
   <!-- Métricas -->
   <div *ngIf="!loading && !error" class="row g-3 mb-3">
     <div class="col-12 col-md-3">
-      <div class="card metric-card shadow-sm">
-        <div class="card-body">
-          <div class="text-muted small">Patrimonio Total</div>
-          <h3 class="fw-bold mb-1">{{ totalBudget | currency:'EUR' }}</h3>
-          <span class="badge bg-success-subtle text-success fw-semibold">Actualizado</span>
-        </div>
-      </div>
+      <sl-info-card
+        [label]="'Patrimonio Total'"
+        [value]="totalBudget"
+        [currency]="'EUR'"
+        [badge]="'Actualizado'"
+        [badgeClass]="'bg-success-subtle text-success fw-semibold'">
+      </sl-info-card>
     </div>
 
     <div class="col-12 col-md-3">
-      <div class="card metric-card shadow-sm">
-        <div class="card-body">
-          <div class="text-muted small">Edificios en Cartera</div>
-          <h3 class="fw-bold mb-1">{{ countBudgets }}</h3>
-          <span class="badge bg-success-subtle text-success fw-semibold">+{{ countBudgets ? 1 : 0 }}</span>
-        </div>
-      </div>
+      <sl-info-card
+        [label]="'Edificios en Cartera'"
+        [value]="countBudgets"
+        [badge]="'+' + (countBudgets ? 1 : 0)"
+        [badgeClass]="'bg-success-subtle text-success fw-semibold'">
+      </sl-info-card>
     </div>
 
     <div class="col-12 col-md-3" *ngIf="avgProfit !== null">
-      <div class="card metric-card shadow-sm bg-success-soft">
-        <div class="card-body">
-          <div class="text-muted small">Rentabilidad Media</div>
-          <h3 class="fw-bold mb-1">{{ avgProfit }}%</h3>
-          <span class="badge bg-success-subtle text-success fw-semibold">Variación</span>
-        </div>
-      </div>
+      <sl-info-card
+        [label]="'Rentabilidad Media'"
+        [value]="avgProfit + '%'"
+        [badge]="'Variación'"
+        [badgeClass]="'bg-success-subtle text-success fw-semibold'">
+      </sl-info-card>
     </div>
 
     <div class="col-12 col-md-3" *ngIf="pendingCount !== null">
-      <div class="card metric-card shadow-sm">
-        <div class="card-body">
-          <div class="text-muted small">Pendientes Validación</div>
-          <h3 class="fw-bold mb-1">{{ pendingCount }}</h3>
-          <span class="badge bg-primary-subtle text-primary fw-semibold">Nuevos</span>
-        </div>
-      </div>
+      <sl-info-card
+        [label]="'Pendientes Validación'"
+        [value]="pendingCount"
+        [badge]="'Nuevos'"
+        [badgeClass]="'bg-primary-subtle text-primary fw-semibold'">
+      </sl-info-card>
     </div>
   </div>
 

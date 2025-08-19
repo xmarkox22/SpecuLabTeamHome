@@ -1,7 +1,15 @@
-<div class="card shadow-sm budget-card border-start-primary">
-	<div class="card-body">
-		<p class="text-muted mb-1">{{ label }}</p>
-		<h4 class="fw-bold">{{ prefix }}{{ value | number:format }}</h4>
-		<span *ngIf="badge" class="badge" [ngClass]="badgeClass">{{ badge }}</span>
-	</div>
+<div class="card metric-card shadow-sm">
+  <div class="card-body">
+    <div class="text-muted small">{{ label }}</div>
+    <h3 class="fw-bold mb-1">
+      <ng-container *ngIf="currency; else normalValue">
+        {{ value | currency:currency }}
+      </ng-container>
+      <ng-template #normalValue>
+        {{ value }}{{ suffix }}
+      </ng-template>
+    </h3>
+    <span *ngIf="badge" class="badge" [ngClass]="badgeClass">{{ badge }}</span>
+    <ng-content></ng-content>
+  </div>
 </div>
