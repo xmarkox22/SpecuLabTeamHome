@@ -21,7 +21,6 @@ public class CreateBuildingHandler : IRequestHandler<CreateBuildingCommand, Buil
         {
             BuildingCode = dto.BuildingCode,
             BuildingName = dto.BuildingName,
-            Price = dto.Price,
             Street = dto.Street,
             District = dto.District,
             CreatedDate = dto.CreatedDate,
@@ -37,7 +36,7 @@ public class CreateBuildingHandler : IRequestHandler<CreateBuildingCommand, Buil
             BuildingId = entity.BuildingId,
             BuildingCode = entity.BuildingCode,
             BuildingName = entity.BuildingName,
-            Price = entity.Price,
+            Price = dto.Price, // El DTO tiene Price, la entidad no
             Street = entity.Street,
             District = entity.District,
             CreatedDate = entity.CreatedDate,
