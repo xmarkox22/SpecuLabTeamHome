@@ -18,6 +18,7 @@
 
         // Relación con Apartment (opcional)
         public int? ApartmentId { get; set; }
+        public string? ApartmentCode { get; set; }
         public Apartment? Apartment { get; set; }
     }
 }
