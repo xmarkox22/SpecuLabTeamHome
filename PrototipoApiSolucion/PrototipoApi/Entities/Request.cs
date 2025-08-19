@@ -17,6 +17,7 @@ namespace PrototipoApi.Entities
         // Claves foráneas (necesarias para asignar desde el DTO)
         public int StatusId { get; set; }
         public int BuildingId { get; set; }
+        public string BuildingCode { get; set; }
 
         // Navegación
         public Status Status { get; set; } = null!;

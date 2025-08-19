@@ -2,7 +2,7 @@
 {
     public class ManagementBudget
     {
-        public int ManagementBudgetId { get; set; }
+        public int ManagementBudgetId { get; set; } //poner valor fijo cuando sepamos la cantidad de presupuestos que vamos a tener
         public double InitialAmount { get; set; }
         public double CurrentAmount { get; set; }
         public DateTime LastUpdatedDate { get; set; }
@@ -11,7 +11,5 @@
         public int TransactionId { get; set; }
 
 
-        // Relaciones
-        //public ICollection<Transaction> Transactions { get; set; } = new List<Transaction>();
     }
 }
