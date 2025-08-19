@@ -24,11 +24,12 @@ export class Budget implements OnInit {
   constructor(private budgetService: BudgetService) {}
 
   ngOnInit(): void {
-    this.loadBudgets();
+    //this.loadBudgets(); DESCOMENTAR CUANDO TENGAMOS ENDPOINT BUILDINGS
     // this.loadBuildings();  DESCOMENTAR CUANDO TENGAMOS ENDPOINT BUILDINGS
 
     this.totalPatrimony = 1250000; // Borrar estas 3 lineas cuando tengamos endpoint buildings
     this.buildingsCount = 8;
+    this.totalAmount = 500000; // Borrar esta linea cuando tengamos endpoint buildings
     this.loading = false;
 
 
