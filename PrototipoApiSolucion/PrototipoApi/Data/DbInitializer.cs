@@ -28,18 +28,12 @@ public static class DbInitializer
 
       
         // 3. ManagementBudgets
-
-        // Borra todos los registros antiguos de ManagementBudget
-        if (context.ManagementBudgets.Any())
+        if (!context.ManagementBudgets.Any())
         {
-            context.ManagementBudgets.RemoveRange(context.ManagementBudgets);
+            var managementBudgets = Seeder.GenerateManagementBudgets(5);
+            context.ManagementBudgets.AddRange(managementBudgets);
             await context.SaveChangesAsync();
         }
-
-        // Inserta los nuevos registros con el InitialAmount fijo
-        var managementBudgets = Seeder.GenerateManagementBudgets(5);
-        context.ManagementBudgets.AddRange(managementBudgets);
-        await context.SaveChangesAsync();
 
         // 4. Transactions
 
