@@ -11,7 +11,7 @@ public static class DbInitializer
 
         if (!context.Buildings.Any())
         {
-            var buildings = Seeder.GenerateBuildings(10);
+            var buildings = Seeder.GenerateBuildings(20); // Cambiado a 20 edificios
             context.Buildings.AddRange(buildings);
             await context.SaveChangesAsync(); // Para que tengan IDs
         }
