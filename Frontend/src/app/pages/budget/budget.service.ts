@@ -13,12 +13,32 @@ export interface ManagementBudget {
   providedIn: 'root'
 })
 export class BudgetService {
-  private apiUrl = 'https://localhost:7092/api/managementbudgets';
+  private apiUrlBudget = 'https://localhost:7092/api/managementbudgets';
+  private apiUrlTransactions = 'https://localhost:7092/api/transactions?page=0&size=10';
+  private apiUrlStatus = 'https://localhost:7092/api/status';
+  private apiUrlRequest = 'https://localhost:7092/api/requests';
+  private apiUrlBuildings = 'https://localhost:7092/api/buildings';
 
-  constructor(private http: HttpClient) {}
+  constructor(private https: HttpClient) {}
 
   getBudgets(): Observable<ManagementBudget[]> {
-    return this.http.get<ManagementBudget[]>(this.apiUrl);
+    return this.https.get<ManagementBudget[]>(this.apiUrlBudget);
+  }
+
+  getTransactions(): Observable<ManagementBudget[]> {
+    return this.https.get<ManagementBudget[]>(this.apiUrlTransactions);
+  }
+
+  getStatus(): Observable<ManagementBudget[]> {
+    return this.https.get<ManagementBudget[]>(this.apiUrlStatus);
+  }
+
+  getRequests(): Observable<ManagementBudget[]> {
+    return this.https.get<ManagementBudget[]>(this.apiUrlRequest);
+  }
+
+  getBuildings(): Observable<any[]> {
+    return this.https.get<any[]>(this.apiUrlBuildings);
   }
 }
 
