@@ -28,7 +28,6 @@ public class GetAllBuildingsHandler : IRequestHandler<GetAllBuildingsQuery, List
             BuildingId = b.BuildingId,
             BuildingCode = b.BuildingCode,
             BuildingName = b.BuildingName,
-            Price = b.Price,
             Street = b.Street,
             District = b.District,
             CreatedDate = b.CreatedDate,

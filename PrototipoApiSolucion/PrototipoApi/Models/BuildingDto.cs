@@ -3,7 +3,7 @@
     public class BuildingDto
     {
         public int BuildingId { get; set; }
-        public int BuildingCode { get; set; }
+        public string BuildingCode { get; set; }
         public string BuildingName { get; set; } = string.Empty;
         public decimal Price { get; set; }
         public string Street { get; set; } = string.Empty;

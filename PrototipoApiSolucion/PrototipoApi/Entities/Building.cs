@@ -3,9 +3,8 @@
     public class Building
     {
         public int BuildingId { get; set; }
-        public int BuildingCode { get; set; }
+        public string BuildingCode { get; set; }
         public string BuildingName { get; set; } = string.Empty;
-        public decimal Price { get; set; }
         public string Street { get; set; } = string.Empty;
         public string District { get; set; } = string.Empty;
         public DateTime CreatedDate { get; set; } = DateTime.UtcNow;
