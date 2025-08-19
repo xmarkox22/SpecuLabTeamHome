@@ -15,6 +15,9 @@
         public int TransactionTypeId { get; set; }
         public TransactionType TransactionsType { get; set; } = null!;
         public string Description { get; set; } = string.Empty;
-    }
 
+        // Relación con Apartment (opcional)
+        public int? ApartmentId { get; set; }
+        public Apartment? Apartment { get; set; }
+    }
 }
