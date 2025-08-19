@@ -30,6 +30,7 @@
 
   <ItemGroup>
     <Folder Include="Application\Requests\Queries\GetRequestById\" />
+    <Folder Include="DTOs\" />
     <Folder Include="Migrations\" />
     <Folder Include="Services\" />
   </ItemGroup>
