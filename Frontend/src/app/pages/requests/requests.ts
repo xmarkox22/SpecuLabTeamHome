@@ -38,7 +38,7 @@ export class Requests implements OnInit, OnDestroy {
       this.loadRequests();
     }
   }
-  selectedStatus: string = 'Pendiente';
+  selectedStatus: string = 'Recibido';
   private subscription?: Subscription;
 
   constructor(private requestsService: RequestsService) {}

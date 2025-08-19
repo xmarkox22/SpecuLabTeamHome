@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Boton } from '../boton/boton';
 import { IRequest } from '../../pages/requests/requests.service';
 
 @Component({
@@ -7,11 +8,15 @@ import { IRequest } from '../../pages/requests/requests.service';
   templateUrl: './request-card.html',
   styleUrls: ['./request-card.css'],
   standalone: true,
-  imports: [CommonModule]
+  imports: [CommonModule, Boton]
 })
 export class RequestCard {
   // Recibo el objeto completo para mayor comodidad
   @Input()
   request!: IRequest;
+
+  get totalAmount(): number {
+    return (this.request?.buildingAmount || 0) + (this.request?.maintenanceAmount || 0);
+  }
 }
   
