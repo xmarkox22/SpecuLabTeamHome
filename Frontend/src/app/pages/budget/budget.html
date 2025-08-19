@@ -1,120 +1,51 @@
 <div class="container mt-4">
-  <div class="d-flex align-items-center justify-content-between mb-2">
-    <div>
-      <h2 class="fw-bold mb-1">Gestión de Patrimonio</h2>
-      <p class="text-muted mb-0">Dashboard de validación y control de adquisiciones inmobiliarias</p>
-    </div>
+  <h2 class="mb-4">Panel de Gestión</h2>
+
+  <!-- Loading -->
+  <div *ngIf="loading" class="alert alert-info text-center">
+    Cargando datos...
   </div>
 
-  <!-- Loading / Error -->
-  <div *ngIf="loading" class="alert alert-info my-3">Cargando datos...</div>
-  <div *ngIf="!loading && error" class="alert alert-danger my-3">{{ error }}</div>
-
-  <!-- Métricas -->
-  <div *ngIf="!loading && !error" class="row g-3 mb-3">
-    <div class="col-12 col-md-3">
-      <sl-info-card
-        [label]="'Patrimonio Total'"
-        [value]="totalBudget"
-        [currency]="'EUR'"
-        [badge]="'Actualizado'"
-        [badgeClass]="'bg-success-subtle text-success fw-semibold'">
-      </sl-info-card>
-    </div>
-
-    <div class="col-12 col-md-3">
-      <sl-info-card
-        [label]="'Edificios en Cartera'"
-        [value]="countBudgets"
-        [badge]="'+' + (countBudgets ? 1 : 0)"
-        [badgeClass]="'bg-success-subtle text-success fw-semibold'">
-      </sl-info-card>
-    </div>
-
-    <div class="col-12 col-md-3" *ngIf="avgProfit !== null">
-      <sl-info-card
-        [label]="'Rentabilidad Media'"
-        [value]="avgProfit + '%'"
-        [badge]="'Variación'"
-        [badgeClass]="'bg-success-subtle text-success fw-semibold'">
-      </sl-info-card>
-    </div>
-
-    <div class="col-12 col-md-3" *ngIf="pendingCount !== null">
-      <sl-info-card
-        [label]="'Pendientes Validación'"
-        [value]="pendingCount"
-        [badge]="'Nuevos'"
-        [badgeClass]="'bg-primary-subtle text-primary fw-semibold'">
-      </sl-info-card>
-    </div>
+  <!-- Error -->
+  <div *ngIf="error" class="alert alert-danger text-center">
+    {{ error }}
   </div>
 
-  <!-- Secciones -->
-  <div *ngIf="!loading && !error" class="row g-3">
-    <!-- Estado de Comunicación API -->
-    <div class="col-12 col-lg-6">
-      <div class="card shadow-sm h-100">
-        <div class="card-header bg-white fw-bold">Estado de Comunicación API</div>
+  <!-- Tarjetas principales -->
+  <div *ngIf="!loading && !error" class="row g-4">
+    <!-- Total Euros -->
+    <div class="col-md-4">
         <div class="card-body">
-          <div class="status-row bg-success-subtle text-success">
-            <span>Sistema de Presupuestos</span>
-            <span class="badge bg-success">Conectado</span>
-          </div>
-
-          <div class="status-row">
-            <span>Última Sincronización</span>
-            <small class="text-muted">{{ lastSync | date:'short' }}</small>
-          </div>
-
-          <div class="status-row">
-            <span>Edificios Recibidos Este Mes</span>
-            <span class="text-primary fw-bold">{{ receivedThisMonth }} nuevos</span>
-          </div>
-          <div class="status-row">
-            <span>Alquileres Recibidos Este Mes</span>
-            <span class="text-primary fw-bold">{{ receivedThisMonth }} nuevos</span>
-          </div>
+          <sl-info-card
+            [label]="'Cantidad en cartera'"
+            [value]="totalAmount"
+            [currency]="'EUR'"
+            [badgeClass]="'bg-primary-subtle text-primary fw-semibold'">
+          </sl-info-card>
         </div>
-      </div>
     </div>
 
-    <!-- Resumen de Validaciones -->
-    <div class="col-12 col-lg-6">
-      <div class="card shadow-sm h-100">
-        <div class="card-header bg-white fw-bold">Resumen de Validaciones</div>
+    <!-- Patrimonio Total -->
+    <div class="col-md-4">
         <div class="card-body">
-          <div class="d-flex justify-content-between py-1" *ngIf="approvedCount !== null">
-            <span>Aprobadas</span>
-            <span class="text-success fw-bold">{{ approvedCount }}</span>
-          </div>
-          <div class="d-flex justify-content-between py-1" *ngIf="rejectedCount !== null">
-            <span>Rechazadas 
-
-            </span>
-            <span class="text-danger fw-bold">{{ rejectedCount }}</span>
-          </div>
-          <div class="d-flex justify-content-between py-1" *ngIf="pendingCount !== null">
-            <span>Pendientes de revisión</span>
-            <span class="text-warning fw-bold">{{ pendingCount }}</span>
-          </div>
-
-          <hr *ngIf="approvedCount !== null || rejectedCount !== null || pendingCount !== null">
-          <div class="d-flex justify-content-between" *ngIf="approvedCount !== null && (approvedCount + (rejectedCount || 0) + (pendingCount || 0)) > 0">
-            <span>Tasa de Aprobación</span>
-            <span class="text-primary fw-bold">
-              {{
-                (approvedCount! /
-                  (approvedCount! + (rejectedCount || 0) + (pendingCount || 0))
-                ) | percent:'1.0-0'
-              }}
-            </span>
-          </div>
-          <div class="text-muted" *ngIf="approvedCount === null && rejectedCount === null && pendingCount === null">
-            No hay información de estados en el JSON.
-          </div>
+            <sl-info-card
+              [label]="'Patrimonio Total'"
+              [value]="totalPatrimony"
+              [currency]="'EUR'"
+              [badgeClass]="'bg-success-subtle text-success fw-semibold'">
+            </sl-info-card>
         </div>
-      </div>
-    </div> 
+    </div>
+
+    <!-- Cantidad de Edificios -->
+    <div class="col-md-4">
+        <div class="card-body">
+            <sl-info-card
+              [label]="'Edificios Comprados'"
+              [value]="buildingsCount"
+              [badgeClass]="'bg-primary-subtle text-primary fw-semibold'">
+            </sl-info-card>
+        </div>
+    </div>
   </div>
 </div>

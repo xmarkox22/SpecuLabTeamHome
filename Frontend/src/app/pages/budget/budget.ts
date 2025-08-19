@@ -14,74 +14,56 @@ import { InfoCard } from '../../components/info-card/info-card';
 })
 
 export class Budget implements OnInit {
-
-  //Datos crudos
-  budgets: ManagementBudget[] = [];
-
-
-  //Métricas calculadas
-  totalBudget = 0;
-  countBudgets = 0;
-  avgProfit: number | null = null;
-  pendingCount: number | null = null;
-
-// Panel de "Comunicación API"
-  lastSync: Date | null = null;
-  receivedThisMonth = 0;
-
-  // resumen validaciones (si existen estados)
-  approvedCount: number = 10 //| null = null;
-  rejectedCount: number = 10 //| null = null;
+  totalAmount: number = 0;
+  totalPatrimony: number = 0;
+  buildingsCount: number = 0;
 
   loading = true;
-  error = '';
+  error: string | null = null;
 
   constructor(private budgetService: BudgetService) {}
 
-  // ngOnInit() {
-  //   this.budgetService.getBudgets().subscribe({
-  //     next: (data: ManagementBudget[]) => { // ✅ tipo explícito
-  //       this.budgets = data;
-  //       this.loading = false;
-  //     },
-  //     error: (err: any) => { // ✅ tipo explícito
-  //       console.error(err);
-  //       this.error = 'Error al cargar los presupuestos';
-  //       this.loading = false;
-  //     }
-  //   });
-  // }
+  ngOnInit(): void {
+    this.loadBudgets();
+    // this.loadBuildings();  DESCOMENTAR CUANDO TENGAMOS ENDPOINT BUILDINGS
 
-  ngOnInit() {
-    this.fetchData();
+    this.totalPatrimony = 1250000; // Borrar estas 3 lineas cuando tengamos endpoint buildings
+    this.buildingsCount = 8;
+    this.loading = false;
+
+
+    
   }
 
-  private fetchData() {
-    this.loading = false;
-    this.error = '';
-    this.lastSync = new Date();
-    
+private loadBudgets() {
     this.budgetService.getBudgets().subscribe({
       next: (data: ManagementBudget[]) => {
-        this.budgets = Array.isArray(data) ? data : [];
-        this.countBudgets = this.budgets.length;
+        if (data && data.length > 0) {
 
-        // totalBudget
-        this.totalBudget = this.budgets.reduce(
-          (acc, b) => acc + (Number(b.currentAmount) || 0),
-          0
-        );
-
-        // estados
-        
-
-
+          // Actualiza el presupuesto actual con el ultimo dato (ultima fecha)
+          const latest = data.reduce((a, b) =>
+            new Date(a.lastUpdatedDate) > new Date(b.lastUpdatedDate) ? a : b
+          );
+          this.totalAmount = latest.currentAmount;
+        }
+        this.loading = false;
       },
-      error: (err: any) => {
-        console.error(err);
-        this.error = 'Error al cargar los presupuestos';
+      error: () => {
+        this.error = 'Error al cargar presupuestos';
+        this.loading = false;
+      }
+    });
+  }
+
+  private loadBuildings() {
+    this.budgetService.getBuildings().subscribe({
+      next: (buildings: any[]) => {
+        this.buildingsCount = buildings.length;
+        this.totalPatrimony = buildings.reduce((sum, b) => sum + (b.purchasePrice || 0), 0);
+        this.loading = false;
       },
-      complete: () => {
+      error: () => {
+        this.error = 'Error al cargar edificios';
         this.loading = false;
       }
     });

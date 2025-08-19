@@ -1,8 +1,47 @@
-.status-row {
-  display: flex; justify-content: space-between; align-items: center;
-  padding: .75rem 1rem; border: 1px solid #e9ecef; border-radius: 10px; margin-bottom: .5rem;
-  background: #fff;
+sl-info-card {
+  display: block;
+  background: #ffffff;
+  border-radius: 1rem; /* esquinas redondeadas */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); /* sombra suave */
+  padding: 1.5rem;
+  text-align: center;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
-.status-row.bg-success-subtle { border-color: rgba(25,135,84,.25); background: rgba(25,135,84,.05); }
-.badge.bg-success-subtle { background: rgba(25,135,84,.15) !important; color: #198754 !important; }
-.badge.bg-primary-subtle { background: rgba(13,110,253,.15) !important; color: #0d6efd !important; }
+
+sl-info-card:hover {
+  transform: translateY(-4px); /* efecto "flotante" */
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.12);
+}
+
+sl-info-card h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #374151; /* gris oscuro elegante */
+  margin-bottom: 0.75rem;
+}
+
+sl-info-card p {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+/* Variantes de colores según el tipo de tarjeta */
+sl-info-card.total-amount p {
+  color: #16a34a; /* verde */
+}
+
+sl-info-card.patrimony p {
+  color: #2563eb; /* azul */
+}
+
+sl-info-card.buildings p {
+  color: #9333ea; /* morado */
+}
+
+sl-info-card small {
+  display: block;
+  margin-top: 0.5rem;
+  font-size: 0.85rem;
+  color: #6b7280; /* gris claro */
+}
