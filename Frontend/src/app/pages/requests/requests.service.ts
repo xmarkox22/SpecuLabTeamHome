@@ -27,10 +27,9 @@ export class RequestsService {
 
   constructor(private http: HttpClient) {}
 
-  getRequests(page = 0, size = 10, status = '', sortBy = ''): Observable<IPaginatedRequests> {
-    let params: any = { page, size };
+  getRequests(status = ''): Observable<IRequest[]> {
+    let params: any = {};
     if (status) params.status = status;
-    if (sortBy) params.sortBy = sortBy;
-    return this.http.get<IPaginatedRequests>(this.apiUrl, { params });
+    return this.http.get<IRequest[]>(this.apiUrl, { params });
   }
 }

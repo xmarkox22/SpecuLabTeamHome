@@ -22,14 +22,14 @@
 
 <nav *ngIf="total > size" aria-label="Paginación de requests" class="d-flex justify-content-center mt-3">
   <ul class="pagination">
-    <li class="page-item" [class.disabled]="page === 0">
-      <button class="page-link" (click)="prevPage()" [disabled]="page === 0">Anterior</button>
+    <li class="page-item" [class.disabled]="page === 1">
+      <button class="page-link" (click)="prevPage()" [disabled]="page === 1">Anterior</button>
     </li>
     <li class="page-item disabled">
-      <span class="page-link">Página {{ page + 1 }} de {{ totalPages }}</span>
+      <span class="page-link">Página {{ page }} de {{ totalPages }}</span>
     </li>
-    <li class="page-item" [class.disabled]="(page + 1) * size >= total">
-      <button class="page-link" (click)="nextPage()" [disabled]="(page + 1) * size >= total">Siguiente</button>
+    <li class="page-item" [class.disabled]="page === totalPages">
+      <button class="page-link" (click)="nextPage()" [disabled]="page === totalPages">Siguiente</button>
     </li>
   </ul>
 </nav>
