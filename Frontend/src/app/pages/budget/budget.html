@@ -1,5 +1,5 @@
 <div class="container mt-4">
-  <h2 class="mb-4">Panel de Gestión</h2>
+  <h2 class="mb-4">Panel de Patrimonio</h2>
 
   <!-- Loading -->
   <div *ngIf="loading" class="alert alert-info text-center">
@@ -14,32 +14,22 @@
   <!-- Tarjetas principales -->
   <div *ngIf="!loading && !error" class="row g-4">
     <!-- Total Euros -->
-    <div class="col-md-4">
-        <div class="card-body">
           <sl-info-card
             [label]="'Cantidad en cartera'"
             [value]="totalAmount"
             [currency]="'EUR'"
             [badgeClass]="'bg-primary-subtle text-primary fw-semibold'">
           </sl-info-card>
-        </div>
-    </div>
 
     <!-- Patrimonio Total -->
-    <div class="col-md-4">
-        <div class="card-body">
             <sl-info-card
               [label]="'Patrimonio Total'"
               [value]="totalPatrimony"
               [currency]="'EUR'"
               [badgeClass]="'bg-success-subtle text-success fw-semibold'">
             </sl-info-card>
-        </div>
-    </div>
 
     <!-- Cantidad de Edificios -->
-    <div class="col-md-4">
-        <div class="card-body">
             <sl-info-card
               [label]="'Edificios Comprados'"
               [value]="buildingsCount"
@@ -47,5 +37,3 @@
             </sl-info-card>
         </div>
     </div>
-  </div>
-</div>

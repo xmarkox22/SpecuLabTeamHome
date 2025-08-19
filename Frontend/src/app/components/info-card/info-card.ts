@@ -12,6 +12,7 @@ export class InfoCard {
   @Input() label: string = '';
   @Input() value: number | string = 0;
   @Input() prefix: string = '';
+  @Input() badge: string = '';
   @Input() badgeClass: string = 'bg-success';
   @Input() format: string = '1.0-0';
   @Input() currency: string | null = null;
