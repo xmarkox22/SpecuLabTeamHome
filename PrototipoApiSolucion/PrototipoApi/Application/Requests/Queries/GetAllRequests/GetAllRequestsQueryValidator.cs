@@ -8,7 +8,7 @@ namespace PrototipoApi.Application.Requests.Queries.GetAllRequests
 
         public GetAllRequestsQueryValidator()
         {
-            RuleFor(x => x.Page).GreaterThanOrEqualTo(0);
+            RuleFor(x => x.Page).GreaterThanOrEqualTo(1).WithMessage("La página debe ser mayor o igual a 1.");
             RuleFor(x => x.Size).InclusiveBetween(1, 100);
 
             RuleFor(x => x.SortBy)
