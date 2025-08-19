@@ -15,8 +15,6 @@
         public int TransactionTypeId { get; set; }
         public TransactionType TransactionsType { get; set; } = null!;
         public string Description { get; set; } = string.Empty;
-        //public int ManagementBudgetId { get; set; }
-        //public ManagementBudget ManagementBudget { get; set; } = null!;
     }
 
 }
