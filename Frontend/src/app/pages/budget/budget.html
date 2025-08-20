@@ -13,27 +13,30 @@
 
   <!-- Tarjetas principales -->
   <div *ngIf="!loading && !error" class="row g-4">
-    <!-- Total Euros -->
-          <sl-info-card
-            [label]="'Cantidad en cartera'"
-            [value]="totalAmount"
-            [currency]="'EUR'"
-            [badgeClass]="'bg-primary-subtle text-primary fw-semibold'">
-          </sl-info-card>
-
-    <!-- Patrimonio Total -->
-            <sl-info-card
-              [label]="'Patrimonio Total'"
-              [value]="totalPatrimony"
-              [currency]="'EUR'"
-              [badgeClass]="'bg-success-subtle text-success fw-semibold'">
-            </sl-info-card>
-
-    <!-- Cantidad de Edificios -->
-            <sl-info-card
-              [label]="'Edificios Comprados'"
-              [value]="buildingsCount"
-              [badgeClass]="'bg-primary-subtle text-primary fw-semibold'">
-            </sl-info-card>
-        </div>
+  <div class="col-12 col-md-4">
+      <sl-info-card
+        class="flex-fill"
+        [label]="'Cantidad en cartera'"
+        [value]="totalAmount"
+        [currency]="'EUR'"
+        [badgeClass]="'bg-primary-subtle text-primary fw-semibold'">
+      </sl-info-card>
+    </div>
+  <div class="col-12 col-md-4">
+      <sl-info-card
+        class="flex-fill"
+        [label]="'Patrimonio Total'"
+        [value]="totalPatrimony"
+        [currency]="'EUR'"
+        [badgeClass]="'bg-success-subtle text-success fw-semibold'">
+      </sl-info-card>
+    </div>
+  <div class="col-12 col-md-4">
+  <sl-info-card
+        [label]="'Edificios Comprados'"
+        [value]="buildingsCount"
+        [badgeClass]="'bg-primary-subtle text-primary fw-semibold'">
+      </sl-info-card>
+    </div>
+  </div>
     </div>
