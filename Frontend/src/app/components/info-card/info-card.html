@@ -1,7 +1,7 @@
-<div class="card metric-card shadow-sm">
+<div class="card text-center shadow-sm border-0 rounded-3">
   <div class="card-body">
-    <div class="text-muted small">{{ label }}</div>
-    <h3 class="fw-bold mb-1">
+    <h5 class="card-title text-muted">{{ label }}</h5>
+    <h3 class="display-6 fw-bold mb-1">
       <ng-container *ngIf="currency; else normalValue">
         {{ value | currency:currency }}
       </ng-container>
@@ -9,6 +9,7 @@
         {{ value }}{{ suffix }}
       </ng-template>
     </h3>
+    <span *ngIf="badge" class="badge" [ngClass]="badgeClass">{{ badge }}</span>
     <ng-content></ng-content>
   </div>
 </div>

@@ -55,38 +55,6 @@ namespace PrototipoApi.Controllers
 
             return Ok(result);
 
-            //// POST: api/ManagementBudgets
-            //[HttpPost]
-            //public async Task<ActionResult<ManagementBudgetDto>> PostManagementBudget(ManagementBudgetDto dto)
-            //{
-            //    var entity = new ManagementBudget
-            //    {
-            //        InitialAmount = dto.InitialAmount,
-            //        CurrentAmount = dto.CurrentAmount,
-            //        LastUpdatedDate = dto.LastUpdatedDate
-            //    };
-            //    _context.ManagementBudget.Add(entity);
-            //    await _context.SaveChangesAsync();
-            //    dto.ManagementBudgetId = entity.ManagementBudgetId;
-            //    return CreatedAtAction(nameof(GetManagementBudget), new { id = entity.ManagementBudgetId }, dto);
-            //}
-
-            //// DELETE: api/ManagementBudgets/5
-            //[HttpDelete("{id}")]
-            //public async Task<IActionResult> DeleteManagementBudget(int id)
-            //{
-            //    var entity = await _context.ManagementBudget.FindAsync(id);
-            //    if (entity == null)
-            //        return NotFound();
-            //    _context.ManagementBudget.Remove(entity);
-            //    await _context.SaveChangesAsync();
-            //    return NoContent();
-            //}
-
-            //private bool ManagementBudgetExists(int id)
-            //{
-            //    return _context.ManagementBudgets.Any(e => e.ManagementBudgetId == id);
-            //}
         }
     }
 }
