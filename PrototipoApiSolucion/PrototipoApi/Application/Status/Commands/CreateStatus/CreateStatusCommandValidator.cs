@@ -12,9 +12,8 @@ public class CreateStatusCommandValidator : FluentValidation.AbstractValidator<C
 
         RuleFor(x => x.Description)
             .MaximumLength(500).WithMessage("La descripción no puede exceder 500 caracteres.");
-
         RuleFor(x => x.StatusType)
-            .MustAsync(async (statusType, ct) => !await statuses.AnyAsync(s => s.StatusType == statusType, ct))
-            .WithMessage("Ya existe un estado con este tipo.");
+            .Must(v => new[] { "Pendiente", "Recivido", "Aprobado", "Rechazado" }.Contains(v))
+            .WithMessage("El tipo de estado debe ser uno de: Pendiente, En revisión, Aprobado, Rechazado.");
     }
 }
