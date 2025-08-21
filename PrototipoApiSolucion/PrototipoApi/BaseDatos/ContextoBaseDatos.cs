@@ -17,5 +17,22 @@ namespace PrototipoApi.BaseDatos
         public DbSet<Transaction> Transactions { get; set; } = default!;
         public DbSet<TransactionType> TransactionsTypes { get; set; } = default!;
         public DbSet<Apartment> Apartments { get; set; } = default!;
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<RequestStatusHistory>()
+                .HasOne(rsh => rsh.OldStatus)
+                .WithMany()
+                .HasForeignKey(rsh => rsh.OldStatusId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<RequestStatusHistory>()
+                .HasOne(rsh => rsh.NewStatus)
+                .WithMany()
+                .HasForeignKey(rsh => rsh.NewStatusId)
+                .OnDelete(DeleteBehavior.Restrict);
+        }
     }
 }

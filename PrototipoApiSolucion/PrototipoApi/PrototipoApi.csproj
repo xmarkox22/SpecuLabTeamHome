@@ -8,9 +8,13 @@
 
   <ItemGroup>
     <Compile Remove="Application\ManagementBudget\Commands\CreateManagementBudget\**" />
+    <Compile Remove="DTOs\**" />
     <Content Remove="Application\ManagementBudget\Commands\CreateManagementBudget\**" />
+    <Content Remove="DTOs\**" />
     <EmbeddedResource Remove="Application\ManagementBudget\Commands\CreateManagementBudget\**" />
+    <EmbeddedResource Remove="DTOs\**" />
     <None Remove="Application\ManagementBudget\Commands\CreateManagementBudget\**" />
+    <None Remove="DTOs\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -30,8 +34,6 @@
 
   <ItemGroup>
     <Folder Include="Application\Requests\Queries\GetRequestById\" />
-    <Folder Include="DTOs\" />
-    <Folder Include="Migrations\" />
     <Folder Include="Services\" />
   </ItemGroup>
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PrototipoApi.Entities
 {
@@ -17,11 +18,15 @@ namespace PrototipoApi.Entities
         // Claves foráneas (necesarias para asignar desde el DTO)
         public int StatusId { get; set; }
         public int BuildingId { get; set; }
-        public string BuildingCode { get; set; }
 
         // Navegación
+        [ForeignKey("StatusId")]
         public Status Status { get; set; } = null!;
+        [ForeignKey("BuildingId")]
         public Building Building { get; set; } = null!;
+
+        // Historial de cambios de estado
+        public ICollection<RequestStatusHistory> StatusHistory { get; set; } = new List<RequestStatusHistory>();
     }
 
 

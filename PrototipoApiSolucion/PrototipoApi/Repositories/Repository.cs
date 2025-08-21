@@ -93,10 +93,11 @@
             await _dbSet.AddAsync(entity);
 
         // Marca una entidad como modificada
-        public Task UpdateAsync(T entity)
+        public async Task UpdateAsync(T entity, Action? extraAction = null)
         {
             _dbSet.Update(entity);
-            return Task.CompletedTask;
+            extraAction?.Invoke();
+            await Task.CompletedTask;
         }
 
         // Elimina una entidad del contexto

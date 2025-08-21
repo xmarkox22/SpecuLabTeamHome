@@ -26,7 +26,6 @@ namespace PrototipoApi.Application.ManagementBudget.Queries
             return budgets.Select(b => new ManagementBudgetDto
             {
                 ManagementBudgetId = b.ManagementBudgetId,
-                InitialAmount = b.InitialAmount,
                 CurrentAmount = b.CurrentAmount,
                 LastUpdatedDate = b.LastUpdatedDate
             }).ToList();

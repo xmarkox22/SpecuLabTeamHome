@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace PrototipoApi.Entities
 {
     public class Apartment
@@ -14,6 +16,7 @@ namespace PrototipoApi.Entities
         public bool HasGarage { get; set; }
         public DateTime CreatedDate { get; set; } = DateTime.UtcNow;
 
+        [ForeignKey("BuildingId")]
         public Building Building { get; set; } = null!;
     }
 }

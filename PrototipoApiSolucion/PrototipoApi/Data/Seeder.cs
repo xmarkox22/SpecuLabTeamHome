@@ -55,10 +55,8 @@ namespace PrototipoApi.Data
         // 3. ManagementBudgets
         public static List<ManagementBudget> GenerateManagementBudgets(int count)
         {
-            const double initialAmount = 50000; // Valor fijo para todos los registros
             var faker = new Faker<ManagementBudget>()
-                .RuleFor(mb => mb.InitialAmount, f => initialAmount)
-                .RuleFor(mb => mb.CurrentAmount, f => initialAmount + (double)f.Finance.Amount(-20000, 40000))
+                .RuleFor(mb => mb.CurrentAmount, f => 50000 + (double)f.Finance.Amount(-20000, 40000))
                 .RuleFor(mb => mb.LastUpdatedDate, f => f.Date.Recent(30));
             return faker.Generate(count);
         }

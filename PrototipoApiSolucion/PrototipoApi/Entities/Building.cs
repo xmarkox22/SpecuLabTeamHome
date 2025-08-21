@@ -1,4 +1,5 @@
-﻿namespace PrototipoApi.Entities
+﻿using System.Collections.Generic;
+namespace PrototipoApi.Entities
 {
     public class Building
     {
@@ -11,9 +12,7 @@
         public int FloorCount { get; set; }
         public int YearBuilt { get; set; }
 
-
-
-
-
+        // Relación inversa: un edificio tiene muchos apartamentos
+        public ICollection<Apartment> Apartments { get; set; } = new List<Apartment>();
     }
 }

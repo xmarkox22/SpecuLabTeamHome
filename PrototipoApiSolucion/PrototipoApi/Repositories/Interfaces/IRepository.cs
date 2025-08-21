@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using PrototipoApi.BaseDatos;
 using System.Linq.Expressions;
 
 namespace PrototipoApi.Repositories.Interfaces
@@ -44,7 +45,7 @@ namespace PrototipoApi.Repositories.Interfaces
 
 
         // Marca una entidad como modificada
-        Task UpdateAsync(T entity);
+        Task UpdateAsync(T entity, Action? extraAction = null);
 
 
         // Elimina una entidad del contexto

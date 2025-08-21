@@ -21,7 +21,25 @@ namespace PrototipoApi.Application.Requests.Commands.UpdateRequest
             if (entity == null)
                 return false;
 
+            // Guardar el estado anterior antes de modificarlo
+            int oldStatusId = entity.StatusId;
+
             entity.MaintenanceAmount = request.Dto.MaintenanceAmount;
+            // Supón que aquí también cambias el estado si es necesario
+            // entity.StatusId = request.Dto.NewStatusId;
+
+            await _repository.UpdateAsync(entity, () =>
+            {
+                // Actualiza el historial solo en la entidad (no en la base de datos directamente)
+                entity.StatusHistory.Add(new RequestStatusHistory
+                {
+                    RequestId = entity.RequestId,
+                    OldStatusId = oldStatusId,
+                    NewStatusId = entity.StatusId,
+                    ChangeDate = DateTime.UtcNow,
+                    Comment = "Actualización de mantenimiento"
+                });
+            });
 
             await _repository.SaveChangesAsync();
             return true;

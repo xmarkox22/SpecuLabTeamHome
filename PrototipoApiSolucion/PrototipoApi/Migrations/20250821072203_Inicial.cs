@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace PrototipoApi.Migrations
 {
     /// <inheritdoc />
-    public partial class RenuevoEntidades : Migration
+    public partial class Inicial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -52,7 +52,6 @@ namespace PrototipoApi.Migrations
                 {
                     TransactionTypeId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    LogDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     TransactionName = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
@@ -99,8 +98,7 @@ namespace PrototipoApi.Migrations
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     RequestDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     StatusId = table.Column<int>(type: "int", nullable: false),
-                    BuildingId = table.Column<int>(type: "int", nullable: false),
-                    BuildingCode = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    BuildingId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -120,6 +118,41 @@ namespace PrototipoApi.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "RequestStatusHistory",
+                columns: table => new
+                {
+                    RequestStatusHistoryId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    RequestId = table.Column<int>(type: "int", nullable: false),
+                    OldStatusId = table.Column<int>(type: "int", nullable: false),
+                    NewStatusId = table.Column<int>(type: "int", nullable: false),
+                    ChangeDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Comment = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_RequestStatusHistory", x => x.RequestStatusHistoryId);
+                    table.ForeignKey(
+                        name: "FK_RequestStatusHistory_Requests_RequestId",
+                        column: x => x.RequestId,
+                        principalTable: "Requests",
+                        principalColumn: "RequestId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_RequestStatusHistory_Statuses_NewStatusId",
+                        column: x => x.NewStatusId,
+                        principalTable: "Statuses",
+                        principalColumn: "StatusId",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_RequestStatusHistory_Statuses_OldStatusId",
+                        column: x => x.OldStatusId,
+                        principalTable: "Statuses",
+                        principalColumn: "StatusId",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Transactions",
                 columns: table => new
                 {
@@ -130,8 +163,7 @@ namespace PrototipoApi.Migrations
                     Amount = table.Column<double>(type: "float", nullable: false),
                     TransactionTypeId = table.Column<int>(type: "int", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ApartmentId = table.Column<int>(type: "int", nullable: true),
-                    ApartmentCode = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    ApartmentId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -161,7 +193,6 @@ namespace PrototipoApi.Migrations
                 {
                     ManagementBudgetId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    InitialAmount = table.Column<double>(type: "float", nullable: false),
                     CurrentAmount = table.Column<double>(type: "float", nullable: false),
                     LastUpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     TransactionId = table.Column<int>(type: "int", nullable: false)
@@ -198,6 +229,21 @@ namespace PrototipoApi.Migrations
                 column: "StatusId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_RequestStatusHistory_NewStatusId",
+                table: "RequestStatusHistory",
+                column: "NewStatusId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_RequestStatusHistory_OldStatusId",
+                table: "RequestStatusHistory",
+                column: "OldStatusId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_RequestStatusHistory_RequestId",
+                table: "RequestStatusHistory",
+                column: "RequestId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Transactions_ApartmentId",
                 table: "Transactions",
                 column: "ApartmentId");
@@ -218,6 +264,9 @@ namespace PrototipoApi.Migrations
         {
             migrationBuilder.DropTable(
                 name: "ManagementBudgets");
+
+            migrationBuilder.DropTable(
+                name: "RequestStatusHistory");
 
             migrationBuilder.DropTable(
                 name: "Transactions");

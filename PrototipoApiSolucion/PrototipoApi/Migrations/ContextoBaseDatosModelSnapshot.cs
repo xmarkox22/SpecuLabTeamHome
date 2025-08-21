@@ -119,9 +119,6 @@ namespace PrototipoApi.Migrations
                     b.Property<double>("CurrentAmount")
                         .HasColumnType("float");
 
-                    b.Property<double>("InitialAmount")
-                        .HasColumnType("float");
-
                     b.Property<DateTime>("LastUpdatedDate")
                         .HasColumnType("datetime2");
 
@@ -146,10 +143,6 @@ namespace PrototipoApi.Migrations
                     b.Property<double>("BuildingAmount")
                         .HasColumnType("float");
 
-                    b.Property<string>("BuildingCode")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("BuildingId")
                         .HasColumnType("int");
 
@@ -173,6 +166,40 @@ namespace PrototipoApi.Migrations
                     b.HasIndex("StatusId");
 
                     b.ToTable("Requests");
+                });
+
+            modelBuilder.Entity("PrototipoApi.Entities.RequestStatusHistory", b =>
+                {
+                    b.Property<int>("RequestStatusHistoryId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RequestStatusHistoryId"));
+
+                    b.Property<DateTime>("ChangeDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Comment")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("NewStatusId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("OldStatusId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RequestId")
+                        .HasColumnType("int");
+
+                    b.HasKey("RequestStatusHistoryId");
+
+                    b.HasIndex("NewStatusId");
+
+                    b.HasIndex("OldStatusId");
+
+                    b.HasIndex("RequestId");
+
+                    b.ToTable("RequestStatusHistory");
                 });
 
             modelBuilder.Entity("PrototipoApi.Entities.Status", b =>
@@ -213,9 +240,6 @@ namespace PrototipoApi.Migrations
                     b.Property<double>("Amount")
                         .HasColumnType("float");
 
-                    b.Property<string>("ApartmentCode")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int?>("ApartmentId")
                         .HasColumnType("int");
 
@@ -251,9 +275,6 @@ namespace PrototipoApi.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TransactionTypeId"));
 
-                    b.Property<DateTime>("LogDate")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("TransactionName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -266,7 +287,7 @@ namespace PrototipoApi.Migrations
             modelBuilder.Entity("PrototipoApi.Entities.Apartment", b =>
                 {
                     b.HasOne("PrototipoApi.Entities.Building", "Building")
-                        .WithMany()
+                        .WithMany("Apartments")
                         .HasForeignKey("BuildingId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -277,7 +298,7 @@ namespace PrototipoApi.Migrations
             modelBuilder.Entity("PrototipoApi.Entities.ManagementBudget", b =>
                 {
                     b.HasOne("PrototipoApi.Entities.Transaction", "Transaction")
-                        .WithMany()
+                        .WithMany("ManagementBudgets")
                         .HasForeignKey("TransactionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -294,7 +315,7 @@ namespace PrototipoApi.Migrations
                         .IsRequired();
 
                     b.HasOne("PrototipoApi.Entities.Status", "Status")
-                        .WithMany()
+                        .WithMany("Requests")
                         .HasForeignKey("StatusId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -302,6 +323,33 @@ namespace PrototipoApi.Migrations
                     b.Navigation("Building");
 
                     b.Navigation("Status");
+                });
+
+            modelBuilder.Entity("PrototipoApi.Entities.RequestStatusHistory", b =>
+                {
+                    b.HasOne("PrototipoApi.Entities.Status", "NewStatus")
+                        .WithMany()
+                        .HasForeignKey("NewStatusId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("PrototipoApi.Entities.Status", "OldStatus")
+                        .WithMany()
+                        .HasForeignKey("OldStatusId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("PrototipoApi.Entities.Request", "Request")
+                        .WithMany("StatusHistory")
+                        .HasForeignKey("RequestId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("NewStatus");
+
+                    b.Navigation("OldStatus");
+
+                    b.Navigation("Request");
                 });
 
             modelBuilder.Entity("PrototipoApi.Entities.Transaction", b =>
@@ -317,7 +365,7 @@ namespace PrototipoApi.Migrations
                         .IsRequired();
 
                     b.HasOne("PrototipoApi.Entities.TransactionType", "TransactionsType")
-                        .WithMany()
+                        .WithMany("Transactions")
                         .HasForeignKey("TransactionTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -327,6 +375,31 @@ namespace PrototipoApi.Migrations
                     b.Navigation("Request");
 
                     b.Navigation("TransactionsType");
+                });
+
+            modelBuilder.Entity("PrototipoApi.Entities.Building", b =>
+                {
+                    b.Navigation("Apartments");
+                });
+
+            modelBuilder.Entity("PrototipoApi.Entities.Request", b =>
+                {
+                    b.Navigation("StatusHistory");
+                });
+
+            modelBuilder.Entity("PrototipoApi.Entities.Status", b =>
+                {
+                    b.Navigation("Requests");
+                });
+
+            modelBuilder.Entity("PrototipoApi.Entities.Transaction", b =>
+                {
+                    b.Navigation("ManagementBudgets");
+                });
+
+            modelBuilder.Entity("PrototipoApi.Entities.TransactionType", b =>
+                {
+                    b.Navigation("Transactions");
                 });
 #pragma warning restore 612, 618
         }

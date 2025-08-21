@@ -30,7 +30,6 @@ public class UpdateManagementBudgetHandler : IRequestHandler<UpdateManagementBud
         return new ManagementBudgetDto
         {
             ManagementBudgetId = budget.ManagementBudgetId,
-            InitialAmount = budget.InitialAmount,
             CurrentAmount = budget.CurrentAmount,
             LastUpdatedDate = budget.LastUpdatedDate
         };
