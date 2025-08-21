@@ -48,6 +48,9 @@ builder.Services.AddMediatR(cfg =>
 // Registra el repositorio genérico para inyección de dependencias
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 
+// Registro del servicio externo de edificios
+builder.Services.AddHttpClient<PrototipoApi.Services.IExternalBuildingService, PrototipoApi.Services.ExternalBuildingService>();
+
 // Construye la aplicación web
 var app = builder.Build();
 

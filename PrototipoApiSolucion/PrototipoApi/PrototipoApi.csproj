@@ -34,7 +34,6 @@
 
   <ItemGroup>
     <Folder Include="Application\Requests\Queries\GetRequestById\" />
-    <Folder Include="Services\" />
   </ItemGroup>
 
 </Project>
