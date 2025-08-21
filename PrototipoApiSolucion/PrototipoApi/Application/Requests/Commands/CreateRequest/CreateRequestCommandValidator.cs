@@ -18,15 +18,15 @@ namespace PrototipoApi.Application.Requests.Commands.CreateRequest
                 .Must(d => d.BuildingAmount + d.MaintenanceAmount > 0)
                 .WithMessage("El importe total debe ser > 0.");
 
-            RuleFor(x => x.Dto.BuildingId)
-                .GreaterThan(0)
-                .MustAsync(async (id, ct) => await buildings.AnyAsync(b => b.BuildingId == id, ct))
-                .WithMessage("El edificio especificado no existe.");
+            //RuleFor(x => x.Dto.BuildingId)
+            //    .GreaterThan(0)
+            //    .MustAsync(async (id, ct) => await buildings.AnyAsync(b => b.BuildingId == id, ct))
+            //    .WithMessage("El edificio especificado no existe.");
 
-            RuleFor(x => x.Dto.StatusId)
-                .GreaterThan(0)
-                .MustAsync(async (id, ct) => await statuses.AnyAsync(s => s.StatusId == id, ct))
-                .WithMessage("El estado especificado no existe.");
+            //RuleFor(x => x.Dto.StatusId)
+            //    .GreaterThan(0)
+            //    .MustAsync(async (id, ct) => await statuses.AnyAsync(s => s.StatusId == id, ct))
+            //    .WithMessage("El estado especificado no existe.");
         }
     }
 }

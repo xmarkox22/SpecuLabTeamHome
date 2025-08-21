@@ -1,8 +1,6 @@
 ﻿using Azure.Core;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using PrototipoApi.Application.Requests.Commands.CreateRequest;
-using PrototipoApi.Application.Requests.Commands.UpdateRequest;
 using PrototipoApi.BaseDatos;
 using PrototipoApi.Entities;
 using PrototipoApi.Models;
@@ -10,43 +8,48 @@ using PrototipoApi.Repositories.Interfaces;
 using System.Threading;
 using System.Threading.Tasks;
 using Request = PrototipoApi.Entities.Request;
+using PrototipoApi.Application.Requests.Commands.CreateRequest;
 
+// Handler que usa CreateRequestDto, pero mantiene el patrón MediatR con CreateRequestCommand
 public class CreateRequestCommandHandler : IRequestHandler<CreateRequestCommand, RequestDto>
 {
     private readonly IRepository<Request> _requests;
+    private readonly IRepository<Building> _buildings;
+    private readonly IRepository<Status> _statuses;
 
-    public CreateRequestCommandHandler(IRepository<Request> requests)
+    public CreateRequestCommandHandler(IRepository<Request> requests, IRepository<Building> buildings, IRepository<Status> statuses)
     {
         _requests = requests;
+        _buildings = buildings;
+        _statuses = statuses;
     }
 
     public async Task<RequestDto> Handle(CreateRequestCommand request, CancellationToken cancellationToken)
     {
         var dto = request.Dto;
 
-        // Validaciones
-        //var buildingExists = await _context.Buildings.AnyAsync(b => b.BuildingId == dto.BuildingId, cancellationToken);
-        //if (!buildingExists)
-        //    throw new Exception("El edificio especificado no existe.");
-
-        //var statusExists = await _context.Statuses.AnyAsync(s => s.StatusId == dto.StatusId, cancellationToken);
-        //if (!statusExists)
-        //    throw new Exception("El estado especificado no existe.");
+        // Buscar BuildingId y StatusId a partir de los códigos
+        var building = await _buildings.GetOneAsync(b => b.BuildingCode == dto.BuildingCode);
+        if (building == null)
+            throw new Exception("El edificio especificado no existe.");
+        var status = await _statuses.GetOneAsync(s => s.StatusType == dto.StatusType);
+        if (status == null)
+            throw new Exception("El estado especificado no existe.");
 
         var entity = new Request
         {
             Description = dto.Description,
-            RequestDate = DateTime.UtcNow,
             BuildingAmount = dto.BuildingAmount,
             MaintenanceAmount = dto.MaintenanceAmount,
-            StatusId = dto.StatusId!.Value,
-            BuildingId = dto.BuildingId!.Value
+            BuildingId = building.BuildingId,
+            StatusId = status.StatusId,
+            RequestDate = DateTime.UtcNow
         };
 
         await _requests.AddAsync(entity);
         await _requests.SaveChangesAsync();
 
-        // 2) Proyección directa a DTO
+        // Proyección directa a DTO
         var created = await _requests.SelectOneAsync<RequestDto>(
             r => r.RequestId == entity.RequestId,
             r => new RequestDto

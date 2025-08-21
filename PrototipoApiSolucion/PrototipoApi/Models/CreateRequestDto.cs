@@ -15,13 +15,16 @@ namespace PrototipoApi.Models
         [StringLength(500, ErrorMessage = "La descripción no puede exceder 500 caracteres.")]
         public string Description { get; set; } = string.Empty;
 
-        [Required(ErrorMessage = "El ID de estado es obligatorio.")]
-        [Range(1, int.MaxValue, ErrorMessage = "El ID de estado debe ser válido.")]
-        public int? StatusId { get; set; }
+        //[Required(ErrorMessage = "El ID de estado es obligatorio.")]
+        //[Range(1, int.MaxValue, ErrorMessage = "El ID de estado debe ser válido.")]
+        //public int? StatusId { get; set; }
 
-        [Required(ErrorMessage = "El ID de edificio es obligatorio.")]
-        [Range(1, int.MaxValue, ErrorMessage = "El ID de edificio debe ser válido.")]
-        public int? BuildingId { get; set; }
+        //[Required(ErrorMessage = "El ID de edificio es obligatorio.")]
+        //[Range(1, int.MaxValue, ErrorMessage = "El ID de edificio debe ser válido.")]
+        //public int? BuildingId { get; set; }
+
+        public string StatusType { get; set; } = string.Empty;
+        public string BuildingCode { get; set; } = string.Empty;
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
