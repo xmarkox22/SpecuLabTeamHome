@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using PrototipoApi.Models;
-using PrototipoApi.Application.Status.Commands.UpdateStatus;
+using PrototipoApi.Logging;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -12,16 +12,19 @@ namespace PrototipoApi.Controllers
     public class StatusController : ControllerBase
     {
         private readonly IMediator _mediator;
+        private readonly ILoguer _loguer;
 
-        public StatusController(IMediator mediator)
+        public StatusController(IMediator mediator, ILoguer loguer)
         {
             _mediator = mediator;
+            _loguer = loguer;
         }
 
         // GET: api/status
         [HttpGet]
         public async Task<ActionResult<IEnumerable<StatusDto>>> GetStatuses()
         {
+            _loguer.LogInfo("Obteniendo todos los status");
             var statuses = await _mediator.Send(new GetAllStatusQuery());
             return Ok(statuses);
         }
@@ -30,29 +33,26 @@ namespace PrototipoApi.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<StatusDto>> GetStatus(int id)
         {
+            _loguer.LogInfo($"Obteniendo status con id {id}");
             var status = await _mediator.Send(new GetStatusByIdQuery(id));
             if (status == null)
+            {
+                _loguer.LogWarning($"Status con id {id} no encontrado");
                 return NotFound();
+            }
 
             return Ok(status);
         }
+
 
         // POST: api/status
         [HttpPost]
         public async Task<ActionResult<StatusDto>> PostStatus(CreateStatusDto dto)
         {
+            _loguer.LogInfo("Creando nuevo status");
             var createdStatus = await _mediator.Send(new CreateStatusCommand(dto.StatusType, dto.Description));
+            _loguer.LogInfo($"Status creado con id {createdStatus.StatusId}");
             return CreatedAtAction(nameof(GetStatus), new { id = createdStatus.StatusId }, createdStatus);
-        }
-
-        // PUT: api/status/{id}
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutStatus(int id, [FromBody] StatusDto dto)
-        {
-            var success = await _mediator.Send(new UpdateStatusCommand(id, dto.StatusType, dto.Description));
-            if (!success)
-                return NotFound();
-            return NoContent();
         }
     }
 }

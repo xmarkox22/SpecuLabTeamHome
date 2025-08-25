@@ -7,13 +7,14 @@ import { CommonModule } from '@angular/common';
 import { InfoCard } from '../../components/info-card/info-card';
 import { ChartConfiguration } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
+import { TransactionsPageComponent } from "../transactions/transactions-page/transactions-page.component";
 
 @Component({
   selector: 'sl-budget',
   templateUrl: './budget.html',
   styleUrls: ['./budget.css'],
   standalone: true,
-  imports: [CommonModule, InfoCard, BaseChartDirective]
+  imports: [CommonModule, InfoCard, BaseChartDirective, TransactionsPageComponent]
 })
 
 export class Budget implements OnInit {
