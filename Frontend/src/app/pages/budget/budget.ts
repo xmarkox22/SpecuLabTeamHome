@@ -1,16 +1,19 @@
 import { Component, OnInit } from '@angular/core';
-import { BudgetService, ManagementBudget } from './budget.service';
+import { BudgetService, ManagementBudget, Transaction } from './budget.service';
 
 
 import { CommonModule } from '@angular/common';
+
 import { InfoCard } from '../../components/info-card/info-card';
+import { ChartConfiguration } from 'chart.js';
+import { BaseChartDirective } from 'ng2-charts';
 
 @Component({
   selector: 'sl-budget',
   templateUrl: './budget.html',
   styleUrls: ['./budget.css'],
   standalone: true,
-  imports: [CommonModule, InfoCard]
+  imports: [CommonModule, InfoCard, BaseChartDirective]
 })
 
 export class Budget implements OnInit {
@@ -21,26 +24,97 @@ export class Budget implements OnInit {
   loading = true;
   error: string | null = null;
 
+  // Datos para el gráfico de barras de gasto mensual
+  monthlyExpensesLabels: string[] = [
+    'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
+    'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
+  ];
+  monthlyExpensesData: number[] = Array(12).fill(0);
+  monthlyIncomeData: number[] = Array(12).fill(0);
+
+  barChartData: ChartConfiguration<'bar'>['data'] = {
+    labels: this.monthlyExpensesLabels,
+    datasets: [
+      {
+        data: this.monthlyExpensesData,
+        label: 'Gastos',
+        backgroundColor: '#dc2626', // rojo
+        borderRadius: 6
+      },
+      {
+        data: this.monthlyIncomeData,
+        label: 'Ingresos',
+        backgroundColor: '#16a34a', // verde
+        borderRadius: 6
+      }
+    ]
+  };
+  barChartOptions: ChartConfiguration<'bar'>['options'] = {
+    responsive: true,
+    plugins: {
+      legend: { display: false },
+      title: { display: true, text: 'Gasto a lo largo de los meses' }
+    },
+    scales: {
+      x: {},
+      y: { beginAtZero: true }
+    }
+  };
+  barChartType: 'bar' = 'bar';
+
   constructor(private budgetService: BudgetService) {}
 
   ngOnInit(): void {
-    //this.loadBudgets(); DESCOMENTAR CUANDO TENGAMOS ENDPOINT BUILDINGS
-    // this.loadBuildings();  DESCOMENTAR CUANDO TENGAMOS ENDPOINT BUILDINGS
-
-    this.totalPatrimony = 1250000; // Borrar estas 3 lineas cuando tengamos endpoint buildings
-    this.buildingsCount = 8;
-    this.totalAmount = 500000; // Borrar esta linea cuando tengamos endpoint buildings
+    this.loadBudgets();
+    this.loadBuildings();
+    this.loadMonthlyExpenses();
     this.loading = false;
-
-
-    
   }
 
-private loadBudgets() {
+  private loadMonthlyExpenses() {
+    this.budgetService.getTransactions().subscribe({
+      next: (transactions: Transaction[]) => {
+        const monthlyExpenses = Array(12).fill(0);
+        const monthlyIncome = Array(12).fill(0);
+        transactions.forEach(tx => {
+          const date = new Date(tx.transactionDate);
+          const month = date.getMonth();
+          if (tx.transactionType === 'GASTO') {
+            monthlyExpenses[month] += 1;
+          } else if (tx.transactionType === 'INGRESO') {
+            monthlyIncome[month] += 1;
+          }
+        });
+        this.monthlyExpensesData = monthlyExpenses;
+        this.monthlyIncomeData = monthlyIncome;
+        this.barChartData = {
+          labels: this.monthlyExpensesLabels,
+          datasets: [
+            {
+              data: this.monthlyExpensesData,
+              label: 'Gastos',
+              backgroundColor: '#dc2626',
+              borderRadius: 6
+            },
+            {
+              data: this.monthlyIncomeData,
+              label: 'Ingresos',
+              backgroundColor: '#16a34a',
+              borderRadius: 6
+            }
+          ]
+        };
+      },
+      error: () => {
+        this.error = 'Error al cargar transacciones';
+      }
+    });
+  }
+
+  private loadBudgets() {
     this.budgetService.getBudgets().subscribe({
       next: (data: ManagementBudget[]) => {
         if (data && data.length > 0) {
-
           // Actualiza el presupuesto actual con el ultimo dato (ultima fecha)
           const latest = data.reduce((a, b) =>
             new Date(a.lastUpdatedDate) > new Date(b.lastUpdatedDate) ? a : b
@@ -57,14 +131,14 @@ private loadBudgets() {
   }
 
   private loadBuildings() {
-    this.budgetService.getBuildings().subscribe({
-      next: (buildings: any[]) => {
-        this.buildingsCount = buildings.length;
-        this.totalPatrimony = buildings.reduce((sum, b) => sum + (b.purchasePrice || 0), 0);
+    this.budgetService.getRequests().subscribe({
+      next: (requests: any[]) => {
+        this.totalPatrimony = requests.reduce((sum, r) => sum + (r.buildingAmount || 0), 0);
+        this.buildingsCount = new Set(requests.map(r => r.buildingId)).size;
         this.loading = false;
       },
       error: () => {
-        this.error = 'Error al cargar edificios';
+        this.error = 'Error al cargar requests';
         this.loading = false;
       }
     });
