@@ -1,7 +1,7 @@
 using MediatR;
 using PrototipoApi.Models;
 
-namespace PrototipoApi.Application.Apartments.Queries
+namespace PrototipoApi.Application.Apartments.Queries.GetApartmentById
 {
     public class GetApartmentByIdQuery : IRequest<ApartmentDto?>
     {

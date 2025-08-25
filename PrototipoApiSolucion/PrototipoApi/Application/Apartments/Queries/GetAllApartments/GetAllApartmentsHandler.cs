@@ -8,16 +8,16 @@ using System.Threading.Tasks;
 using System.Linq;
 using System;
 
-namespace PrototipoApi.Application.Apartments.Handlers
+namespace PrototipoApi.Application.Apartments.Queries.GetAllApartments
 {
-    public class GetAllApartmentsHandler : IRequestHandler<Queries.GetAllApartmentsQuery, List<ApartmentDto>>
+    public class GetAllApartmentsHandler : IRequestHandler<GetAllApartmentsQuery, List<ApartmentDto>>
     {
         private readonly IRepository<Apartment> _apartments;
         public GetAllApartmentsHandler(IRepository<Apartment> apartments)
         {
             _apartments = apartments;
         }
-        public async Task<List<ApartmentDto>> Handle(Queries.GetAllApartmentsQuery request, CancellationToken cancellationToken)
+        public async Task<List<ApartmentDto>> Handle(GetAllApartmentsQuery request, CancellationToken cancellationToken)
         {
             Func<IQueryable<Apartment>, IOrderedQueryable<Apartment>>? orderBy = null;
             if (!string.IsNullOrEmpty(request.OrderBy))
@@ -32,7 +32,7 @@ namespace PrototipoApi.Application.Apartments.Handlers
             int skip = (request.Page - 1) * request.Size;
             int take = request.Size;
 
-            var result = await _apartments.SelectListAsync<ApartmentDto>(
+            var result = await _apartments.SelectListAsync(
                 null,
                 orderBy,
                 a => new ApartmentDto
