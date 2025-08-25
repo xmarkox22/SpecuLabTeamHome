@@ -1,6 +1,8 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using PrototipoApi.Models;
+using PrototipoApi.Application.Building.Queries.GetAllBuildings;
+using PrototipoApi.Application.Building.Queries.GetBuildingById;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -21,6 +23,15 @@ namespace PrototipoApi.Controllers
         public async Task<ActionResult<List<BuildingDto>>> GetAll([FromQuery] int page = 1, [FromQuery] int size = 10, [FromQuery] int floorCount = 0)
         {
             var result = await _mediator.Send(new GetAllBuildingsQuery(page, size, floorCount));
+            return Ok(result);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<BuildingDto>> GetById(int id)
+        {
+            var result = await _mediator.Send(new GetBuildingByIdQuery(id));
+            if (result == null)
+                return NotFound();
             return Ok(result);
         }
 

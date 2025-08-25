@@ -6,7 +6,7 @@ namespace PrototipoApi.Application.Requests.Commands.CreateRequest
 {
     public class CreateRequestCommandValidator : AbstractValidator<CreateRequestCommand>
     {
-        public CreateRequestCommandValidator(IRepository<Building> buildings, IRepository<Entities.Status> statuses)
+        public CreateRequestCommandValidator(IRepository<PrototipoApi.Entities.Building> buildings, IRepository<PrototipoApi.Entities.Status> statuses)
         {
             RuleFor(x => x.Dto.Description)
                 .NotEmpty().MaximumLength(500);

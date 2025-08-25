@@ -5,18 +5,18 @@ using PrototipoApi.Repositories.Interfaces;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace PrototipoApi.Application.Apartments.Handlers
+namespace PrototipoApi.Application.Apartments.Queries.GetApartmentById
 {
-    public class GetApartmentByIdHandler : IRequestHandler<Queries.GetApartmentByIdQuery, ApartmentDto?>
+    public class GetApartmentByIdHandler : IRequestHandler<GetApartmentByIdQuery, ApartmentDto?>
     {
         private readonly IRepository<Apartment> _apartments;
         public GetApartmentByIdHandler(IRepository<Apartment> apartments)
         {
             _apartments = apartments;
         }
-        public async Task<ApartmentDto?> Handle(Queries.GetApartmentByIdQuery request, CancellationToken cancellationToken)
+        public async Task<ApartmentDto?> Handle(GetApartmentByIdQuery request, CancellationToken cancellationToken)
         {
-            var result = await _apartments.SelectOneAsync<ApartmentDto>(
+            var result = await _apartments.SelectOneAsync(
                 a => a.ApartmentId == request.ApartmentId,
                 a => new ApartmentDto
                 {
