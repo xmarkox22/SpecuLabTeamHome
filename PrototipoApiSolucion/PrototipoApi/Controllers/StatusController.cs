@@ -1,11 +1,8 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using PrototipoApi.BaseDatos;
-using PrototipoApi.Entities;
 using PrototipoApi.Models;
+using PrototipoApi.Application.Status.Commands.UpdateStatus;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace PrototipoApi.Controllers
@@ -40,13 +37,22 @@ namespace PrototipoApi.Controllers
             return Ok(status);
         }
 
-
         // POST: api/status
         [HttpPost]
         public async Task<ActionResult<StatusDto>> PostStatus(CreateStatusDto dto)
         {
             var createdStatus = await _mediator.Send(new CreateStatusCommand(dto.StatusType, dto.Description));
             return CreatedAtAction(nameof(GetStatus), new { id = createdStatus.StatusId }, createdStatus);
+        }
+
+        // PUT: api/status/{id}
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutStatus(int id, [FromBody] StatusDto dto)
+        {
+            var success = await _mediator.Send(new UpdateStatusCommand(id, dto.StatusType, dto.Description));
+            if (!success)
+                return NotFound();
+            return NoContent();
         }
     }
 }
