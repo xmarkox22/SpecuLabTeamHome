@@ -2,6 +2,7 @@ using MediatR;
 using PrototipoApi.Models;
 using PrototipoApi.Entities;
 using PrototipoApi.Repositories.Interfaces;
+using PrototipoApi.Logging;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -13,12 +14,16 @@ namespace PrototipoApi.Application.Apartments.Queries.GetAllApartments
     public class GetAllApartmentsHandler : IRequestHandler<GetAllApartmentsQuery, List<ApartmentDto>>
     {
         private readonly IRepository<Apartment> _apartments;
-        public GetAllApartmentsHandler(IRepository<Apartment> apartments)
+        private readonly ILoguer _loguer;
+        public GetAllApartmentsHandler(IRepository<Apartment> apartments, ILoguer loguer)
         {
             _apartments = apartments;
+            _loguer = loguer;
         }
         public async Task<List<ApartmentDto>> Handle(GetAllApartmentsQuery request, CancellationToken cancellationToken)
         {
+            _loguer.LogInfo($"Handler: Obteniendo apartamentos. Página: {request.Page}, Tamaño: {request.Size}, Orden: {request.OrderBy}, Desc: {request.Desc}");
+
             Func<IQueryable<Apartment>, IOrderedQueryable<Apartment>>? orderBy = null;
             if (!string.IsNullOrEmpty(request.OrderBy))
             {
@@ -32,7 +37,7 @@ namespace PrototipoApi.Application.Apartments.Queries.GetAllApartments
             int skip = (request.Page - 1) * request.Size;
             int take = request.Size;
 
-            var result = await _apartments.SelectListAsync(
+            var result = await _apartments.SelectListAsync<ApartmentDto>(
                 null,
                 orderBy,
                 a => new ApartmentDto
@@ -53,6 +58,7 @@ namespace PrototipoApi.Application.Apartments.Queries.GetAllApartments
                 take,
                 cancellationToken
             );
+            _loguer.LogInfo($"Handler: {result.Count} apartamentos recuperados");
             return result.ToList();
         }
     }

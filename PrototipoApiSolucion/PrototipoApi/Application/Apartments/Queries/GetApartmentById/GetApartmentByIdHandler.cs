@@ -2,6 +2,7 @@ using MediatR;
 using PrototipoApi.Models;
 using PrototipoApi.Entities;
 using PrototipoApi.Repositories.Interfaces;
+using PrototipoApi.Logging;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -10,13 +11,16 @@ namespace PrototipoApi.Application.Apartments.Queries.GetApartmentById
     public class GetApartmentByIdHandler : IRequestHandler<GetApartmentByIdQuery, ApartmentDto?>
     {
         private readonly IRepository<Apartment> _apartments;
-        public GetApartmentByIdHandler(IRepository<Apartment> apartments)
+        private readonly ILoguer _loguer;
+        public GetApartmentByIdHandler(IRepository<Apartment> apartments, ILoguer loguer)
         {
             _apartments = apartments;
+            _loguer = loguer;
         }
         public async Task<ApartmentDto?> Handle(GetApartmentByIdQuery request, CancellationToken cancellationToken)
         {
-            var result = await _apartments.SelectOneAsync(
+            _loguer.LogInfo($"Handler: Obteniendo apartamento con id {request.ApartmentId}");
+            var result = await _apartments.SelectOneAsync<ApartmentDto>(
                 a => a.ApartmentId == request.ApartmentId,
                 a => new ApartmentDto
                 {
@@ -29,10 +33,13 @@ namespace PrototipoApi.Application.Apartments.Queries.GetApartmentById
                     NumberOfBathrooms = a.NumberOfBathrooms,
                     BuildingId = a.BuildingId,
                     HasLift = a.HasLift,
-                    HasGarage = a.HasGarage
+                    HasGarage = a.HasGarage,
+                    CreatedDate = a.CreatedDate
                 },
                 cancellationToken
             );
+            if (result == null)
+                _loguer.LogWarning($"Handler: Apartamento con id {request.ApartmentId} no encontrado");
             return result;
         }
     }

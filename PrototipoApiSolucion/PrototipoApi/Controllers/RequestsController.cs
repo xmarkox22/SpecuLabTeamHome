@@ -4,11 +4,14 @@ using Microsoft.EntityFrameworkCore;
 using PrototipoApi.Application.Requests.Commands.CreateRequest;
 using PrototipoApi.Application.Requests.Commands.UpdateRequest;
 using PrototipoApi.Application.Requests.Queries.GetRequestById;
+using PrototipoApi.Application.Requests.Commands.UpdateRequestStatus;
 using PrototipoApi.BaseDatos;
 using PrototipoApi.Entities;
 using PrototipoApi.Models;
 using PrototipoApi.Logging;
 using System;
+using System.Threading.Tasks;
+using System.Collections.Generic;
 
 [Route("api/requests")]
 [ApiController]
@@ -66,6 +69,20 @@ public class RequestsController : ControllerBase
         }
 
         _loguer.LogInfo($"Montos actualizados para la request con id {id}");
+        return NoContent();
+    }
+
+    [HttpPut("{id}/status")]
+    public async Task<IActionResult> UpdateStatus(int id, [FromBody] int statusId)
+    {
+        _loguer.LogInfo($"Actualizando status de la request con id {id} a status {statusId}");
+        var success = await _mediator.Send(new UpdateRequestStatusCommand(id, statusId));
+        if (!success)
+        {
+            _loguer.LogWarning($"No se encontró la solicitud o el status con ID {id}/{statusId} para actualizar");
+            return NotFound($"No se encontró la solicitud o el status con ID {id}/{statusId}");
+        }
+        _loguer.LogInfo($"Status actualizado para la request con id {id}");
         return NoContent();
     }
 }
