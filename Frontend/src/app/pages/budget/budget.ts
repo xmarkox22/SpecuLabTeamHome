@@ -7,7 +7,7 @@ import { CommonModule } from '@angular/common';
 import { InfoCard } from '../../components/info-card/info-card';
 import { ChartConfiguration } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
-import { TransactionsPageComponent } from "../transactions/transactions-page/transactions-page.component";
+import { TransactionsPageComponent } from "../../components/transactions-page/transactions-page.component";
 
 @Component({
   selector: 'sl-budget',

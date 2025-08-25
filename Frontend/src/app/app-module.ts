@@ -13,7 +13,7 @@ import { Requests } from './pages/requests/requests';
 import { Transactions } from './pages/transactions/transactions';
 import { Budget } from './pages/budget/budget';
 import { InfoCard } from './components/info-card/info-card';
-import { TransactionsPageComponent } from "./pages/transactions/transactions-page/transactions-page.component";
+import { TransactionsPageComponent } from "./components/transactions-page/transactions-page.component";
 
 @NgModule({
   declarations: [
