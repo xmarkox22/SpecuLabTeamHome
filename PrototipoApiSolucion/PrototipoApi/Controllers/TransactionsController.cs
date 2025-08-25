@@ -1,9 +1,9 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using PrototipoApi.BaseDatos;
-using PrototipoApi.Entities;
 using PrototipoApi.Models;
+using PrototipoApi.Logging;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace PrototipoApi.Controllers
 {
@@ -12,16 +12,19 @@ namespace PrototipoApi.Controllers
     public class TransactionsController : ControllerBase
     {
         private readonly IMediator _mediator;
+        private readonly ILoguer _loguer;
 
-        public TransactionsController(IMediator mediator)
+        public TransactionsController(IMediator mediator, ILoguer loguer)
         {
             _mediator = mediator;
+            _loguer = loguer;
         }
 
         // GET: api/transactions
         [HttpGet]
         public async Task<ActionResult<List<TransactionDto>>> GetTransactions([FromQuery] string? transactionType, [FromQuery] int page = 1, [FromQuery] int size = 10)
         {
+            _loguer.LogInfo($"Obteniendo transacciones. Tipo: {transactionType}, Página: {page}, Tamaño: {size}");
             var query = new GetAllTransactionsQuery(transactionType, page, size);
             var transactions = await _mediator.Send(query);
             return Ok(transactions);
@@ -31,25 +34,25 @@ namespace PrototipoApi.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<TransactionDto>> GetTransaction(int id)
         {
+            _loguer.LogInfo($"Obteniendo transacción con id {id}");
             var transaction = await _mediator.Send(new GetTransactionByIdQuery(id));
             if (transaction == null)
+            {
+                _loguer.LogWarning($"Transacción con id {id} no encontrada");
                 return NotFound();
-
+            }
             return Ok(transaction);
         }
-
-        // PUT: api/transactions/{id}
-        [HttpPut("{id}")]
-
 
         // POST: api/transactions
         [HttpPost]
         public async Task<ActionResult<TransactionDto>> CreateTransaction(TransactionDto dto)
         {
+            _loguer.LogInfo("Creando nueva transacción");
             var createdTransaction = await _mediator.Send(
                 new CreateTransactionCommand(dto.TransactionDate, dto.TransactionTypeId, dto.RequestId)
             );
-
+            _loguer.LogInfo($"Transacción creada con id {createdTransaction.TransactionId}");
             return CreatedAtAction(nameof(GetTransaction), new { id = createdTransaction.TransactionId }, createdTransaction);
         }
 
