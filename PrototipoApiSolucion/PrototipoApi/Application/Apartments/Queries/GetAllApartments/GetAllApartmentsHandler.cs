@@ -37,7 +37,7 @@ namespace PrototipoApi.Application.Apartments.Queries.GetAllApartments
             int skip = (request.Page - 1) * request.Size;
             int take = request.Size;
 
-            var result = await _apartments.SelectListAsync(
+            var result = await _apartments.SelectListAsync<ApartmentDto>(
                 null,
                 orderBy,
                 a => new ApartmentDto
