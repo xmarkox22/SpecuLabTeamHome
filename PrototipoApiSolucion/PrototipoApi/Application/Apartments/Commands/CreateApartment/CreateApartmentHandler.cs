@@ -5,16 +5,16 @@ using PrototipoApi.Repositories.Interfaces;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace PrototipoApi.Application.Apartments.Handlers
+namespace PrototipoApi.Application.Apartments.Commands.CreateApartment
 {
-    public class CreateApartmentHandler : IRequestHandler<Commands.CreateApartmentCommand, ApartmentDto>
+    public class CreateApartmentHandler : IRequestHandler<CreateApartmentCommand, ApartmentDto>
     {
         private readonly IRepository<Apartment> _apartments;
         public CreateApartmentHandler(IRepository<Apartment> apartments)
         {
             _apartments = apartments;
         }
-        public async Task<ApartmentDto> Handle(Commands.CreateApartmentCommand request, CancellationToken cancellationToken)
+        public async Task<ApartmentDto> Handle(CreateApartmentCommand request, CancellationToken cancellationToken)
         {
             var dto = request.Dto;
             var entity = new Apartment

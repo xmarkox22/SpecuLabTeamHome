@@ -1,0 +1,107 @@
+<!-- Header de métricas clave (KPI Cards) -->
+<div class="row mb-4">
+  <div class="col-md-3">
+    <div class="card text-center">
+      <div class="card-body">
+        <h6 class="card-title">Balance</h6>
+        <h4 class="card-text">-- €</h4>
+        <!-- TODO: Añadir gráfico miniatura -->
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="card text-center">
+      <div class="card-body">
+        <h6 class="card-title">Total Ingresos</h6>
+        <h4 class="card-text">-- €</h4>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="card text-center">
+      <div class="card-body">
+        <h6 class="card-title">Total Gastos</h6>
+        <h4 class="card-text">-- €</h4>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="card text-center">
+      <div class="card-body">
+        <h6 class="card-title">Nº de Transacciones</h6>
+        <h4 class="card-text">--</h4>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Barra de filtros -->
+<div class="card mb-4">
+  <div class="card-body">
+    <form class="row g-3">
+      <div class="col-md-3">
+        <label for="dateRange" class="form-label">Rango de fechas</label>
+        <input type="text" class="form-control" id="dateRange" placeholder="dd/mm/aaaa - dd/mm/aaaa">
+      </div>
+      <div class="col-md-3">
+        <label for="type" class="form-label">Tipo de transacción</label>
+        <select class="form-select" id="type">
+          <option selected>Todos</option>
+          <option>Ingreso</option>
+          <option>Gasto</option>
+        </select>
+      </div>
+      <div class="col-md-4">
+        <label for="description" class="form-label">Descripción</label>
+        <input type="text" class="form-control" id="description" placeholder="Buscar por descripción">
+      </div>
+      <div class="col-md-2 d-flex align-items-end">
+        <button type="button" class="btn btn-primary w-100">Filtrar</button>
+      </div>
+    </form>
+    <!-- TODO: Añadir filtros avanzados -->
+  </div>
+</div>
+
+<!-- Tabla principal de transacciones -->
+<div class="card">
+  <div class="card-body">
+    <div class="table-responsive">
+      <table class="table table-striped align-middle">
+        <thead>
+          <tr>
+            <th>Fecha</th>
+            <th>Tipo</th>
+            <th>Importe</th>
+            <th>Descripción</th>
+            <th>Relacionado con</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let t of transactions">
+            <td>{{ t.transactionDate }}</td>
+            <td>
+              <span class="badge" [ngClass]="{'bg-success': t.type === 'INGRESO', 'bg-danger': t.type === 'GASTO'}">
+                {{ t.type }}
+              </span>
+            </td>
+            <td>{{ t.amount | currency:'EUR':'symbol':'1.0-0' }}</td>
+            <td>{{ t.description }}</td>
+            <td>
+              <ng-container *ngIf="t.requestId">Solicitud #{{ t.requestId }}</ng-container>
+              <ng-container *ngIf="t.apartmentId">Apartamento #{{ t.apartmentId }}</ng-container>
+              <ng-container *ngIf="!t.requestId && !t.apartmentId">-</ng-container>
+            </td>
+            <td>
+              <button class="btn btn-sm btn-outline-primary" disabled>Ver</button>
+              <!-- TODO: Añadir acciones -->
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <!-- TODO: Añadir timeline, detalles expandibles, paginación -->
+     
+  </div>
+</div>

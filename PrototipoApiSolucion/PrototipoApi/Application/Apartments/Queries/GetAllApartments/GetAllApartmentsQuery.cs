@@ -2,7 +2,7 @@ using MediatR;
 using PrototipoApi.Models;
 using System.Collections.Generic;
 
-namespace PrototipoApi.Application.Apartments.Queries
+namespace PrototipoApi.Application.Apartments.Queries.GetAllApartments
 {
     public class GetAllApartmentsQuery : IRequest<List<ApartmentDto>>
     {

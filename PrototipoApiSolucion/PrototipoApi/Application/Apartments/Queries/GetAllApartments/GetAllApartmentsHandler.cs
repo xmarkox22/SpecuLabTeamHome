@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 using System.Linq;
 using System;
 
-namespace PrototipoApi.Application.Apartments.Handlers
+namespace PrototipoApi.Application.Apartments.Queries.GetAllApartments
 {
-    public class GetAllApartmentsHandler : IRequestHandler<Queries.GetAllApartmentsQuery, List<ApartmentDto>>
+    public class GetAllApartmentsHandler : IRequestHandler<GetAllApartmentsQuery, List<ApartmentDto>>
     {
         private readonly IRepository<Apartment> _apartments;
         private readonly ILoguer _loguer;
@@ -20,7 +20,7 @@ namespace PrototipoApi.Application.Apartments.Handlers
             _apartments = apartments;
             _loguer = loguer;
         }
-        public async Task<List<ApartmentDto>> Handle(Queries.GetAllApartmentsQuery request, CancellationToken cancellationToken)
+        public async Task<List<ApartmentDto>> Handle(GetAllApartmentsQuery request, CancellationToken cancellationToken)
         {
             _loguer.LogInfo($"Handler: Obteniendo apartamentos. Página: {request.Page}, Tamaño: {request.Size}, Orden: {request.OrderBy}, Desc: {request.Desc}");
 
@@ -37,7 +37,7 @@ namespace PrototipoApi.Application.Apartments.Handlers
             int skip = (request.Page - 1) * request.Size;
             int take = request.Size;
 
-            var result = await _apartments.SelectListAsync<ApartmentDto>(
+            var result = await _apartments.SelectListAsync(
                 null,
                 orderBy,
                 a => new ApartmentDto
