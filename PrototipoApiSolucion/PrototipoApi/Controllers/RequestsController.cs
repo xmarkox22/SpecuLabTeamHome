@@ -7,6 +7,7 @@ using PrototipoApi.Application.Requests.Queries.GetRequestById;
 using PrototipoApi.BaseDatos;
 using PrototipoApi.Entities;
 using PrototipoApi.Models;
+using PrototipoApi.Logging;
 using System;
 
 [Route("api/requests")]
@@ -14,15 +15,18 @@ using System;
 public class RequestsController : ControllerBase
 {
     private readonly IMediator _mediator;
+    private readonly ILoguer _loguer;
 
-    public RequestsController(IMediator mediator)
+    public RequestsController(IMediator mediator, ILoguer loguer)
     {
         _mediator = mediator;
+        _loguer = loguer;
     }
 
     [HttpGet]
     public async Task<ActionResult<List<RequestDto>>> Get([FromQuery] GetAllRequestsQuery query)
     {
+        _loguer.LogInfo("Obteniendo todas las requests");
         var result = await _mediator.Send(query);
         return Ok(result);
     }
@@ -30,27 +34,38 @@ public class RequestsController : ControllerBase
     [HttpGet("{id}")]
     public async Task<ActionResult<RequestDto>> GetById(int id)
     {
+        _loguer.LogInfo($"Obteniendo request con id {id}");
         var result = await _mediator.Send(new GetRequestByIdQuery(id));
         if (result == null)
+        {
+            _loguer.LogWarning($"Request con id {id} no encontrada");
             return NotFound();
+        }
         return Ok(result);
     }
 
     [HttpPost]
     public async Task<ActionResult<RequestDto>> CreateRequest([FromBody] CreateRequestDto dto)
     {
+        _loguer.LogInfo("Creando nueva request");
         var result = await _mediator.Send(new CreateRequestCommand(dto));
+        _loguer.LogInfo($"Request creada con id {result.RequestId}");
         return CreatedAtAction(nameof(GetById), new { id = result.RequestId }, result);
     }
 
     [HttpPut("{id}/amounts")]
     public async Task<IActionResult> UpdateAmounts(int id, [FromBody] UpdateRequestDto dto)
     {
+        _loguer.LogInfo($"Actualizando montos de la request con id {id}");
         var success = await _mediator.Send(new UpdateRequestCommand(id, dto));
 
         if (!success)
+        {
+            _loguer.LogWarning($"No se encontró la solicitud con ID {id} para actualizar");
             return NotFound($"No se encontró la solicitud con ID {id}");
+        }
 
+        _loguer.LogInfo($"Montos actualizados para la request con id {id}");
         return NoContent();
     }
 }

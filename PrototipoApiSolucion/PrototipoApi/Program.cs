@@ -26,8 +26,6 @@ builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(Progr
 builder.Services.AddValidatorsFromAssembly(typeof(Program).Assembly);
 builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
 
-
-
 // Configura CORS para permitir cualquier origen
 builder.Services.AddCors(options =>
 {
@@ -50,6 +48,9 @@ builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 
 // Registro del servicio externo de edificios
 builder.Services.AddHttpClient<PrototipoApi.Services.IExternalBuildingService, PrototipoApi.Services.ExternalBuildingService>();
+
+// Registro del loguer
+builder.Services.AddSingleton<PrototipoApi.Logging.ILoguer, PrototipoApi.Logging.Loguer>();
 
 // Construye la aplicación web
 var app = builder.Build();
