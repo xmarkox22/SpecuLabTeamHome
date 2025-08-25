@@ -6,6 +6,8 @@
     Cargando datos...
   </div>
 
+
+
   <!-- Error -->
   <div *ngIf="error" class="alert alert-danger text-center">
     {{ error }}
@@ -38,5 +40,23 @@
         [badgeClass]="'bg-primary-subtle text-primary fw-semibold'">
       </sl-info-card>
     </div>
+
+      <!-- Gráfico de barras de gasto mensual -->
+  <div class="row mt-5">
+    <div class="col-12">
+      <div class="card shadow-sm">
+        <div class="card-header bg-white fw-bold">Gasto mensual</div>
+        <div class="card-body">
+          <canvas baseChart
+            [data]="barChartData"
+            [options]="barChartOptions"
+            [type]="barChartType"
+            height="80">
+          </canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+  
   </div>
     </div>

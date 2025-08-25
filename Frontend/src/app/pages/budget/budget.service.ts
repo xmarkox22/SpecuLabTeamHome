@@ -17,7 +17,7 @@ export class BudgetService {
   private apiUrlTransactions = 'https://localhost:7092/api/transactions?page=0&size=10';
   private apiUrlStatus = 'https://localhost:7092/api/status';
   private apiUrlRequest = 'https://localhost:7092/api/requests';
-  private apiUrlBuildings = 'https://localhost:7092/api/buildings';
+  private apiUrlBuildings =  'https://localhost:7092/api/Building';
 
   constructor(private https: HttpClient) {}
 
