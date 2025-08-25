@@ -35,7 +35,7 @@ public class CreateRequestCommandHandler : IRequestHandler<CreateRequestCommand,
     {
         var dto = request.Dto;
 
-        // Buscar BuildingId y StatusId a partir de los códigos
+        // Buscar BuildingId a partir del código
         var building = await _buildings.GetOneAsync(b => b.BuildingCode == dto.BuildingCode);
         if (building == null)
         {
@@ -46,9 +46,10 @@ public class CreateRequestCommandHandler : IRequestHandler<CreateRequestCommand,
             await _buildings.AddAsync(building);
             await _buildings.SaveChangesAsync();
         }
-        var status = await _statuses.GetOneAsync(s => s.StatusType == dto.StatusType);
+        // Siempre usar 'Recibido' como estado por defecto
+        var status = await _statuses.GetOneAsync(s => s.StatusType == "Recibido");
         if (status == null)
-            throw new Exception("El estado especificado no existe.");
+            throw new Exception("El estado 'Recibido' no existe.");
 
         var entity = new Request
         {
